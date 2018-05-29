@@ -7,6 +7,7 @@ package Controleur;
 import Enums.*;
 import java.util.ArrayList;
 import modele.*;
+import util.Utils;
 
 
 /**
@@ -18,19 +19,30 @@ public class Controleur {
     public Controleur() {
     }
 
-    private void getGrille(){
-        
+    private Grille getGrille(){
+        return null;
+    }
+    
+    private Aventurier getAvCourant(){
+        return null;
+    }
+    
+    private Tuile TuileSelectionnee(){
+        return null;
     }
     
     private void initialiserJeu (Grille g) {
         
+        int ind = 0;
+        Iles[] liste = Iles.values();
+        
         for (int x = 0; x<6; x++){
             for (int y = 0; y<6; y++) {
                 if (((x == 0 || x == 5) && (y != 2 || y != 3)) || ((x == 1 || x == 4) && (y == 0 || y == 5))) {
-                    g.setTuile(x, y, new Tuile(null, Etat.COULEE, x, y));
+                    g.setTuile(x, y, new Tuile(null, Utils.EtatTuile.COULEE, x, y));
                 } else {
-                    indice = (int) Math.random()*liste.length;
-                    g.setTuile(x, y, new Tuile(liste [indice], Etat.ASSECHEE, x, y));
+                    g.setTuile(x, y, new Tuile(liste[ind], Utils.EtatTuile.ASSECHEE, x, y));
+                    
                 }
             }
         }

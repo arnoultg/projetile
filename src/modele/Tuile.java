@@ -5,9 +5,9 @@
  */
 package modele;
 
-import Enums.Etat;
 import Enums.Iles;
 import Enums.Tresor;
+import util.Utils;
 
 /**
  *
@@ -15,17 +15,16 @@ import Enums.Tresor;
  */
 public class Tuile {
     private Iles nom;
-    private Etat etat;
+    private Utils.EtatTuile etat;
     private int X;
     private int Y;
     private Tresor tresor = null;
 
-    public Tuile(Iles nom, Etat etat, int X, int Y) {
+    public Tuile(Iles nom, Utils.EtatTuile etat, int X, int Y) {
         this.nom = nom;
         this.etat = etat;
         this.X = X;
         this.Y = Y;
-        this.tresor = tresor;
         
     }
 
@@ -33,7 +32,7 @@ public class Tuile {
         return nom;
     }
 
-    public Etat getEtat() {
+    public Utils.EtatTuile getEtat() {
         return etat;
     }
 
@@ -53,7 +52,7 @@ public class Tuile {
         this.nom = nom;
     }
 
-    public void setEtat(Etat etat) {
+    public void setEtat(Utils.EtatTuile etat) {
         this.etat = etat;
     }
 
@@ -62,10 +61,10 @@ public class Tuile {
     }
     
     public void innonde() {
-        if (this.getEtat() == Etat.ASSECHEE) {
-            this.setEtat(Etat.INNONDE);
-        } else if (this.getEtat() == Etat.INNONDE) {
-            this.setEtat(Etat.COULEE);
+        if (this.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            this.setEtat(Utils.EtatTuile.INONDEE);
+        } else if (this.getEtat() == Utils.EtatTuile.INONDEE) {
+            this.setEtat(Utils.EtatTuile.COULEE);
         }
     }
     
