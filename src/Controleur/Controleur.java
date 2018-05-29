@@ -15,12 +15,18 @@ import util.Utils;
  * @author geitnert
  */
 public class Controleur {
+    
+    private ArrayList<Aventurier> joueurs;
 
     public Controleur() {
     }
 
     private Grille getGrille(){
         return null;
+    }
+    
+    private int getNbJoueur(){
+        return joueurs.size();
     }
     
     private Aventurier getAvCourant(){
