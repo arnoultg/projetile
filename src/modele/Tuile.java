@@ -18,14 +18,15 @@ public class Tuile {
     private Etat etat;
     private int X;
     private int Y;
-    private Tresor tresor;
+    private Tresor tresor = null;
 
-    public Tuile(Iles nom, Etat etat, int X, int Y, Tresor tresor) {
+    public Tuile(Iles nom, Etat etat, int X, int Y) {
         this.nom = nom;
         this.etat = etat;
         this.X = X;
         this.Y = Y;
         this.tresor = tresor;
+        
     }
 
     public Iles getNom() {

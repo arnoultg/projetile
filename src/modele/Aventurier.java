@@ -6,6 +6,7 @@
 package modele;
 
 import Enums.Couleur;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,7 +16,7 @@ public abstract class Aventurier {
     private final Couleur nomRole;
     private final String nomjoueur;
     private Tuile pos;
-    private CarteTresor cartes []; 
+    private ArrayList<CarteTresor> cartes; 
 
     public Aventurier(Couleur nomRole, String nomjoueur, Tuile pos) {
         this.nomRole = nomRole;

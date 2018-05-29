@@ -6,6 +6,7 @@
 package modele;
 
 import Enums.Iles;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,8 +15,8 @@ import Enums.Iles;
 public class Grille {
     private int niveauEau;
     private Tuile grilleTuile [][];
-    private Carte_Innondation paquetCInnond [];
-    private CarteTresor paquetCTresor [];
+    private ArrayList<Carte_Innondation> paquetCInnond;
+    private ArrayList<CarteTresor> paquetCTresor;
 
     public Grille(int niveauEau) {
         this.niveauEau = niveauEau;
