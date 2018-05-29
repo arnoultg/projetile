@@ -29,6 +29,10 @@ public class Controleur {
         return joueurs.size();
     }
     
+    private void assecherTuile(Tuile t){
+        t.asseche();
+    }
+    
     private Aventurier getAvCourant(){
         return null;
     }
