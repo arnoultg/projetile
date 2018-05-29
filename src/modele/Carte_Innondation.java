@@ -5,16 +5,22 @@
  */
 package modele;
 
+import Enums.Iles;
+
 /**
  *
  * @author geitnert
  */
-public class MonteDesEaux extends CarteTresor {
+public class Carte_Innondation {
+    
+    private Iles nomIle;
 
-    public MonteDesEaux() {
+    public Carte_Innondation(Iles nomIle) {
+        this.nomIle = nomIle;
     }
     
-    public void MonteeEaux (){
-        
+    public void innondeTuile (Iles nom, Grille g) {
+        g.getTuile(nom).innonde();
     }
+    
 }

@@ -9,7 +9,7 @@ package modele;
  *
  * @author geitnert
  */
-public class SacDeSable {
+public class SacDeSable extends CarteTresor{
 
     public SacDeSable() {
     }

@@ -9,7 +9,7 @@ package modele;
  *
  * @author geitnert
  */
-public class Helicoptere {
+public class Helicoptere extends CarteTresor{
 
     public Helicoptere() {
     }

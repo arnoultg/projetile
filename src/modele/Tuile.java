@@ -60,5 +60,12 @@ public class Tuile {
         this.tresor = tresor;
     }
     
+    public void innonde() {
+        if (this.getEtat() == Etat.ASSECHEE) {
+            this.setEtat(Etat.INNONDE);
+        } else if (this.getEtat() == Etat.INNONDE) {
+            this.setEtat(Etat.COULEE);
+        }
+    }
     
 }
