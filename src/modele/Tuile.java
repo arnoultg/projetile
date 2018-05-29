@@ -68,4 +68,7 @@ public class Tuile {
         }
     }
     
+    public void asseche(){
+        this.setEtat(Utils.EtatTuile.ASSECHEE);
+    }    
 }

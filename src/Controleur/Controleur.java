@@ -16,12 +16,22 @@ import vue.vuejeu;
  * @author geitnert
  */
 public class Controleur {
+    
+    private ArrayList<Aventurier> joueurs;
 
     public Controleur() {
     }
 
     private Grille getGrille(){
         return null;
+    }
+    
+    private int getNbJoueur(){
+        return joueurs.size();
+    }
+    
+    private void assecherTuile(Tuile t){
+        t.asseche();
     }
     
     private Aventurier getAvCourant(){
