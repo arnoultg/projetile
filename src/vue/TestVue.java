@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import modele.Grille;
 
 /**
  *
@@ -20,10 +21,13 @@ import javax.swing.JPanel;
 public class TestVue {
     public static void main(String[] args) {
         // TODO code application logic here
-        vuejeu jeu = new vuejeu();
-        jeu.afficher();
+        Grille g = new Grille(0);
+        
+
 
     }
+    
+    
 
 }
 

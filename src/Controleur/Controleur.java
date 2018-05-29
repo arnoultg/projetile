@@ -8,6 +8,7 @@ import Enums.*;
 import java.util.ArrayList;
 import modele.*;
 import util.Utils;
+import vue.vuejeu;
 
 
 /**
@@ -42,6 +43,7 @@ public class Controleur {
                     g.setTuile(x, y, new Tuile(null, Utils.EtatTuile.COULEE, x, y));
                 } else {
                     g.setTuile(x, y, new Tuile(liste[ind], Utils.EtatTuile.ASSECHEE, x, y));
+                    ind +=1;
                     
                 }
             }
@@ -54,6 +56,9 @@ public class Controleur {
     public static void main(String[] args) {
         Controleur C = new Controleur();
         Grille G = new Grille(1);
+        C.initialiserJeu(G);
+        vuejeu jeu = new vuejeu(G);
+        jeu.afficher();
         
         
         
