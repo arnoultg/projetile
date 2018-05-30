@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import modele.Grille;
+import modele.Tuile;
 import util.Utils;
 
 /**
@@ -52,7 +53,6 @@ public class vuejeu extends JPanel implements Observe {
             } else {
                 panelCentre.add(getCellule(compteur, g));
                 compteur++;
-                System.out.println(compteur);
 
             }
 
@@ -62,16 +62,21 @@ public class vuejeu extends JPanel implements Observe {
 
     private JButton getCellule(int compteur, Grille g) {
 
-        //JButton bouton = new JButton(Iles.values()[compteur].toString());
-        JButton bouton = new JButton(g.getTuile(Iles.values()[compteur]).toString());
-        if (g.getTuile(Iles.values()[compteur]).getEtat() == Utils.EtatTuile.ASSECHEE){
+        JButton bouton = new JButton(Iles.values()[compteur].toString()); 
+        Tuile t = g.getTuile(Iles.values()[compteur]);
+        System.out.println(t.getX());
+        //System.out.println((t.getNom()));
+        /*
+        JButton bouton = new JButton(t.getNom().toString());
+        if (t.getEtat() == Utils.EtatTuile.ASSECHEE){
             bouton.setBackground(Color.red);
-        }else if (g.getTuile(Iles.values()[compteur]).getEtat() == Utils.EtatTuile.COULEE){
+        }else if (t.getEtat() == Utils.EtatTuile.COULEE){
             bouton.setBackground(Color.blue);
         }else {
             bouton.setBackground(Color.yellow);
         }
         lesbouttons.add(bouton);
+*/
         return bouton;
     }
 
