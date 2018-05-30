@@ -49,11 +49,14 @@ public class Controleur {
         
         for (int x = 0; x<6; x++){
             for (int y = 0; y<6; y++) {
-                if (((x == 0 || x == 5) && (y != 2 || y != 3)) || ((x == 1 || x == 4) && (y == 0 || y == 5))) {
+                if (( (y != 2 && y != 3) && (x == 0 || x == 5) ) || ((x == 1 || x == 4) && (y == 0 || y == 5))) {
                     g.setTuile(x, y, new Tuile(null, Utils.EtatTuile.COULEE, x, y));
+                    System.out.println(x + " " + y);
                 } else {
                     g.setTuile(x, y, new Tuile(liste[ind], Utils.EtatTuile.ASSECHEE, x, y));
-                    ind +=1;
+                    //System.out.println(ind);
+                    
+                    ind ++;
                     
                 }
             }

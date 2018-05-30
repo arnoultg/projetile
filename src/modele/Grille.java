@@ -40,10 +40,12 @@ public class Grille {
         for (Tuile[] i : grilleTuile) {
             for (Tuile j : i) {
                 if (j.getNom() == nom) {
+                    System.out.println(j.getNom());
+                    System.out.println(nom);
                     return j;
                 }
             }
         }
-        return null;
+        return new Tuile(null, Utils.EtatTuile.COULEE, 50, 50);
     }
 }

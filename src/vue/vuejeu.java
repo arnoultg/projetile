@@ -32,26 +32,33 @@ public class vuejeu extends JPanel implements Observe {
     private Observateur observateur;
 
     public vuejeu(Grille g) {
+        
+// ouverture fenetre
         frame = new JFrame();
         frame.setTitle("Carte");
-        frame.setSize(800, 800);
+        frame.setSize(1600, 1600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        frame.add(mainPanel);
-        JPanel panelCentre = new JPanel(new GridLayout(6, 6));
-
+        
+//initialisation 
         lesbouttons = new ArrayList<>();
         JButton bouton = new JButton();
-        mainPanel.add(panelCentre, BorderLayout.CENTER);
+
+//initialistation panel 
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        frame.add(mainPanel);
+        JPanel panelgrille = new JPanel(new GridLayout(6, 6));
+        mainPanel.add(panelgrille, BorderLayout.WEST);
+        
+        
 
         int compteur = 0;
 
         for (int i = 1; i <= 36; i++) {
             if ((i < 3) || (i > 4 && i < 8) || (i == 12) || (i == 25) || (i > 29 && i < 33) || (i > 34)) {
                 JPanel blanc = new JPanel();
-                panelCentre.add(blanc);
+                panelgrille.add(blanc);
             } else {
-                panelCentre.add(getCellule(compteur, g));
+                panelgrille.add(getCellule(compteur, g));
                 compteur++;
 
             }
@@ -62,21 +69,18 @@ public class vuejeu extends JPanel implements Observe {
 
     private JButton getCellule(int compteur, Grille g) {
 
-        JButton bouton = new JButton(Iles.values()[compteur].toString()); 
+        JButton bouton = new JButton(Iles.values()[compteur].toString());
+        //System.out.println(Iles.values()[compteur]);
+        //System.out.println(compteur);
         Tuile t = g.getTuile(Iles.values()[compteur]);
-        System.out.println(t.getX());
-        //System.out.println((t.getNom()));
-        /*
-        JButton bouton = new JButton(t.getNom().toString());
-        if (t.getEtat() == Utils.EtatTuile.ASSECHEE){
+        if (t.getEtat() == Utils.EtatTuile.ASSECHEE) {
             bouton.setBackground(Color.red);
-        }else if (t.getEtat() == Utils.EtatTuile.COULEE){
+        } else if (t.getEtat() == Utils.EtatTuile.COULEE) {
             bouton.setBackground(Color.blue);
-        }else {
+        } else {
             bouton.setBackground(Color.yellow);
         }
         lesbouttons.add(bouton);
-*/
         return bouton;
     }
 
