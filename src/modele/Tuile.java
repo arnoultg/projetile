@@ -62,7 +62,7 @@ public class Tuile {
     public void setTresor(Tresor tresor) {
         this.tresor = tresor;
     }
-    public void setAventurier(Aventurier av){
+    public void addAventurier(Aventurier av){
         aventurierssur.add(av);
     }
     
