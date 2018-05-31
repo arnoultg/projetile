@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
+import modele.Aventurier;
 import modele.Grille;
 import modele.Tuile;
 import util.Utils;
@@ -92,9 +93,19 @@ public class vuejeu extends JPanel implements Observe {
                 JPanel blanc = new JPanel();
                 panelgrille.add(blanc);
             } else {
+                Tuile t = g.getTuile(Iles.values()[compteur]);
                 panelgrille.add(getCellule(compteur, g));
+                
+                for (Aventurier A : t.getAventurierssur() ){
+                    JPanel Pion = new JPanel () {
+                        public void paintComponent(Graphics g) {
+                            g.setColor(Color.white);
+                            g.drawOval(400, 100, 100, 100);
+                        }
+                    };
+                }
+                
                 compteur++;
-
             }
 
         }

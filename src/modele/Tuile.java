@@ -51,6 +51,10 @@ public class Tuile {
         return tresor;
     }
 
+    public ArrayList<Aventurier> getAventurierssur() {
+        return aventurierssur;
+    }
+
     public void setNom(Iles nom) {
         this.nom = nom;
     }
