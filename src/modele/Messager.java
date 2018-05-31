@@ -5,7 +5,7 @@
  */
 package modele;
 
-import Enums.Couleur;
+import util.Utils;
 
 /**
  *
@@ -13,7 +13,7 @@ import Enums.Couleur;
  */
 public class Messager extends Aventurier {
 
-    public Messager(Couleur nomRole, String nomjoueur, Tuile pos) {
+    public Messager(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         super(nomRole, nomjoueur, pos);
     }
     

@@ -5,7 +5,8 @@
  */
 package modele;
 
-import Enums.Couleur;
+import util.Utils;
+
 
 /**
  *
@@ -13,7 +14,7 @@ import Enums.Couleur;
  */
 public class Explorateur extends Aventurier {
 
-    public Explorateur(Couleur nomRole, String nomjoueur, Tuile pos) {
+    public Explorateur(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         super(nomRole, nomjoueur, pos);
     }
     

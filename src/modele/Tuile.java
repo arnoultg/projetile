@@ -7,6 +7,7 @@ package modele;
 
 import Enums.Iles;
 import Enums.Tresor;
+import java.util.ArrayList;
 import util.Utils;
 
 /**
@@ -19,12 +20,14 @@ public class Tuile {
     private int X;
     private int Y;
     private Tresor tresor = null;
+    private ArrayList<Aventurier> aventurierssur;
 
     public Tuile(Iles nom, Utils.EtatTuile etat, int X, int Y) {
         this.nom = nom;
         this.etat = etat;
         this.X = X;
         this.Y = Y;
+        aventurierssur = new ArrayList<>();
         
     }
 
@@ -58,6 +61,9 @@ public class Tuile {
 
     public void setTresor(Tresor tresor) {
         this.tresor = tresor;
+    }
+    public void setAventurier(Aventurier av){
+        aventurierssur.add(av);
     }
     
     public void innonde() {

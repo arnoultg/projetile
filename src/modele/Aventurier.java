@@ -5,26 +5,26 @@
  */
 package modele;
 
-import Enums.Couleur;
 import java.util.ArrayList;
+import util.Utils;
 
 /**
  *
  * @author geitnert
  */
 public abstract class Aventurier {
-    private final Couleur nomRole;
+    private final Utils.Pion nomRole;
     private final String nomjoueur;
     private Tuile pos;
     private ArrayList<CarteTresor> cartes; 
 
-    public Aventurier(Couleur nomRole, String nomjoueur, Tuile pos) {
+    public Aventurier(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         this.nomRole = nomRole;
         this.nomjoueur = nomjoueur;
         this.pos = pos;
     }
 
-    public Couleur getNomRole() {
+    public Utils.Pion getNomRole() {
         return nomRole;
     }
 
