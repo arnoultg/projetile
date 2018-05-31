@@ -50,7 +50,7 @@ public class Controleur {
     private void creationJoueur(Grille g) {
         
                 
-        System.out.println("combien de joueur voulais vous ?");
+        System.out.println("Combien de joueurs voulez vous ?");
         Scanner entree = new Scanner(System.in);
         int nbJoueur = entree.nextInt();
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
@@ -62,7 +62,7 @@ public class Controleur {
 
         for (int x = 0; x < nbJoueur; x++) {
             System.out.println("joueur n°"+(x+1));
-            System.out.println("quelle est votre nom ?");
+            System.out.println("quel est votre nom ?");
             String nomjoueur = entree.next();
             
             
