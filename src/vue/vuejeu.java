@@ -17,6 +17,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.border.Border;
 import modele.Grille;
 import modele.Tuile;
 import util.Utils;
@@ -32,24 +34,31 @@ public class vuejeu extends JPanel implements Observe {
     private Observateur observateur;
 
     public vuejeu(Grille g) {
-        
+
 // ouverture fenetre
         frame = new JFrame();
         frame.setTitle("Carte");
         frame.setSize(1600, 1600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
 //initialisation 
         lesbouttons = new ArrayList<>();
         JButton bouton = new JButton();
 
 //initialistation panel 
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new GridLayout(0, 2));
         frame.add(mainPanel);
         JPanel panelgrille = new JPanel(new GridLayout(6, 6));
-        mainPanel.add(panelgrille, BorderLayout.WEST);
+        JPanel paneldroite = new JPanel();
         
+        //panelgrille.set;
+
+        mainPanel.add(panelgrille);
+        mainPanel.add(paneldroite);
         
+        JLabel joueur = new JLabel("nom joueur");
+        
+        //paneldroite.add(joueur, BorderLayout.);
 
         int compteur = 0;
 
@@ -69,10 +78,8 @@ public class vuejeu extends JPanel implements Observe {
 
     private JButton getCellule(int compteur, Grille g) {
 
-        JButton bouton = new JButton(Iles.values()[compteur].toString());
-        //System.out.println(Iles.values()[compteur]);
-        //System.out.println(compteur);
         Tuile t = g.getTuile(Iles.values()[compteur]);
+        JButton bouton = new JButton(t.getNom().toString());
         if (t.getEtat() == Utils.EtatTuile.ASSECHEE) {
             bouton.setBackground(Color.red);
         } else if (t.getEtat() == Utils.EtatTuile.COULEE) {
@@ -82,10 +89,6 @@ public class vuejeu extends JPanel implements Observe {
         }
         lesbouttons.add(bouton);
         return bouton;
-    }
-
-    public void creationIHM(Grille g) {
-
     }
 
     public void afficher() {
