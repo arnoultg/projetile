@@ -40,7 +40,7 @@ public class Controleur {
     private Tuile TuileSelectionnee() {
         return null;
     }
-    private Aventurier addAventurier(Aventurier av){
+    private void addAventurier(Aventurier av){
         joueurs.add(av);
     }
     

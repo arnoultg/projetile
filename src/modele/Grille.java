@@ -47,4 +47,8 @@ public class Grille {
         }
         return null;
     }
+
+    public Tuile[][] getGrilleTuile() {
+        return grilleTuile;
+    }
 }
