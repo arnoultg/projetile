@@ -50,5 +50,9 @@ public abstract class Aventurier {
         
     }
     
+    public void tirerCarteTresor() {
+        
+    }
+    
     
 }

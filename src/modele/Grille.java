@@ -32,6 +32,10 @@ public class Grille {
         return niveauEau;
     }
     
+    public void setNiveauEau(int niveauEau) {
+        this.niveauEau = niveauEau;
+    }
+    
     public void setTuile(int x, int y, Tuile T){
         grilleTuile[x][y] = T;
     }
