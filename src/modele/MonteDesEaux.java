@@ -11,10 +11,12 @@ package modele;
  */
 public class MonteDesEaux extends CarteTresor {
 
+    private Grille g;
+
     public MonteDesEaux() {
     }
-    
-    public void MonteeEaux (){
-        
+
+    public void MonteeEaux() {
+        g.setNiveauEau(g.getNiv() + 1);
     }
 }

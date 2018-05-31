@@ -23,6 +23,7 @@ public abstract class Aventurier {
         this.nomRole = nomRole;
         this.nomjoueur = nomjoueur;
         this.pos = pos;
+        cartes = new ArrayList<>();
     }
 
     public Utils.Pion getNomRole() {
@@ -73,6 +74,23 @@ public abstract class Aventurier {
             liste.add(grille[x][y + 1]);
         }
             return liste;
-        }
-
     }
+
+    
+    public int getNbCartes() {
+        return cartes.size();
+    }
+
+    public void tirerCarteTresor(Grille g, int nbPioche) {
+        for (int i = 1; i <= nbPioche; i++) {
+            int nbCartesPaquet = g.getPaquetCTresor().size();
+            if (nbCartesPaquet > 0) {
+                cartes.add(g.getPaquetCTresor().get(i));
+                g.getPaquetCTresor().remove(i);
+            } else {
+                System.out.println("Plus de carte dans le paquet");
+            }
+        }
+    }
+
+}
