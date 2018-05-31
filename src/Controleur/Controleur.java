@@ -23,6 +23,7 @@ public class Controleur {
     
 
     public Controleur() {
+        joueurs = new ArrayList<>();         
     }
 
     public Grille getGrille() {
@@ -40,13 +41,15 @@ public class Controleur {
     private Tuile TuileSelectionnee() {
         return null;
     }
-    private Aventurier addAventurier(Aventurier av){
+    private void addAventurier(Aventurier av){
         joueurs.add(av);
     }
     
    
 
     private void creationJoueur(Grille g) {
+        
+                
         System.out.println("combien de joueur voulais vous ?");
         Scanner entree = new Scanner(System.in);
         int nbJoueur = entree.nextInt();
@@ -58,7 +61,7 @@ public class Controleur {
         Collections.shuffle(lescouleurs);
 
         for (int x = 0; x < nbJoueur; x++) {
-            System.out.println("joueur n°"+x+1);
+            System.out.println("joueur n°"+(x+1));
             System.out.println("quelle est votre nom ?");
             String nomjoueur = entree.next();
             
@@ -68,36 +71,42 @@ public class Controleur {
                 Navigateur Joueur = new Navigateur(Utils.Pion.JAUNE, nomjoueur, t);
                 t.addAventurier(Joueur);
                 joueurs.add(Joueur);
+                System.out.println("Vous etes le navigateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VIOLET) {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_FER);
                 Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomjoueur, t);
                 t.addAventurier(Joueur);
                 joueurs.add(Joueur);
+                System.out.println("Vous etes le plongeur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.BLEU) {
                 Tuile t = g.getTuile(Iles.HELIPORT);
                 Pilote Joueur = new Pilote(Utils.Pion.BLEU, nomjoueur, t);
                 t.addAventurier(Joueur);
                 joueurs.add(Joueur);
+                System.out.println("Vous etes le pilote \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ROUGE) {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_BRONZE);
                 Ingenieur Joueur = new Ingenieur(Utils.Pion.ROUGE, nomjoueur, t);
                 t.addAventurier(Joueur);
                 joueurs.add(Joueur);
+                System.out.println("Vous etes l'ingenieur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VERT) {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_CUIVRE);
                 Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomjoueur, t);
                 t.addAventurier(Joueur);
                 joueurs.add(Joueur);
+                System.out.println("Vous etes le explorateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ORANGE) {
                 Tuile t = g.getTuile(Iles.LA_PORTE_D_ARGENT);
                 Messager Joueur = new Messager(Utils.Pion.BLEU, nomjoueur, t);
                 t.addAventurier(Joueur);
                 joueurs.add(Joueur);
+                System.out.println("Vous etes le messager \n");
 
             }
 
