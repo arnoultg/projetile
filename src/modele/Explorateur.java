@@ -21,8 +21,8 @@ public class Explorateur extends Aventurier {
     
     
     @Override
-    public ArrayList<Tuile> tuilesDispo(Grille g) {
-        ArrayList<Tuile> liste = super.tuilesDispo(g);
+    public ArrayList<Tuile> tuilesDispoAv(Grille g) {
+        ArrayList<Tuile> liste = super.tuilesDispoAv(g);
         int x = super.getPos().getX();
         int y = super.getPos().getY();
         Tuile[][] grille = g.getGrilleTuile();

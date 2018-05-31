@@ -5,6 +5,7 @@
  */
 package modele;
 
+import java.util.ArrayList;
 import util.Utils;
 
 /**
@@ -17,6 +18,18 @@ public class Pilote extends Aventurier {
         super(nomRole, nomjoueur, pos);
     }
     
-    
+    @Override
+    public ArrayList<Tuile> tuilesDispoAv(Grille g) {
+        ArrayList<Tuile> liste = new ArrayList();
+        
+        for (Tuile[] i : g.getGrilleTuile()) {
+            for (Tuile j : i){
+                if (j.getEtat() != Utils.EtatTuile.COULEE){
+                    liste.add(j);
+                }
+            }
+        }
+        return liste;
+    }
     
 }
