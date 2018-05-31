@@ -32,6 +32,7 @@ public class vuejeu extends JPanel implements Observe {
     private JFrame frame;
     private ArrayList<JButton> lesbouttons;
     private Observateur observateur;
+    private Color myBrown = new Color(167, 103, 38);
 
     public vuejeu(Grille g) {
 
@@ -47,18 +48,42 @@ public class vuejeu extends JPanel implements Observe {
 
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
-        frame.add(mainPanel);
         JPanel panelgrille = new JPanel(new GridLayout(6, 6));
-        JPanel paneldroite = new JPanel();
+        JPanel paneldroite = new JPanel(new GridLayout(3, 0));
+        
+        JPanel PHaut = new JPanel(new BorderLayout());
+        JPanel PMillieu = new JPanel(new BorderLayout());
+        JPanel PBas = new JPanel(new BorderLayout());
+         
         
         //panelgrille.set;
-
+        frame.add(mainPanel);
         mainPanel.add(panelgrille);
         mainPanel.add(paneldroite);
+        paneldroite.add(PHaut);
+        paneldroite.add(PMillieu);
+        paneldroite.add(PBas);
         
-        JLabel joueur = new JLabel("nom joueur");
+        
+        JLabel nomJoueur = new JLabel("nom Joueur");
+        JLabel Joueur = new JLabel ("Joueur 2");
+        
+        PHaut.add("North", nomJoueur);
+        PHaut.add("Center", Joueur);
+        
+        
         
         //paneldroite.add(joueur, BorderLayout.);
+        
+        /*JPanel ligne = new JPanel(){
+            public void paintComponent(Graphics g) {
+       
+                g.setColor(Color.BLACK);
+                g.drawLine(600, 150, 700, 150);
+                g.drawOval(400, 100, 100, 100);
+            }
+        };
+        PHaut.add(ligne);*/
 
         int compteur = 0;
 
@@ -81,7 +106,7 @@ public class vuejeu extends JPanel implements Observe {
         Tuile t = g.getTuile(Iles.values()[compteur]);
         JButton bouton = new JButton(t.getNom().toString());
         if (t.getEtat() == Utils.EtatTuile.ASSECHEE) {
-            bouton.setBackground(Color.red);
+            bouton.setBackground(myBrown);
         } else if (t.getEtat() == Utils.EtatTuile.COULEE) {
             bouton.setBackground(Color.blue);
         } else {
