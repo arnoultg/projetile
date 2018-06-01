@@ -108,6 +108,7 @@ public class vuejeu extends JPanel implements Observe {
             if ((i < 3) || (i > 4 && i < 8) || (i == 12) || (i == 25) || (i > 29 && i < 33) || (i > 34)) {
                 JPanel blanc = new JPanel();
                 panelgrille.add(blanc);
+                lesbouttonstuilles.add(null);
             } else {
                 Tuile t = g.getTuile(Iles.values()[compteur]);
                 panelgrille.add(getCellule(compteur, g));
@@ -164,8 +165,12 @@ public class vuejeu extends JPanel implements Observe {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Tuile> tdispo = av.tuilesDispoAv(g);
+                System.out.println(av.getPos().getNom());
+                System.out.println("");
                 for (Tuile t : tdispo){
-                    int placetuilleihm = t.getX()*t.getY();
+                    System.out.println(t.getNom());
+                    System.out.println(t.getX() + "" + t.getY());
+                    int placetuilleihm = t.getX()*6 + t.getY();
                     lesbouttonstuilles.get(placetuilleihm).setBackground(Color.red);
                 }
                

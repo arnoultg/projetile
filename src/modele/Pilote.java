@@ -29,6 +29,7 @@ public class Pilote extends Aventurier {
                 }
             }
         }
+        liste.remove(super.getPos());
         return liste;
     }
     

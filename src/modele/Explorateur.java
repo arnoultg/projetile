@@ -27,16 +27,16 @@ public class Explorateur extends Aventurier {
         int y = super.getPos().getY();
         Tuile[][] grille = g.getGrilleTuile();
         
-        if ((y != 0) && (x != 0) && (grille[x][y - 1].getEtat() != Utils.EtatTuile.COULEE)) {
+        if ((y != 0) && (x != 0) && (grille[x-1][y - 1].getEtat() != Utils.EtatTuile.COULEE)) {
             liste.add(grille[x-1][y - 1]);
         }
-        if ((y != 5) && (x != 0) && (grille[x][y - 1].getEtat() != Utils.EtatTuile.COULEE)) {
+        if ((y != 5) && (x != 0) && (grille[x-1][y + 1].getEtat() != Utils.EtatTuile.COULEE)) {
             liste.add(grille[x-1][y+1]);
         }
-        if ((y != 0) && (x != 5) && (grille[x][y - 1].getEtat() != Utils.EtatTuile.COULEE)) {
+        if ((y != 0) && (x != 5) && (grille[x+1][y - 1].getEtat() != Utils.EtatTuile.COULEE)) {
             liste.add(grille[x+1][y-1]);
         }
-        if ((y != 5) && (x != 5) && (grille[x][y - 1].getEtat() != Utils.EtatTuile.COULEE)) {
+        if ((y != 5) && (x != 5) && (grille[x+1][y + 1].getEtat() != Utils.EtatTuile.COULEE)) {
             liste.add(grille[x+1][y + 1]);
         }
         return liste;
