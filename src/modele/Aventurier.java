@@ -64,7 +64,7 @@ public abstract class Aventurier {
         return tuilesAutour(liste, x, y, grille);
     }
 
-    public ArrayList<Tuile> tuilesAutour(ArrayList<Tuile> liste, int x, int y, Tuile[][] grille) {
+    protected ArrayList<Tuile> tuilesAutour(ArrayList<Tuile> liste, int x, int y, Tuile[][] grille) {
 
         if ((y != 0) && (grille[x][y - 1].getEtat() != Utils.EtatTuile.COULEE) && !liste.contains(grille[x][y - 1])) {
             liste.add(grille[x][y - 1]);

@@ -44,6 +44,15 @@ public class Controleur {
     private void addAventurier(Aventurier av){
         joueurs.add(av);
     }
+
+    public ArrayList<Aventurier> getJoueurs() {
+        return joueurs;
+    }
+
+    public void setJoueurs(ArrayList<Aventurier> joueurs) {
+        this.joueurs = joueurs;
+    }
+    
     
    
 
@@ -141,6 +150,7 @@ public class Controleur {
         C.creationJoueur(G);
         vuejeu jeu = new vuejeu(G);
         jeu.afficher();
+        jeu.deplacer(G, C.getJoueurs().get(0));
 
     }
 

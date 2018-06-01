@@ -10,11 +10,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +35,8 @@ import util.Utils;
 public class vuejeu extends JPanel implements Observe {
 
     private JFrame frame;
-    private ArrayList<JButton> lesbouttons;
+    private ArrayList<JButton> lesbouttonstuilles;
+    private ArrayList<JButton> lesboutonsactions;
     private Observateur observateur;
     private Color myBrown = new Color(167, 103, 38);
 
@@ -40,23 +45,23 @@ public class vuejeu extends JPanel implements Observe {
 // ouverture fenetre
         frame = new JFrame();
         frame.setTitle("Carte");
-        frame.setSize(1600, 1600);
+        frame.setSize(1600, 1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 //initialisation 
-        lesbouttons = new ArrayList<>();
+        lesbouttonstuilles = new ArrayList<>();
+        lesboutonsactions = new ArrayList<>();
         JButton bouton = new JButton();
 
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
         JPanel panelgrille = new JPanel(new GridLayout(6, 6));
         JPanel paneldroite = new JPanel(new GridLayout(3, 0));
-        
+
         JPanel PHaut = new JPanel(new BorderLayout());
         JPanel PMillieu = new JPanel(new BorderLayout());
         JPanel PBas = new JPanel(new BorderLayout());
-         
-        
+
         //panelgrille.set;
         frame.add(mainPanel);
         mainPanel.add(panelgrille);
@@ -64,18 +69,30 @@ public class vuejeu extends JPanel implements Observe {
         paneldroite.add(PHaut);
         paneldroite.add(PMillieu);
         paneldroite.add(PBas);
-        
-        
+
         JLabel nomJoueur = new JLabel("nom Joueur");
-        JLabel Joueur = new JLabel ("Joueur 2");
-        
+        JLabel Joueur = new JLabel("Joueur 2");
+
         PHaut.add("North", nomJoueur);
         PHaut.add("Center", Joueur);
-        
-        
-        
+
+        JPanel toucheaction = new JPanel(new GridLayout(0, 4));
+        PBas.add(toucheaction);
+        JButton findetour = new JButton("Fin de tour");
+        JButton deplacer = new JButton("deplacer");
+        JButton assecher = new JButton("assecher");
+        JButton rienfaire = new JButton("rien faire");
+
+        toucheaction.add(findetour);
+        toucheaction.add(deplacer);
+        toucheaction.add(assecher);
+        toucheaction.add(rienfaire);
+        lesboutonsactions.add(findetour);
+        lesboutonsactions.add(deplacer);
+        lesboutonsactions.add(assecher);
+        lesboutonsactions.add(findetour);
+
         //paneldroite.add(joueur, BorderLayout.);
-        
         /*JPanel ligne = new JPanel(){
             public void paintComponent(Graphics g) {
        
@@ -85,7 +102,6 @@ public class vuejeu extends JPanel implements Observe {
             }
         };
         PHaut.add(ligne);*/
-
         int compteur = 0;
 
         for (int i = 1; i <= 36; i++) {
@@ -95,16 +111,16 @@ public class vuejeu extends JPanel implements Observe {
             } else {
                 Tuile t = g.getTuile(Iles.values()[compteur]);
                 panelgrille.add(getCellule(compteur, g));
-                
-                for (Aventurier A : t.getAventurierssur() ){
-                    JPanel Pion = new JPanel () {
+
+                for (Aventurier A : t.getAventurierssur()) {
+                    JPanel Pion = new JPanel() {
                         public void paintComponent(Graphics g) {
                             g.setColor(Color.white);
                             g.drawOval(400, 100, 100, 100);
                         }
                     };
                 }
-                
+
                 compteur++;
             }
 
@@ -123,7 +139,7 @@ public class vuejeu extends JPanel implements Observe {
         } else {
             bouton.setBackground(Color.yellow);
         }
-        lesbouttons.add(bouton);
+        lesbouttonstuilles.add(bouton);
         return bouton;
     }
 
@@ -141,6 +157,21 @@ public class vuejeu extends JPanel implements Observe {
         if (observateur != null) {
             observateur.traiterMessage(m);
         }
+    }
+
+    public void deplacer(Grille g,Aventurier av) {
+        lesboutonsactions.get(1).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Tuile> tdispo = av.tuilesDispoAv(g);
+                for (Tuile t : tdispo){
+                    int placetuilleihm = t.getX()*t.getY();
+                    lesbouttonstuilles.get(placetuilleihm).setBackground(Color.red);
+                }
+               
+
+            }
+        });
     }
 
 }

@@ -19,19 +19,14 @@ import modele.Grille;
  * @author lavierp
  */
 public class TestVue {
+
     public static void main(String[] args) {
         // TODO code application logic here
-        Grille g = new Grille(0);
+        Grille G = new Grille(0);
+        vuejeu jeu = new vuejeu(G);
+        jeu.afficher();
+
         
-
-
     }
-    
-    
 
 }
-
- 
-
-
-  
