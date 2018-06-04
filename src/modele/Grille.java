@@ -92,8 +92,11 @@ public class Grille {
     }
 
     public ArrayList<Carte_Innondation> initialiserPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {
-        
-        
+        for (int i = 1; i <= 24; i++){
+            Carte_Innondation carteinnond = new Carte_Innondation(Iles.values()[i]);
+            paquetInnond.add(carteinnond);
+        }
+       
         Collections.shuffle(paquetInnond);
         return paquetInnond;
 

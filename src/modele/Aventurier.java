@@ -20,6 +20,7 @@ public abstract class Aventurier {
     private Tuile pos;
     private ArrayList<CarteTresor> cartes;
 
+
     public Aventurier(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         this.nomRole = nomRole;
         this.nomjoueur = nomjoueur;
@@ -97,7 +98,7 @@ public abstract class Aventurier {
                 cartes.add(g.getPaquetCTresor().get(i));
                 g.getPaquetCTresor().remove(i);
             } else {
-                cartes = g.initialiserPaquetTresor(g.getPaquetCTresor());
+                g.initialiserPaquetTresor(g.getPaquetCTresor());
                 i--;
             }
         }
@@ -112,7 +113,7 @@ public abstract class Aventurier {
                 g.getPaquetCInnond().get(i).innondeTuile(g);
                 g.getPaquetCInnond().remove(i);
             } else {
-                System.out.println("Plus de carte dans le paquet Carte Innondation");
+                g.initialiserPaquetInnond(g.getPaquetCInnond());
             }
         }
     }
