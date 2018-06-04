@@ -5,6 +5,7 @@
  */
 package modele;
 
+import Enums.Iles;
 import java.util.ArrayList;
 import util.Utils;
 
@@ -94,6 +95,19 @@ public abstract class Aventurier {
                 g.getPaquetCTresor().remove(i);
             } else {
                 System.out.println("Plus de carte dans le paquet");
+            }
+        }
+    }
+    
+    
+    public void tirerCarteInnondation(Grille g) {
+        for (int i = 1; i <= g.getNiveauEau(); i++) {
+            int nbCartesPaquet = g.getPaquetCInnond().size();
+            if (nbCartesPaquet > 0) {
+                g.getPaquetCInnond().get(i).innondeTuile(g);
+                g.getPaquetCInnond().remove(i);
+            } else {
+                System.out.println("Plus de carte dans le paquet Carte Innondation");
             }
         }
     }

@@ -26,24 +26,27 @@ public class Grille {
         this.niveauEau = niveauEau;
         grilleTuile = new Tuile[6][6];
         paquetCTresor = new ArrayList<>();
+        paquetCInnond = new ArrayList<>();
         initialiserPaquet(paquetCTresor);
+        //initialiserPaquet(paquetCInnond);
+        
     }
 
     public ArrayList<CarteTresor> getPaquetCTresor() {
         return paquetCTresor;
     }
 
+    public ArrayList<Carte_Innondation> getPaquetCInnond() {
+        return paquetCInnond;
+    }
+
+    public int getNiveauEau() {
+        return niveauEau;
+    }
+    
+
     public void setPaquetCTresor(ArrayList<CarteTresor> paquetCTresor) {
         this.paquetCTresor = paquetCTresor;
-    }
-
-    public void deplacerAv(Aventurier a, Tuile depart, Tuile arrivee) {
-
-    }
-
-    ;
-    public int getNiv() {
-        return niveauEau;
     }
 
     public void setNiveauEau(int niveauEau) {
@@ -69,6 +72,9 @@ public class Grille {
     public Tuile[][] getGrilleTuile() {
         return grilleTuile;
     }
+    
+    
+    
     public void initialiserPaquet(ArrayList<CarteTresor> paquetCTresor) {
         for (int i = 1; i <= 3; i++) {
             paquetCTresor.add(new Helicoptere());

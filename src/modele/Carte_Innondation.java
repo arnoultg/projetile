@@ -19,8 +19,8 @@ public class Carte_Innondation {
         this.nomIle = nomIle;
     }
     
-    public void innondeTuile (Iles nom, Grille g) {
-        g.getTuile(nom).innonde();
+    public void innondeTuile (Grille g) {
+        g.getTuile(nomIle).innonde();
     }
     
 }

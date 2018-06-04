@@ -17,6 +17,6 @@ public class MonteDesEaux extends CarteTresor {
     }
 
     public void MonteeEaux() {
-        g.setNiveauEau(g.getNiv() + 1);
+        g.setNiveauEau(g.getNiveauEau()+ 1);
     }
 }
