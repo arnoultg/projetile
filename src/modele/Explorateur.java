@@ -20,6 +20,12 @@ public class Explorateur extends Aventurier {
     }
     
     
+    public ArrayList<Tuile> dispoAssecher(Grille g) {
+        
+        return tuilesDispoAv(g);
+    }
+    
+    
     @Override
     public ArrayList<Tuile> tuilesDispoAv(Grille g) {
         ArrayList<Tuile> liste = super.tuilesDispoAv(g);
