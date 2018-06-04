@@ -92,7 +92,7 @@ public class Grille {
     }
 
     public ArrayList<Carte_Innondation> initialiserPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {
-        for (int i = 1; i <= 24; i++){
+        for (int i = 0; i <= 23; i++){
             Carte_Innondation carteinnond = new Carte_Innondation(Iles.values()[i]);
             paquetInnond.add(carteinnond);
         }

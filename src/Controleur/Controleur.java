@@ -6,6 +6,7 @@
 package Controleur;
 
 import Enums.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -22,10 +23,10 @@ import vue.vuejeu;
  */
 public class Controleur implements Observateur {
 
-    private ArrayList<Aventurier> joueurs;
+    private static ArrayList<Aventurier> joueurs;
     private String action = null;
     private static vuejeu jeu;
-    private Aventurier AvCourant;
+    private static Aventurier AvCourant;
     private static Grille G;
     
 
@@ -57,22 +58,41 @@ public class Controleur implements Observateur {
         return joueurs;
     }
 
-    public void setJoueurs(ArrayList<Aventurier> joueurs) {
-        this.joueurs = joueurs;
+    public void setAvCourant(Aventurier AvCourant) {
+        this.AvCourant = AvCourant;
     }
     
     @Override
     public void traiterMessage(Message m) {
         
         if (m.getType() == TypesMessage.CLIC_ACTION) {
+            if (action != null) {
+                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
+                jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
+            }
+            
             action = m.getAction();
             System.out.println(action);
+            System.out.println("straf");
             if (action == "deplacer"){
-                jeu.selecTuile(AvCourant.tuilesDispoAv(G));
-                
+                jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
+            }else if (action == "assecher") {
+                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
+            }else if (action == "Fin de tour"){
+                action = null;
             }
-        }else if ((m.getType() == TypesMessage.CLIC_TUILE) && (action == "deplacer")) {
-            System.out.println(m.getTuile().getNom());
+            
+        }else if (m.getType() == TypesMessage.CLIC_TUILE) {
+            if (action == "deplacer") {
+                System.out.println(m.getTuile().getNom() + "est la destination");
+                jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
+                action = null;
+            } else if (action == "assecher") {
+                System.out.println(m.getTuile().getNom() + "a ete asseché");
+                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
+                action = null;
+            }
+            
         }
     }
     
@@ -99,7 +119,7 @@ public class Controleur implements Observateur {
                 Navigateur Joueur = new Navigateur(Utils.Pion.JAUNE, nomjoueur, t);
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(G);
-                joueurs.add(Joueur);
+                addAventurier(Joueur);
                 System.out.println("Vous etes le navigateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VIOLET) {
@@ -107,7 +127,7 @@ public class Controleur implements Observateur {
                 Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomjoueur, t);
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(G);
-                joueurs.add(Joueur);
+                addAventurier(Joueur);
                 System.out.println("Vous etes le plongeur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.BLEU) {
@@ -115,7 +135,7 @@ public class Controleur implements Observateur {
                 Pilote Joueur = new Pilote(Utils.Pion.BLEU, nomjoueur, t);
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(G);
-                joueurs.add(Joueur);
+                addAventurier(Joueur);
                 System.out.println("Vous etes le pilote \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ROUGE) {
@@ -123,7 +143,7 @@ public class Controleur implements Observateur {
                 Ingenieur Joueur = new Ingenieur(Utils.Pion.ROUGE, nomjoueur, t);
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(G);
-                joueurs.add(Joueur);
+                addAventurier(Joueur);
                 System.out.println("Vous etes l'ingenieur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VERT) {
@@ -131,7 +151,7 @@ public class Controleur implements Observateur {
                 Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomjoueur, t);
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(G);
-                joueurs.add(Joueur);
+                addAventurier(Joueur);
                 System.out.println("Vous etes le explorateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ORANGE) {
@@ -139,7 +159,7 @@ public class Controleur implements Observateur {
                 Messager Joueur = new Messager(Utils.Pion.ORANGE, nomjoueur, t);
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(G);
-                joueurs.add(Joueur);
+                addAventurier(Joueur);
                 System.out.println("Vous etes le messager \n");
 
             }
@@ -173,6 +193,7 @@ public class Controleur implements Observateur {
         G = new Grille(1);
         C.initialiserGrille();
         C.creationJoueur();
+        AvCourant = joueurs.get(0);
         jeu = new vuejeu(G);
         jeu.addObservateur(C);
         jeu.afficher();

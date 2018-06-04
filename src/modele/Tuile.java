@@ -7,6 +7,7 @@ package modele;
 
 import Enums.Iles;
 import Enums.Tresor;
+import java.awt.Color;
 import java.util.ArrayList;
 import util.Utils;
 
@@ -53,6 +54,16 @@ public class Tuile {
 
     public ArrayList<Aventurier> getAventurierssur() {
         return aventurierssur;
+    }
+    
+    public Color getCouleur (){
+        if (this.getEtat() == Utils.EtatTuile.ASSECHEE) {
+            return new Color(167, 103, 38);
+        } else if (this.getEtat() == Utils.EtatTuile.COULEE) {
+            return Color.blue;
+        } else {
+            return Color.yellow;
+        }
     }
 
     public void setNom(Iles nom) {

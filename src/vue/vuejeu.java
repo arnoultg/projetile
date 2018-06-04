@@ -47,7 +47,6 @@ public class vuejeu extends JPanel implements Observe {
     private ArrayList<JButton> lesboutonsactions;
     private ArrayList<CarteTresor> cartes;
     private Observateur observateur;
-    private Color myBrown = new Color(167, 103, 38);
     private pionD pion;
     private Grille g;
 
@@ -96,7 +95,7 @@ public class vuejeu extends JPanel implements Observe {
 
         JPanel toucheaction = new JPanel(new GridLayout(0, 4));
         PBas.add(toucheaction);
-        JButton findetour = new JButton("Fin de tour");
+        JButton findetour = new JButton("Fin_de_tour");
         JButton deplacer = new JButton("deplacer");
         JButton assecher = new JButton("assecher");
         JButton rienfaire = new JButton("rien faire");
@@ -135,13 +134,7 @@ public class vuejeu extends JPanel implements Observe {
 
         Tuile t = g.getTuile(Iles.values()[compteur]);
         JButton bouton = new JButton(t.getNom().toString());
-        if (t.getEtat() == Utils.EtatTuile.ASSECHEE) {
-            bouton.setBackground(myBrown);
-        } else if (t.getEtat() == Utils.EtatTuile.COULEE) {
-            bouton.setBackground(Color.blue);
-        } else {
-            bouton.setBackground(Color.yellow);
-        }
+        bouton.setBackground(t.getCouleur());
         for (Aventurier av : t.getAventurierssur()) {
             pion = new pionD(20, 20, 10, av.getNomRole().getCouleur());
             bouton.add(pion);
@@ -210,10 +203,13 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    public void selecTuile(ArrayList<Tuile> liste) {
+    public void selecTuile(ArrayList<Tuile> liste, Color coul) {
                 for (Tuile t : liste) {
+                    if (coul != Color.RED) {
+                        coul = t.getCouleur();
+                    }
                     int placetuilleihm = t.getX() * 6 + t.getY();
-                    lesbouttonstuilles.get(placetuilleihm).setBackground(Color.red);
+                    lesbouttonstuilles.get(placetuilleihm).setBackground(coul);
                     //Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
                     //System.out.println(Casesaccessible.size());
 
