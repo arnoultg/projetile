@@ -10,14 +10,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,6 +32,7 @@ import modele.Aventurier;
 import modele.Grille;
 import modele.Tuile;
 import util.Utils;
+import util.Utils.Pion;
 
 /**
  *
@@ -39,14 +45,20 @@ public class vuejeu extends JPanel implements Observe {
     private ArrayList<JButton> lesboutonsactions;
     private Observateur observateur;
     private Color myBrown = new Color(167, 103, 38);
+    private pionD pion;
 
     public vuejeu(Grille g) {
+        GraphicsEnvironment environnement = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Rectangle fenetre = environnement.getMaximumWindowBounds();
+        int xfentre = (int) fenetre.getWidth();
+        int yfenetre = (int) fenetre.getHeight();
 
 // ouverture fenetre
         frame = new JFrame();
         frame.setTitle("Carte");
-        frame.setSize(1600, 1000);
+        frame.setSize(xfentre, yfenetre);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDoubleBuffered(true);
 
 //initialisation 
         lesbouttonstuilles = new ArrayList<>();
@@ -92,16 +104,6 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonsactions.add(assecher);
         lesboutonsactions.add(findetour);
 
-        //paneldroite.add(joueur, BorderLayout.);
-        /*JPanel ligne = new JPanel(){
-            public void paintComponent(Graphics g) {
-       
-                g.setColor(Color.BLACK);
-                g.drawLine(600, 150, 700, 150);
-                g.drawOval(400, 100, 100, 100);
-            }
-        };
-        PHaut.add(ligne);*/
         int compteur = 0;
 
         for (int i = 1; i <= 36; i++) {
@@ -110,23 +112,13 @@ public class vuejeu extends JPanel implements Observe {
                 panelgrille.add(blanc);
                 lesbouttonstuilles.add(null);
             } else {
-                Tuile t = g.getTuile(Iles.values()[compteur]);
-                panelgrille.add(getCellule(compteur, g));
 
-                for (Aventurier A : t.getAventurierssur()) {
-                    JPanel Pion = new JPanel() {
-                        public void paintComponent(Graphics g) {
-                            g.setColor(Color.white);
-                            g.drawOval(400, 100, 100, 100);
-                        }
-                    };
-                }
+                panelgrille.add(getCellule(compteur, g));
 
                 compteur++;
             }
 
         }
-
     }
 
     private JButton getCellule(int compteur, Grille g) {
@@ -140,6 +132,11 @@ public class vuejeu extends JPanel implements Observe {
         } else {
             bouton.setBackground(Color.yellow);
         }
+        for (Aventurier av : t.getAventurierssur()) {
+            pion = new pionD(20, 20, 10, av.getNomRole().getCouleur());
+            bouton.add(pion);
+        }
+
         lesbouttonstuilles.add(bouton);
         return bouton;
     }
@@ -160,23 +157,38 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    public void deplacer(Grille g,Aventurier av) {
+    public void deplacer(Grille g, Aventurier av) {
+        HashMap<JButton, Tuile> Casesaccessible = new HashMap<>();
+        ArrayList<Tuile> tdispo = av.tuilesDispoAv(g);
         lesboutonsactions.get(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Tuile> tdispo = av.tuilesDispoAv(g);
-                System.out.println(av.getPos().getNom());
-                System.out.println("");
-                for (Tuile t : tdispo){
-                    System.out.println(t.getNom());
-                    System.out.println(t.getX() + "" + t.getY());
-                    int placetuilleihm = t.getX()*6 + t.getY();
+                //System.out.println(av.getPos().getNom());
+                //System.out.println("");
+                for (Tuile t : tdispo) {
+                    //System.out.println(t.getNom());
+                    //System.out.println(t.getX() + "" + t.getY());
+                    int placetuilleihm = t.getX() * 6 + t.getY();
                     lesbouttonstuilles.get(placetuilleihm).setBackground(Color.red);
+                    Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
+                    System.out.println(Casesaccessible.size());
+
                 }
-               
+                for (HashMap.Entry<JButton, Tuile> entry : Casesaccessible.entrySet()) {
+
+                   entry.getKey().addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            av.setPos(entry.getValue());
+                            System.out.println("fdsq");
+                            tdispo.clear();
+                        }
+                    });
+                }
 
             }
         });
-    }
 
+    }
 }
