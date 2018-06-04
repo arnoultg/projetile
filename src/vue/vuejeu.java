@@ -210,35 +210,15 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    public void deplacer(Aventurier av) {
-        HashMap<JButton, Tuile> Casesaccessible = new HashMap<>();
-        ArrayList<Tuile> tdispo = av.tuilesDispoAv(g);
-        /*lesboutonsactions.get(1).addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                for (Tuile t : tdispo) {
-                    //System.out.println(t.getNom());
-                    //System.out.println(t.getX() + "" + t.getY());
+    public void selecTuile(ArrayList<Tuile> liste) {
+                for (Tuile t : liste) {
                     int placetuilleihm = t.getX() * 6 + t.getY();
                     lesbouttonstuilles.get(placetuilleihm).setBackground(Color.red);
-                    Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
-                    System.out.println(Casesaccessible.size());
+                    //Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
+                    //System.out.println(Casesaccessible.size());
 
                 }
-                for (HashMap.Entry<JButton, Tuile> entry : Casesaccessible.entrySet()) {
-
-                    entry.getKey().addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            av.setPos(entry.getValue());
-                            tdispo.clear();
-                        }
-                    });
-                }
-
-            }
-        });*/
+              
 
     }
 }
