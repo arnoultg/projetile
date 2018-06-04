@@ -5,10 +5,40 @@
  */
 package vue;
 
+import modele.Tuile;
+
 /**
  *
  * @author lavierp
  */
 public class Message {
     TypesMessage type;
+    Tuile tuile;
+    String action;
+
+    public Message(TypesMessage type) {
+        this.type = type;
+    }
+
+    public TypesMessage getType() {
+        return type;
+    }
+
+    public Tuile getTuile() {
+        return tuile;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setTuile(Tuile tuile) {
+        this.tuile = tuile;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+    
+    
 }

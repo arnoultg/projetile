@@ -11,19 +11,22 @@ import java.util.Collections;
 import java.util.Scanner;
 import modele.*;
 import util.Utils;
+import vue.Message;
+import vue.Observateur;
+import vue.TypesMessage;
 import vue.vuejeu;
 
 /**
  *
  * @author geitnert
  */
-public class Controleur {
+public class Controleur implements Observateur {
 
     private ArrayList<Aventurier> joueurs;
-    
+    private String action = null;
 
     public Controleur() {
-        joueurs = new ArrayList<>();         
+        joueurs = new ArrayList<>();
     }
 
     public Grille getGrille() {
@@ -41,7 +44,8 @@ public class Controleur {
     private Tuile TuileSelectionnee() {
         return null;
     }
-    private void addAventurier(Aventurier av){
+
+    private void addAventurier(Aventurier av) {
         joueurs.add(av);
     }
 
@@ -53,12 +57,29 @@ public class Controleur {
         this.joueurs = joueurs;
     }
     
+    @Override
+    public void traiterMessage(Message m) {
+        
+        if (m.getType() == TypesMessage.CLIC_ACTION) {
+            action = m.getAction();
+            System.out.println(action);
+            if (action == "deplacer"){
+                /*for (Tuile t : av.tuilesDispoAv(g);) {
+                    int placetuilleihm = t.getX() * 6 + t.getY();
+                    lesbouttonstuilles.get(placetuilleihm).setBackground(Color.red);
+                    Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
+                    System.out.println(Casesaccessible.size());
+
+                }*/
+            }
+        }else if ((m.getType() == TypesMessage.CLIC_TUILE) && (action == "deplacer")) {
+            System.out.println(m.getTuile().getNom());
+        }
+    }
     
-   
 
     private void creationJoueur(Grille g) {
-        
-                
+
         System.out.println("Combien de joueurs voulez vous ?");
         Scanner entree = new Scanner(System.in);
         int nbJoueur = entree.nextInt();
@@ -70,15 +91,15 @@ public class Controleur {
         Collections.shuffle(lescouleurs);
 
         for (int x = 0; x < nbJoueur; x++) {
-            System.out.println("joueur n°"+(x+1));
+            System.out.println("joueur n°" + (x + 1));
             System.out.println("quel est votre nom ?");
             String nomjoueur = entree.next();
-            
-            
+
             if (lescouleurs.get(x) == Utils.Pion.JAUNE) {
                 Tuile t = g.getTuile(Iles.LA_PORTE_D_OR);
                 Navigateur Joueur = new Navigateur(Utils.Pion.JAUNE, nomjoueur, t);
                 t.addAventurier(Joueur);
+                Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
                 System.out.println("Vous etes le navigateur \n");
 
@@ -93,6 +114,7 @@ public class Controleur {
                 Tuile t = g.getTuile(Iles.HELIPORT);
                 Pilote Joueur = new Pilote(Utils.Pion.BLEU, nomjoueur, t);
                 t.addAventurier(Joueur);
+                Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
                 System.out.println("Vous etes le pilote \n");
 
@@ -100,6 +122,7 @@ public class Controleur {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_BRONZE);
                 Ingenieur Joueur = new Ingenieur(Utils.Pion.ROUGE, nomjoueur, t);
                 t.addAventurier(Joueur);
+                Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
                 System.out.println("Vous etes l'ingenieur \n");
 
@@ -107,6 +130,7 @@ public class Controleur {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_CUIVRE);
                 Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomjoueur, t);
                 t.addAventurier(Joueur);
+                Joueur.tirerCartesTresors(g);                
                 joueurs.add(Joueur);
                 System.out.println("Vous etes le explorateur \n");
 
@@ -114,6 +138,7 @@ public class Controleur {
                 Tuile t = g.getTuile(Iles.LA_PORTE_D_ARGENT);
                 Messager Joueur = new Messager(Utils.Pion.BLEU, nomjoueur, t);
                 t.addAventurier(Joueur);
+                Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
                 System.out.println("Vous etes le messager \n");
 
@@ -122,7 +147,7 @@ public class Controleur {
         }
     }
 
-    private void initialiserJeu(Grille g) {
+    private void initialiserGrille(Grille g) {
 
         int ind = 0;
         Iles[] liste = Iles.values();
@@ -146,12 +171,15 @@ public class Controleur {
     public static void main(String[] args) {
         Controleur C = new Controleur();
         Grille G = new Grille(1);
-        C.initialiserJeu(G);
+        C.initialiserGrille(G);
         C.creationJoueur(G);
         vuejeu jeu = new vuejeu(G);
+        jeu.addObservateur(C);
         jeu.afficher();
-        jeu.deplacer(G, C.getJoueurs().get(0));
+        jeu.deplacer(C.getJoueurs().get(0));
 
     }
+
+    
 
 }

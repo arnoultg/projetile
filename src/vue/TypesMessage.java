@@ -10,5 +10,6 @@ package vue;
  * @author lavierp
  */
 public enum TypesMessage {
-    CLIC
+    CLIC_TUILE,
+    CLIC_ACTION
 }

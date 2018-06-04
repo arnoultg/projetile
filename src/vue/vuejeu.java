@@ -46,12 +46,14 @@ public class vuejeu extends JPanel implements Observe {
     private Observateur observateur;
     private Color myBrown = new Color(167, 103, 38);
     private pionD pion;
+    private Grille g;
 
     public vuejeu(Grille g) {
         GraphicsEnvironment environnement = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle fenetre = environnement.getMaximumWindowBounds();
         int xfentre = (int) fenetre.getWidth();
         int yfenetre = (int) fenetre.getHeight();
+        this.g = g;
 
 // ouverture fenetre
         frame = new JFrame();
@@ -106,22 +108,26 @@ public class vuejeu extends JPanel implements Observe {
 
         int compteur = 0;
 
-        for (int i = 1; i <= 36; i++) {
-            if ((i < 3) || (i > 4 && i < 8) || (i == 12) || (i == 25) || (i > 29 && i < 33) || (i > 34)) {
+        for (int i = 0; i < 36; i++) {
+            //if ((i < 3) || (i > 4 && i < 8) || (i == 12) || (i == 25) || (i > 29 && i < 33) || (i > 34)) {
+            if (g.getGrilleTuile()[i/6][i%6].getNom() == null){
                 JPanel blanc = new JPanel();
                 panelgrille.add(blanc);
                 lesbouttonstuilles.add(null);
             } else {
 
-                panelgrille.add(getCellule(compteur, g));
+                panelgrille.add(getCellule(compteur));
 
                 compteur++;
             }
 
         }
+        
+        initAcPerform();
     }
+    
 
-    private JButton getCellule(int compteur, Grille g) {
+    private JButton getCellule(int compteur) {
 
         Tuile t = g.getTuile(Iles.values()[compteur]);
         JButton bouton = new JButton(t.getNom().toString());
@@ -144,7 +150,6 @@ public class vuejeu extends JPanel implements Observe {
     public void afficher() {
         frame.setVisible(
                 true);
-
     }
 
     public void addObservateur(Observateur o) {
@@ -157,14 +162,39 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    public void deplacer(Grille g, Aventurier av) {
+    public void initAcPerform() {
+        for (JButton i : lesbouttonstuilles) {
+            if (i != null) {
+                int ind = lesbouttonstuilles.indexOf(i);
+                i.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Message m = new Message(TypesMessage.CLIC_TUILE);
+                        m.setTuile(g.getGrilleTuile()[(ind / 6)][(ind % 6)]);
+                        notifierObservateur(m);
+                    }
+                });
+            }
+        }
+        for (JButton i : lesboutonsactions) {
+            i.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Message m = new Message(TypesMessage.CLIC_ACTION);
+                    m.setAction(i.getText());
+                    notifierObservateur(m);
+                }
+            });
+        }
+    }
+
+    public void deplacer(Aventurier av) {
         HashMap<JButton, Tuile> Casesaccessible = new HashMap<>();
         ArrayList<Tuile> tdispo = av.tuilesDispoAv(g);
-        lesboutonsactions.get(1).addActionListener(new ActionListener() {
+        /*lesboutonsactions.get(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.out.println(av.getPos().getNom());
-                //System.out.println("");
+
                 for (Tuile t : tdispo) {
                     //System.out.println(t.getNom());
                     //System.out.println(t.getX() + "" + t.getY());
@@ -176,19 +206,17 @@ public class vuejeu extends JPanel implements Observe {
                 }
                 for (HashMap.Entry<JButton, Tuile> entry : Casesaccessible.entrySet()) {
 
-                   entry.getKey().addActionListener(new ActionListener() {
-
+                    entry.getKey().addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             av.setPos(entry.getValue());
-                            System.out.println("fdsq");
                             tdispo.clear();
                         }
                     });
                 }
 
             }
-        });
+        });*/
 
     }
 }
