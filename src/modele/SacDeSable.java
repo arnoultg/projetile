@@ -12,6 +12,7 @@ package modele;
 public class SacDeSable extends CarteTresor{
 
     public SacDeSable() {
+        super.setNom("Sac de sable");
     }
     
 }

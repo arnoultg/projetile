@@ -107,6 +107,7 @@ public class Controleur implements Observateur {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_FER);
                 Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomjoueur, t);
                 t.addAventurier(Joueur);
+                Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
                 System.out.println("Vous etes le plongeur \n");
 
@@ -130,13 +131,13 @@ public class Controleur implements Observateur {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_CUIVRE);
                 Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomjoueur, t);
                 t.addAventurier(Joueur);
-                Joueur.tirerCartesTresors(g);                
+                Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
                 System.out.println("Vous etes le explorateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ORANGE) {
                 Tuile t = g.getTuile(Iles.LA_PORTE_D_ARGENT);
-                Messager Joueur = new Messager(Utils.Pion.BLEU, nomjoueur, t);
+                Messager Joueur = new Messager(Utils.Pion.ORANGE, nomjoueur, t);
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
@@ -177,6 +178,8 @@ public class Controleur implements Observateur {
         jeu.addObservateur(C);
         jeu.afficher();
         jeu.deplacer(C.getJoueurs().get(0));
+        jeu.afficherCartes(C.getJoueurs().get(0));
+        jeu.choisirCarteDefausse(C.getJoueurs().get(0));
 
     }
 

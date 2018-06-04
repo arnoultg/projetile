@@ -27,9 +27,10 @@ public class Grille {
         grilleTuile = new Tuile[6][6];
         paquetCTresor = new ArrayList<>();
         paquetCInnond = new ArrayList<>();
-        initialiserPaquet(paquetCTresor);
+        initialiserPaquetTresor(paquetCTresor);
         //initialiserPaquet(paquetCInnond);
         
+        paquetCTresor = initialiserPaquetTresor(paquetCTresor);
     }
 
     public ArrayList<CarteTresor> getPaquetCTresor() {
@@ -75,22 +76,23 @@ public class Grille {
     
     
     
-    public void initialiserPaquet(ArrayList<CarteTresor> paquetCTresor) {
+    public ArrayList<CarteTresor>  initialiserPaquetTresor(ArrayList<CarteTresor> paquetTresor) {
         for (int i = 1; i <= 3; i++) {
-            paquetCTresor.add(new Helicoptere());
+            paquetTresor.add(new Helicoptere());
         }
         for (int i = 1; i <= 2; i++) {
-            paquetCTresor.add(new SacDeSable());
+            paquetTresor.add(new SacDeSable());
         }
         for (int i = 1; i <= 3; i++) {
-            paquetCTresor.add(new MonteDesEaux());
+            paquetTresor.add(new MonteDesEaux());
         }
         for (Tresor i : Tresor.values()) {
             for (int j = 1; j <= 5; j++) {
-                paquetCTresor.add(new C_tresor(i));
+                paquetTresor.add(new C_tresor(i));
             }
         }
-        Collections.shuffle(paquetCTresor);
+        Collections.shuffle(paquetTresor);
+        return paquetTresor;
     }
 
 }

@@ -23,12 +23,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 import modele.Aventurier;
+import modele.CarteTresor;
 import modele.Grille;
 import modele.Tuile;
 import util.Utils;
@@ -43,6 +45,7 @@ public class vuejeu extends JPanel implements Observe {
     private JFrame frame;
     private ArrayList<JButton> lesbouttonstuilles;
     private ArrayList<JButton> lesboutonsactions;
+    private ArrayList<CarteTresor> cartes;
     private Observateur observateur;
     private Color myBrown = new Color(167, 103, 38);
     private pionD pion;
@@ -65,6 +68,7 @@ public class vuejeu extends JPanel implements Observe {
 //initialisation 
         lesbouttonstuilles = new ArrayList<>();
         lesboutonsactions = new ArrayList<>();
+        cartes = new ArrayList<>();
         JButton bouton = new JButton();
 
 //initialistation panel 
@@ -185,6 +189,24 @@ public class vuejeu extends JPanel implements Observe {
                     notifierObservateur(m);
                 }
             });
+        }
+    }
+
+    public void afficherCartes(Aventurier a) {
+        cartes = a.getCartes();
+        for (int i = 0; i < cartes.size(); i++) {
+            System.out.println(cartes.get(i).getNom());
+        }
+    }
+
+    public void choisirCarteDefausse(Aventurier a) {
+        cartes = a.getCartes();
+        for (int i = a.getNbCartes(); i > 5; i--) {
+            System.out.println("Carte a déf (1/2/3/4/5/6/7) : ");
+            Scanner entree = new Scanner(System.in);
+            int carteSelectionnee = entree.nextInt();
+            a.defausserCarte(carteSelectionnee - 1);
+            afficherCartes(a);
         }
     }
 
