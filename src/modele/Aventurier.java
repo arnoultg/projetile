@@ -90,7 +90,7 @@ public abstract class Aventurier {
     }
 
     public void tirerCartesTresors(Grille g) {
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 7; i++) {
             int nbCartesPaquet = g.getPaquetCTresor().size();
             if (nbCartesPaquet > 0) {
                 cartes.add(g.getPaquetCTresor().get(i));
@@ -100,6 +100,11 @@ public abstract class Aventurier {
                 i--;
             }
         }
+
     }
 
-}
+    public void defausserCarte(int c) {
+        cartes.remove(c);
+        }
+    }
+

@@ -82,6 +82,7 @@ public class Controleur {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_FER);
                 Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomjoueur, t);
                 t.addAventurier(Joueur);
+                Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
                 System.out.println("Vous etes le plongeur \n");
 
@@ -105,7 +106,7 @@ public class Controleur {
                 Tuile t = g.getTuile(Iles.LA_PORTE_DE_CUIVRE);
                 Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomjoueur, t);
                 t.addAventurier(Joueur);
-                Joueur.tirerCartesTresors(g);                
+                Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
                 System.out.println("Vous etes le explorateur \n");
 
@@ -152,7 +153,7 @@ public class Controleur {
         jeu.afficher();
         jeu.deplacer(G, C.getJoueurs().get(0));
         jeu.afficherCartes(C.getJoueurs().get(0));
-        
+        jeu.choisirCarteDefausse(C.getJoueurs().get(0));
 
     }
 

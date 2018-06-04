@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -163,6 +164,17 @@ public class vuejeu extends JPanel implements Observe {
         cartes = a.getCartes();
         for (int i = 0; i < cartes.size(); i++) {
             System.out.println(cartes.get(i).getNom());
+        }
+    }
+
+    public void choisirCarteDefausse(Aventurier a) {
+        cartes = a.getCartes();
+        for (int i = a.getNbCartes(); i > 5; i--) {
+            System.out.println("Carte a déf (1/2/3/4/5/6/7) : ");
+            Scanner entree = new Scanner(System.in);
+            int carteSelectionnee = entree.nextInt();
+            a.defausserCarte(carteSelectionnee - 1);
+            afficherCartes(a);
         }
     }
 
