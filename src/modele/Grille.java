@@ -27,10 +27,9 @@ public class Grille {
         grilleTuile = new Tuile[6][6];
         paquetCTresor = new ArrayList<>();
         paquetCInnond = new ArrayList<>();
-        initialiserPaquetTresor(paquetCTresor);
-        //initialiserPaquet(paquetCInnond);
-        
         paquetCTresor = initialiserPaquetTresor(paquetCTresor);
+        initialiserPaquetInnond(paquetCInnond);
+
     }
 
     public ArrayList<CarteTresor> getPaquetCTresor() {
@@ -44,7 +43,6 @@ public class Grille {
     public int getNiveauEau() {
         return niveauEau;
     }
-    
 
     public void setPaquetCTresor(ArrayList<CarteTresor> paquetCTresor) {
         this.paquetCTresor = paquetCTresor;
@@ -73,10 +71,8 @@ public class Grille {
     public Tuile[][] getGrilleTuile() {
         return grilleTuile;
     }
-    
-    
-    
-    public ArrayList<CarteTresor>  initialiserPaquetTresor(ArrayList<CarteTresor> paquetTresor) {
+
+    public ArrayList<CarteTresor> initialiserPaquetTresor(ArrayList<CarteTresor> paquetTresor) {
         for (int i = 1; i <= 3; i++) {
             paquetTresor.add(new Helicoptere());
         }
@@ -93,6 +89,14 @@ public class Grille {
         }
         Collections.shuffle(paquetTresor);
         return paquetTresor;
+    }
+
+    public ArrayList<Carte_Innondation> initialiserPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {
+        
+        
+        Collections.shuffle(paquetInnond);
+        return paquetInnond;
+
     }
 
 }
