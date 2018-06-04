@@ -26,7 +26,7 @@ public class Grille {
         this.niveauEau = niveauEau;
         grilleTuile = new Tuile[6][6];
         paquetCTresor = new ArrayList<>();
-        initialiserPaquet(paquetCTresor);
+        initialiserPaquetTresor(paquetCTresor);
     }
 
     public ArrayList<CarteTresor> getPaquetCTresor() {
@@ -69,7 +69,7 @@ public class Grille {
     public Tuile[][] getGrilleTuile() {
         return grilleTuile;
     }
-    public void initialiserPaquet(ArrayList<CarteTresor> paquetCTresor) {
+    public void initialiserPaquetTresor(ArrayList<CarteTresor> paquetCTresor) {
         for (int i = 1; i <= 3; i++) {
             paquetCTresor.add(new Helicoptere());
         }

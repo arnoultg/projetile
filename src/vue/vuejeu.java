@@ -144,7 +144,6 @@ public class vuejeu extends JPanel implements Observe {
     public void afficher() {
         frame.setVisible(
                 true);
-
     }
 
     public void addObservateur(Observateur o) {
@@ -177,11 +176,9 @@ public class vuejeu extends JPanel implements Observe {
                 for (HashMap.Entry<JButton, Tuile> entry : Casesaccessible.entrySet()) {
 
                    entry.getKey().addActionListener(new ActionListener() {
-
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             av.setPos(entry.getValue());
-                            System.out.println("fdsq");
                             tdispo.clear();
                         }
                     });

@@ -86,14 +86,15 @@ public abstract class Aventurier {
         return cartes.size();
     }
 
-    public void tirerCarteTresor(Grille g, int nbPioche) {
-        for (int i = 1; i <= nbPioche; i++) {
+    public void tirerCartesTresors(Grille g) {
+        for (int i = 1; i <= 2; i++) {
             int nbCartesPaquet = g.getPaquetCTresor().size();
             if (nbCartesPaquet > 0) {
                 cartes.add(g.getPaquetCTresor().get(i));
                 g.getPaquetCTresor().remove(i);
             } else {
-                System.out.println("Plus de carte dans le paquet");
+                g.initialiserPaquetTresor(cartes);
+                i--;
             }
         }
     }
