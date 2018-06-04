@@ -12,6 +12,7 @@ package modele;
 public class Helicoptere extends CarteTresor{
 
     public Helicoptere() {
+        super.setNom("Helicoptere");
     }
     
 }

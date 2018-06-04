@@ -29,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 import modele.Aventurier;
+import modele.CarteTresor;
 import modele.Grille;
 import modele.Tuile;
 import util.Utils;
@@ -43,6 +44,7 @@ public class vuejeu extends JPanel implements Observe {
     private JFrame frame;
     private ArrayList<JButton> lesbouttonstuilles;
     private ArrayList<JButton> lesboutonsactions;
+    private ArrayList<CarteTresor> cartes;
     private Observateur observateur;
     private Color myBrown = new Color(167, 103, 38);
     private pionD pion;
@@ -63,6 +65,7 @@ public class vuejeu extends JPanel implements Observe {
 //initialisation 
         lesbouttonstuilles = new ArrayList<>();
         lesboutonsactions = new ArrayList<>();
+        cartes = new ArrayList<>();
         JButton bouton = new JButton();
 
 //initialistation panel 
@@ -156,6 +159,13 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
+    public void afficherCartes(Aventurier a) {
+        cartes = a.getCartes();
+        for (int i = 0; i < cartes.size(); i++) {
+            System.out.println(cartes.get(i).getNom());
+        }
+    }
+
     public void deplacer(Grille g, Aventurier av) {
         HashMap<JButton, Tuile> Casesaccessible = new HashMap<>();
         ArrayList<Tuile> tdispo = av.tuilesDispoAv(g);
@@ -175,7 +185,7 @@ public class vuejeu extends JPanel implements Observe {
                 }
                 for (HashMap.Entry<JButton, Tuile> entry : Casesaccessible.entrySet()) {
 
-                   entry.getKey().addActionListener(new ActionListener() {
+                    entry.getKey().addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             av.setPos(entry.getValue());

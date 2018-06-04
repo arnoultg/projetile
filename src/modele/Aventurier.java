@@ -42,6 +42,10 @@ public abstract class Aventurier {
         this.pos = pos;
     }
 
+    public ArrayList<CarteTresor> getCartes() {
+        return cartes;
+    }
+
     public void Avancer() {
 
     }
@@ -51,16 +55,16 @@ public abstract class Aventurier {
         int x = pos.getX();
         int y = pos.getY();
         Tuile[][] grille = g.getGrilleTuile();
-        
+
         return tuilesAutour(liste, x, y, grille);
     }
-    
+
     public ArrayList<Tuile> tuilesDispoAv(Grille g) {
         ArrayList<Tuile> liste = new ArrayList();
         int x = pos.getX();
         int y = pos.getY();
         Tuile[][] grille = g.getGrilleTuile();
-        
+
         return tuilesAutour(liste, x, y, grille);
     }
 
@@ -69,19 +73,18 @@ public abstract class Aventurier {
         if ((y != 0) && (grille[x][y - 1].getEtat() != Utils.EtatTuile.COULEE) && !liste.contains(grille[x][y - 1])) {
             liste.add(grille[x][y - 1]);
         }
-        if ((x != 0) && (grille[x-1][y].getEtat() != Utils.EtatTuile.COULEE) && !liste.contains(grille[x-1][y])) {
-            liste.add(grille[x-1][y]);
+        if ((x != 0) && (grille[x - 1][y].getEtat() != Utils.EtatTuile.COULEE) && !liste.contains(grille[x - 1][y])) {
+            liste.add(grille[x - 1][y]);
         }
-        if ((x != 5) && (grille[x+1][y].getEtat() != Utils.EtatTuile.COULEE) && !liste.contains(grille[x+1][y])) {
-            liste.add(grille[x+1][y]);
+        if ((x != 5) && (grille[x + 1][y].getEtat() != Utils.EtatTuile.COULEE) && !liste.contains(grille[x + 1][y])) {
+            liste.add(grille[x + 1][y]);
         }
         if ((y != 5) && (grille[x][y + 1].getEtat() != Utils.EtatTuile.COULEE) && !liste.contains(grille[x][y + 1])) {
             liste.add(grille[x][y + 1]);
         }
-            return liste;
+        return liste;
     }
 
-    
     public int getNbCartes() {
         return cartes.size();
     }
@@ -93,7 +96,7 @@ public abstract class Aventurier {
                 cartes.add(g.getPaquetCTresor().get(i));
                 g.getPaquetCTresor().remove(i);
             } else {
-                g.initialiserPaquetTresor(cartes);
+                cartes = g.initialiserPaquetTresor(g.getPaquetCTresor());
                 i--;
             }
         }

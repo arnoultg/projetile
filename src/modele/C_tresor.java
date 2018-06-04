@@ -16,6 +16,7 @@ public class C_tresor extends CarteTresor{
 
     public C_tresor(Tresor tresor) {
         this.tresor = tresor;
+        super.setNom(tresor.toString());
     }
     
 }

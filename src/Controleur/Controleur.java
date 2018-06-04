@@ -111,7 +111,7 @@ public class Controleur {
 
             } else if (lescouleurs.get(x) == Utils.Pion.ORANGE) {
                 Tuile t = g.getTuile(Iles.LA_PORTE_D_ARGENT);
-                Messager Joueur = new Messager(Utils.Pion.BLEU, nomjoueur, t);
+                Messager Joueur = new Messager(Utils.Pion.ORANGE, nomjoueur, t);
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(g);
                 joueurs.add(Joueur);
@@ -151,6 +151,8 @@ public class Controleur {
         vuejeu jeu = new vuejeu(G);
         jeu.afficher();
         jeu.deplacer(G, C.getJoueurs().get(0));
+        jeu.afficherCartes(C.getJoueurs().get(0));
+        
 
     }
 
