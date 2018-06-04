@@ -24,6 +24,8 @@ public class Controleur implements Observateur {
 
     private ArrayList<Aventurier> joueurs;
     private String action = null;
+    private static vuejeu jeu;
+    private Aventurier AvCourant;
 
     public Controleur() {
         joueurs = new ArrayList<>();
@@ -174,7 +176,7 @@ public class Controleur implements Observateur {
         Grille G = new Grille(1);
         C.initialiserGrille(G);
         C.creationJoueur(G);
-        vuejeu jeu = new vuejeu(G);
+        jeu = new vuejeu(G);
         jeu.addObservateur(C);
         jeu.afficher();
         jeu.deplacer(C.getJoueurs().get(0));
