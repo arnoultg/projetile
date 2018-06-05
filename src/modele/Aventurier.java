@@ -57,8 +57,13 @@ public abstract class Aventurier {
         int x = pos.getX();
         int y = pos.getY();
         Tuile[][] grille = g.getGrilleTuile();
-
-        return tuilesAutour(liste, x, y, grille);
+        
+        for (Tuile tuile : tuilesAutour(liste, x, y, grille)){
+            if (tuile.getEtat() != Utils.EtatTuile.ASSECHEE){
+                liste.add(tuile);
+            }
+        }
+        return liste;
     }
 
     public ArrayList<Tuile> tuilesDispoAv(Grille g) {
