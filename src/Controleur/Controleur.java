@@ -28,7 +28,6 @@ public class Controleur implements Observateur {
     private static vuejeu jeu;
     private static Aventurier AvCourant;
     private static Grille G;
-    
 
     public Controleur() {
         joueurs = new ArrayList<>();
@@ -61,41 +60,45 @@ public class Controleur implements Observateur {
     public void setAvCourant(Aventurier AvCourant) {
         this.AvCourant = AvCourant;
     }
-    
+
     @Override
     public void traiterMessage(Message m) {
-        
+
         if (m.getType() == TypesMessage.CLIC_ACTION) {
             if (action != null) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
             }
-            
+
             action = m.getAction();
             System.out.println(action);
             System.out.println("straf");
-            if (action == "deplacer"){
+            if (action == "deplacer") {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
-            }else if (action == "assecher") {
+            } else if (action == "assecher") {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
-            }else if (action == "Fin de tour"){
+            } else if (action == "Fin de tour") {
                 action = null;
             }
-            
-        }else if (m.getType() == TypesMessage.CLIC_TUILE) {
+
+        } else if (m.getType() == TypesMessage.CLIC_TUILE) {
             if (action == "deplacer") {
-                System.out.println(m.getTuile().getNom() + "est la destination");
-                jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
-                action = null;
+                if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
+                    System.out.println(m.getTuile().getNom() + "est la destination");
+                    jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
+                    this.deplacerJoueur(m.getTuile());
+                    jeu.afficherPion(m.getTuile());
+                    action = null;
+                }
+                
             } else if (action == "assecher") {
                 System.out.println(m.getTuile().getNom() + "a ete asseché");
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                 action = null;
             }
-            
+
         }
     }
-    
 
     private void creationJoueur() {
 
@@ -188,6 +191,10 @@ public class Controleur implements Observateur {
         }
     }
 
+    private void deplacerJoueur(Tuile tuile) {
+        AvCourant.setPos(tuile);
+    }
+
     public static void main(String[] args) {
         Controleur C = new Controleur();
         G = new Grille(1);
@@ -202,7 +209,5 @@ public class Controleur implements Observateur {
         jeu.choisirCarteDefausse(C.getJoueurs().get(0));
 
     }
-
-    
 
 }

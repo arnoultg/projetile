@@ -113,7 +113,7 @@ public class vuejeu extends JPanel implements Observe {
 
         for (int i = 0; i < 36; i++) {
             //if ((i < 3) || (i > 4 && i < 8) || (i == 12) || (i == 25) || (i > 29 && i < 33) || (i > 34)) {
-            if (g.getGrilleTuile()[i/6][i%6].getNom() == null){
+            if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
                 JPanel blanc = new JPanel();
                 panelgrille.add(blanc);
                 lesbouttonstuilles.add(null);
@@ -125,23 +125,27 @@ public class vuejeu extends JPanel implements Observe {
             }
 
         }
-        
+
         initAcPerform();
     }
-    
 
     private JButton getCellule(int compteur) {
 
         Tuile t = g.getTuile(Iles.values()[compteur]);
         JButton bouton = new JButton(t.getNom().toString());
-        bouton.setBackground(t.getCouleur());
+        bouton.setBackground(t.getCouleur());   
+        lesbouttonstuilles.add(bouton);
+        this.afficherPion(t);
+        return bouton;
+    }
+
+    public void afficherPion(Tuile t) {
         for (Aventurier av : t.getAventurierssur()) {
             pion = new pionD(20, 20, 10, av.getNomRole().getCouleur());
-            bouton.add(pion);
-        }
-
-        lesbouttonstuilles.add(bouton);
-        return bouton;
+            //System.out.println(t.getX()*6+t.getY());
+            lesbouttonstuilles.get(t.getX()*6+t.getY()).add(pion);
+            repaint();
+        }     
     }
 
     public void afficher() {
@@ -204,17 +208,16 @@ public class vuejeu extends JPanel implements Observe {
     }
 
     public void selecTuile(ArrayList<Tuile> liste, Color coul) {
-                for (Tuile t : liste) {
-                    if (coul != Color.RED) {
-                        coul = t.getCouleur();
-                    }
-                    int placetuilleihm = t.getX() * 6 + t.getY();
-                    lesbouttonstuilles.get(placetuilleihm).setBackground(coul);
-                    //Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
-                    //System.out.println(Casesaccessible.size());
+        for (Tuile t : liste) {
+            if (coul != Color.RED) {
+                coul = t.getCouleur();
+            }
+            int placetuilleihm = t.getX() * 6 + t.getY();
+            lesbouttonstuilles.get(placetuilleihm).setBackground(coul);
+            //Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
+            //System.out.println(Casesaccessible.size());
 
-                }
-              
+        }
 
     }
 }
