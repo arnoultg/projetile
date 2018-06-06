@@ -17,13 +17,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
+import modele.Aventurier;
 
 public class pionD extends JPanel {
 
     private int centreX, centreY, rayon;
     private Color couleur;
+    private Aventurier aventurier;
 
-    public pionD(int centreX, int centreY, int rayon, Color couleur) {
+    public pionD(int centreX, int centreY, int rayon, Color couleur,Aventurier aventurier) {
         setBackground(Color.white);
         setDoubleBuffered(true);
         
@@ -31,9 +33,16 @@ public class pionD extends JPanel {
         this.centreY = centreY;
         this.rayon = rayon;
         this.couleur = couleur;
+        this.aventurier = aventurier;
+        
 
         //System.out.println("constructeur");
     }
+
+    public Aventurier getAventurier() {
+        return aventurier;
+    }
+    
 
     public void draw(Graphics g) {
         g.setColor(couleur);
