@@ -87,11 +87,11 @@ public class Controleur implements Observateur {
                 if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
                     System.out.println(m.getTuile().getNom() + "est la destination");
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
-    
+
                     this.deplacerJoueur(m.getTuile());
                     action = null;
                 }
-                
+
             } else if (action == "assecher") {
                 System.out.println(m.getTuile().getNom() + "a ete asseché");
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
@@ -105,7 +105,8 @@ public class Controleur implements Observateur {
         action = null;
         nbActions = 3;
         int ind = joueurs.indexOf(AvCourant);
-        AvCourant = (ind == joueurs.size()-1 ? joueurs.get(0) : joueurs.get(ind+1));
+        jeu.choisirCarteDefausse(AvCourant);
+        AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         System.out.println("strafoulila");
         System.out.println(AvCourant.getNomjoueur());
@@ -181,6 +182,18 @@ public class Controleur implements Observateur {
         }
     }
 
+    private void premiereInondations() {
+        for (int i = 1; i <= 6; i++) {
+            int nbCartesPaquet = G.getPaquetCInnond().size();
+            if (nbCartesPaquet > 0) {
+                G.getPaquetCInnond().get(i).innondeTuile(G);
+                G.getPaquetCInnond().remove(i);
+            } else {
+                G.initialiserPaquetInnond(G.getPaquetCInnond());
+            }
+        }
+    }
+
     private void initialiserGrille() {
 
         int ind = 0;
@@ -208,28 +221,33 @@ public class Controleur implements Observateur {
         tuile.addAventurier(AvCourant);
         jeu.afficherPion();
     }
-    private void enleverAvTuile(){
+
+    private void enleverAvTuile() {
         AvCourant.getPos().getAventurierssur().remove(AvCourant);
-       
+
+    }
+
+    private void initialiserjeu() {
+
+        G = new Grille(1);
+        initialiserGrille();
+        creationJoueur();
+        premiereInondations();
+        AvCourant = joueurs.get(0);
+        jeu = new vuejeu(G);
+        jeu.addObservateur(this);
+        jeu.creationPion(joueurs);
+        jeu.afficherNomJoueur(AvCourant);
+        jeu.afficher();
+
     }
 
     public static void main(String[] args) {
         Controleur C = new Controleur();
-        G = new Grille(1);
-        C.initialiserGrille();
-        C.creationJoueur();
-        AvCourant = joueurs.get(0);
-        jeu = new vuejeu(G);
-        jeu.addObservateur(C);
-        jeu.creationPion(joueurs);
-        //jeu.afficherNomJoueur(AvCourant);
-        jeu.afficher();
-        
-        
-               //jeu.deplacer(C.getJoueurs().get(0));
+        C.initialiserjeu();
+
         //jeu.afficherCartes(C.getJoueurs().get(0));
         //jeu.choisirCarteDefausse(C.getJoueurs().get(0));
-
     }
 
 }
