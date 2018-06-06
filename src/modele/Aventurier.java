@@ -54,11 +54,17 @@ public abstract class Aventurier {
 
     public ArrayList<Tuile> dispoAssecher(Grille g) {
         ArrayList<Tuile> liste = new ArrayList();
+        ArrayList<Tuile> liste2 = new ArrayList();
         int x = pos.getX();
         int y = pos.getY();
         Tuile[][] grille = g.getGrilleTuile();
-
-        return tuilesAutour(liste, x, y, grille);
+        
+        for (Tuile tuile : tuilesAutour(liste, x, y, grille)){
+            if (tuile.getEtat() != Utils.EtatTuile.ASSECHEE){
+                liste2.add(tuile);
+            }
+        }
+        return liste2;
     }
 
     public ArrayList<Tuile> tuilesDispoAv(Grille g) {
