@@ -48,6 +48,8 @@ public class vuejeu extends JPanel implements Observe {
     private ArrayList<CarteTresor> cartes;
     private Observateur observateur;
     private ArrayList<pionD> pionsjoueur;
+    JLabel nom = new JLabel();
+    JLabel Joueur2 = new JLabel();
 
     private Grille g;
 
@@ -89,13 +91,8 @@ public class vuejeu extends JPanel implements Observe {
         paneldroite.add(PMillieu);
         paneldroite.add(PBas);
 
-        JLabel nomJoueur = new JLabel("nom Joueur :");
-        JLabel nom = new JLabel();
-        JLabel Joueur = new JLabel("type d'aventurier");
-        JLabel Joueur2 = new JLabel();
-
-        PHaut.add("North", nomJoueur);
-        PHaut.add("Center", Joueur);
+        PHaut.add("North", nom);
+        PHaut.add("Center", Joueur2);
 
         JPanel toucheaction = new JPanel(new GridLayout(0, 4));
         PBas.add(toucheaction);
@@ -233,6 +230,28 @@ public class vuejeu extends JPanel implements Observe {
     }
 
     public void afficherNomJoueur(Aventurier av) {
+        if (av.getNomRole() == Utils.Pion.BLEU) {
+            miseAJourNom(Joueur2, "pilote");
+            miseAJourNom(nom, av.getNomjoueur());
+        } else if (av.getNomRole() == Utils.Pion.JAUNE) {
+            miseAJourNom(Joueur2, "navigateur");
+            miseAJourNom(nom, av.getNomjoueur());
+        } else if (av.getNomRole() == Utils.Pion.ORANGE) {
+            miseAJourNom(Joueur2, "messager");
+            miseAJourNom(nom, av.getNomjoueur());
+        } else if (av.getNomRole() == Utils.Pion.ROUGE) {
+            miseAJourNom(Joueur2, "ingenieur");
+            miseAJourNom(nom, av.getNomjoueur());
+        } else if (av.getNomRole() == Utils.Pion.VERT) {
+            miseAJourNom(Joueur2, "explorateur");
+            miseAJourNom(nom, av.getNomjoueur());
+        } else if (av.getNomRole() == Utils.Pion.VIOLET) {
+            miseAJourNom(Joueur2, "plongeur");
+            miseAJourNom(nom, av.getNomjoueur());
+        }
+    }
 
+    private void miseAJourNom(JLabel label, String str) {
+        label.setText(str);
     }
 }

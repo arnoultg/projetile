@@ -106,7 +106,9 @@ public class Controleur implements Observateur {
         nbActions = 3;
         int ind = joueurs.indexOf(AvCourant);
         AvCourant = (ind == joueurs.size()-1 ? joueurs.get(0) : joueurs.get(ind+1));
+        jeu.afficherNomJoueur(AvCourant);
         System.out.println("strafoulila");
+        System.out.println(AvCourant.getNomjoueur());
     }
 
     private void creationJoueur() {
@@ -220,8 +222,11 @@ public class Controleur implements Observateur {
         jeu = new vuejeu(G);
         jeu.addObservateur(C);
         jeu.creationPion(joueurs);
+        //jeu.afficherNomJoueur(AvCourant);
         jeu.afficher();
-        //jeu.deplacer(C.getJoueurs().get(0));
+        
+        
+               //jeu.deplacer(C.getJoueurs().get(0));
         //jeu.afficherCartes(C.getJoueurs().get(0));
         //jeu.choisirCarteDefausse(C.getJoueurs().get(0));
 
