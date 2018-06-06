@@ -86,8 +86,8 @@ public class Controleur implements Observateur {
                 if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
                     System.out.println(m.getTuile().getNom() + "est la destination");
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
+    
                     this.deplacerJoueur(m.getTuile());
-                    jeu.afficherPion(m.getTuile());
                     action = null;
                 }
                 
@@ -192,7 +192,13 @@ public class Controleur implements Observateur {
     }
 
     private void deplacerJoueur(Tuile tuile) {
+        enleverAvTuile();
         AvCourant.setPos(tuile);
+        tuile.addAventurier(AvCourant);
+        jeu.afficherPion(tuile);
+    }
+    private void enleverAvTuile(){
+        AvCourant.getPos().getAventurierssur().remove(AvCourant);
     }
 
     public static void main(String[] args) {
@@ -205,8 +211,8 @@ public class Controleur implements Observateur {
         jeu.addObservateur(C);
         jeu.afficher();
         //jeu.deplacer(C.getJoueurs().get(0));
-        jeu.afficherCartes(C.getJoueurs().get(0));
-        jeu.choisirCarteDefausse(C.getJoueurs().get(0));
+        //jeu.afficherCartes(C.getJoueurs().get(0));
+        //jeu.choisirCarteDefausse(C.getJoueurs().get(0));
 
     }
 
