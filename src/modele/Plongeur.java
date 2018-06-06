@@ -24,6 +24,11 @@ public class Plongeur extends Aventurier {
         if (liste.contains(super.getPos())) {
             liste.remove(super.getPos());
         }
+        for (Tuile i : liste) {
+            if (i.getEtat() == Utils.EtatTuile.COULEE) {
+                liste.remove(i);
+            }
+        }
         return liste;
     }
     
