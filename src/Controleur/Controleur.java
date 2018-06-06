@@ -195,10 +195,11 @@ public class Controleur implements Observateur {
         enleverAvTuile();
         AvCourant.setPos(tuile);
         tuile.addAventurier(AvCourant);
-        jeu.afficherPion(tuile);
+        jeu.afficherPion();
     }
     private void enleverAvTuile(){
         AvCourant.getPos().getAventurierssur().remove(AvCourant);
+       
     }
 
     public static void main(String[] args) {
@@ -209,6 +210,7 @@ public class Controleur implements Observateur {
         AvCourant = joueurs.get(0);
         jeu = new vuejeu(G);
         jeu.addObservateur(C);
+        jeu.creationPion(joueurs);
         jeu.afficher();
         //jeu.deplacer(C.getJoueurs().get(0));
         //jeu.afficherCartes(C.getJoueurs().get(0));

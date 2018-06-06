@@ -47,7 +47,8 @@ public class vuejeu extends JPanel implements Observe {
     private ArrayList<JButton> lesboutonsactions;
     private ArrayList<CarteTresor> cartes;
     private Observateur observateur;
-    
+    private ArrayList<pionD> pionsjoueur;
+
     private Grille g;
 
     public vuejeu(Grille g) {
@@ -67,6 +68,7 @@ public class vuejeu extends JPanel implements Observe {
 //initialisation 
         lesbouttonstuilles = new ArrayList<>();
         lesboutonsactions = new ArrayList<>();
+        pionsjoueur = new ArrayList<>();
         cartes = new ArrayList<>();
         JButton bouton = new JButton();
 
@@ -88,7 +90,9 @@ public class vuejeu extends JPanel implements Observe {
         paneldroite.add(PBas);
 
         JLabel nomJoueur = new JLabel("nom Joueur :");
+        JLabel nom = new JLabel();
         JLabel Joueur = new JLabel("type d'aventurier");
+        JLabel Joueur2 = new JLabel();
 
         PHaut.add("North", nomJoueur);
         PHaut.add("Center", Joueur);
@@ -134,20 +138,25 @@ public class vuejeu extends JPanel implements Observe {
         Tuile t = g.getTuile(Iles.values()[compteur]);
         JButton bouton = new JButton(t.getNom().toString());
         bouton.setBackground(t.getCouleur());
-        
+
         lesbouttonstuilles.add(bouton);
-        this.afficherPion(t);
         return bouton;
     }
 
-    public void afficherPion(Tuile t) {
-        for (Aventurier av : t.getAventurierssur()) {          
-            pionD pion = new pionD(20, 20, 10, av.getNomRole().getCouleur());
-            //System.out.println(t.getX()*6+t.getY());
-            lesbouttonstuilles.get(t.getX()*6+t.getY()).add(pion);
-            pion.repaint();
-            //System.out.println("afficher pion");
-        }     
+    public void creationPion(ArrayList<Aventurier> aventuriers) {
+        for (Aventurier av : aventuriers) {
+            pionD pion = new pionD(20, 20, 10, av.getNomRole().getCouleur(), av);
+            pionsjoueur.add(pion);
+            this.afficherPion();
+        }
+    }
+
+    public void afficherPion() {
+        for (pionD pion : pionsjoueur) {
+            lesbouttonstuilles.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion);
+            repaint();
+
+        }
     }
 
     public void afficher() {
@@ -220,6 +229,10 @@ public class vuejeu extends JPanel implements Observe {
             //System.out.println(Casesaccessible.size());
 
         }
+
+    }
+
+    public void afficherNomJoueur(Aventurier av) {
 
     }
 }
