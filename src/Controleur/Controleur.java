@@ -27,7 +27,7 @@ public class Controleur implements Observateur {
     private String action = null;
     private static vuejeu jeu;
     private static Aventurier AvCourant;
-    private int nbActions;
+    private int nbActions = 3;
     private static Grille G;
 
     public Controleur() {
@@ -70,13 +70,12 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
             }
-
-            action = m.getAction();
+            
+            action = (action == m.getAction() ? null : m.getAction());
             System.out.println(action);
-            System.out.println("straf");
-            if (action == "deplacer") {
+            if ((action == "deplacer") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
-            } else if (action == "assecher") {
+            } else if ((action == "assecher") && (nbActions > 0)){
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
             } else if (m.getAction() == "Fin_de_tour") {
                 this.finTour();
@@ -87,15 +86,16 @@ public class Controleur implements Observateur {
                 if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
                     System.out.println(m.getTuile().getNom() + "est la destination");
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
-
                     this.deplacerJoueur(m.getTuile());
                     action = null;
+                    nbActions -= 1;
                 }
 
             } else if (action == "assecher") {
                 System.out.println(m.getTuile().getNom() + "a ete asseché");
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                 action = null;
+                nbActions -= 1;
             }
 
         }
@@ -104,11 +104,14 @@ public class Controleur implements Observateur {
     public void finTour() {
         action = null;
         nbActions = 3;
-        int ind = joueurs.indexOf(AvCourant);
+        AvCourant.tirerCartesTresors(G);
+        AvCourant.tirerCarteInnondation(G);
         jeu.choisirCarteDefausse(AvCourant);
+        
+        
+        int ind = joueurs.indexOf(AvCourant);
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
-        System.out.println("strafoulila");
         System.out.println(AvCourant.getNomjoueur());
     }
 
