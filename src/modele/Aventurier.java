@@ -48,9 +48,7 @@ public abstract class Aventurier {
         return cartes;
     }
 
-    public void Avancer() {
 
-    }
 
     public ArrayList<Tuile> dispoAssecher(Grille g) {
         ArrayList<Tuile> liste = new ArrayList();

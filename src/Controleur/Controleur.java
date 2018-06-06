@@ -94,7 +94,11 @@ public class Controleur implements Observateur {
 
             } else if (action == "assecher") {
                 System.out.println(m.getTuile().getNom() + "a ete asseché");
+                
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
+                this.assechercase(m.getTuile());
+                jeu.MiseaJourassechage(m.getTuile());
+                
                 action = null;
             }
 
@@ -220,6 +224,10 @@ public class Controleur implements Observateur {
         AvCourant.setPos(tuile);
         tuile.addAventurier(AvCourant);
         jeu.afficherPion();
+    }
+
+    private void assechercase(Tuile tuile) {
+        tuile.asseche();
     }
 
     private void enleverAvTuile() {

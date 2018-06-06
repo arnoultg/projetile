@@ -235,23 +235,28 @@ public class vuejeu extends JPanel implements Observe {
             miseAJourNom(nom, av.getNomjoueur());
         } else if (av.getNomRole() == Utils.Pion.JAUNE) {
             miseAJourNom(Joueur2, "navigateur");
-            miseAJourNom(nom, av.getNomjoueur());
+            miseAJourNom(nom, "nom : " + av.getNomjoueur());
         } else if (av.getNomRole() == Utils.Pion.ORANGE) {
             miseAJourNom(Joueur2, "messager");
-            miseAJourNom(nom, av.getNomjoueur());
+            miseAJourNom(nom, "nom : " + av.getNomjoueur());
         } else if (av.getNomRole() == Utils.Pion.ROUGE) {
             miseAJourNom(Joueur2, "ingenieur");
-            miseAJourNom(nom, av.getNomjoueur());
+            miseAJourNom(nom, "nom : " + av.getNomjoueur());
         } else if (av.getNomRole() == Utils.Pion.VERT) {
             miseAJourNom(Joueur2, "explorateur");
-            miseAJourNom(nom, av.getNomjoueur());
+            miseAJourNom(nom, "nom : " + av.getNomjoueur());
         } else if (av.getNomRole() == Utils.Pion.VIOLET) {
             miseAJourNom(Joueur2, "plongeur");
-            miseAJourNom(nom, av.getNomjoueur());
+            miseAJourNom(nom, "nom : " + av.getNomjoueur());
         }
     }
 
     private void miseAJourNom(JLabel label, String str) {
         label.setText(str);
+    }
+    
+    public void MiseaJourassechage(Tuile t){
+        int placetuilleihm = t.getX() * 6 + t.getY();
+            lesbouttonstuilles.get(placetuilleihm).setBackground(t.getCouleur());
     }
 }
