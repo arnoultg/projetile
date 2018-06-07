@@ -22,5 +22,10 @@ public class Carte_Innondation {
     public void innondeTuile (Grille g) {
         g.getTuile(nomIle).innonde();
     }
+
+    public Iles getNomIle() {
+        return nomIle;
+    }
+
     
 }

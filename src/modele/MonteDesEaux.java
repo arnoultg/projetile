@@ -15,7 +15,7 @@ public class MonteDesEaux extends CarteTresor {
     }
     public void MonteEau(Grille g){
         g.setNiveauEau(g.getNiveauEau()+1);
-        g.initialiserPaquetInnond(g.getPaquetCInnond());
+        g.setPaquetCInnond(g.nouveauPaquetInnond(g.getPaquetCInnond()));
         
     }
 }

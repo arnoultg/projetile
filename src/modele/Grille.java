@@ -28,8 +28,8 @@ public class Grille {
         paquetCTresor = new ArrayList<>();
         paquetCInnond = new ArrayList<>();
         paquetCTresor = initialiserPaquetTresor(paquetCTresor);
-        initialiserPaquetInnond(paquetCInnond);
-       
+        paquetCInnond = initialiserPaquetInnond(paquetCInnond);
+
     }
 
     public ArrayList<CarteTresor> getPaquetCTresor() {
@@ -91,12 +91,30 @@ public class Grille {
         return paquetTresor;
     }
 
+    public void setPaquetCInnond(ArrayList<Carte_Innondation> paquetCInnond) {
+        this.paquetCInnond = paquetCInnond;
+    }
+
     public ArrayList<Carte_Innondation> initialiserPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {
-        for (int i = 0; i <= 23; i++){
+        for (int i = 0; i <= 23; i++) {
             Carte_Innondation carteinnond = new Carte_Innondation(Iles.values()[i]);
-            paquetInnond.add(carteinnond);
+                paquetInnond.add(carteinnond);
+            
         }
-       
+
+        Collections.shuffle(paquetInnond);
+        return paquetInnond;
+
+    }
+
+    public ArrayList<Carte_Innondation> nouveauPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {
+        for (int i = 0; i <= 23; i++) {
+            Carte_Innondation carteinnond = new Carte_Innondation(Iles.values()[i]);
+            if ((this.getTuile(carteinnond.getNomIle())).getEtat() != Utils.EtatTuile.COULEE) {
+                paquetInnond.add(carteinnond);
+            }
+        }
+
         Collections.shuffle(paquetInnond);
         return paquetInnond;
 
