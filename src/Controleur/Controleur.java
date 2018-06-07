@@ -42,14 +42,6 @@ public class Controleur implements Observateur {
         return joueurs.size();
     }
 
-    private Aventurier getAvCourant() {
-        return null;
-    }
-
-    private Tuile TuileSelectionnee() {
-        return null;
-    }
-
     private void addAventurier(Aventurier av) {
         joueurs.add(av);
     }
@@ -232,15 +224,17 @@ public class Controleur implements Observateur {
     }
 
     private void premiereInondations() {
+        /*
         for (int i = 1; i <= 6; i++) {
             int nbCartesPaquet = G.getPaquetCInnond().size();
             if (nbCartesPaquet > 0) {
-                G.getPaquetCInnond().get(i).innondeTuile(G);
-                G.getPaquetCInnond().remove(i);
+                G.getPaquetCInnond().get(0).innondeTuile(G);
+                G.getPaquetCInnond().remove(0);
             } else {
                 G.initialiserPaquetInnond(G.getPaquetCInnond());
             }
         }
+*/
     }
 
     private void initialiserGrille() {
@@ -270,7 +264,7 @@ public class Controleur implements Observateur {
     }
 
     private void initialiserjeu() {
-
+        
         G = new Grille(1);
         initialiserGrille();
         creationJoueur();

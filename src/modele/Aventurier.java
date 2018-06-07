@@ -121,7 +121,7 @@ public abstract class Aventurier {
                 g.getPaquetCInnond().get(0).innondeTuile(g);
                 g.getPaquetCInnond().remove(0);
             } else {
-                g.initialiserPaquetInnond(g.getPaquetCInnond());
+                g.nouveauPaquetInnond(g.getPaquetCInnond());
             }
         }
     }
