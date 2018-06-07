@@ -108,11 +108,12 @@ public class Controleur implements Observateur {
 
         AvCourant.tirerCartesTresors(G);
         AvCourant.tirerCarteInnondation(G);
-        System.out.println(G.getNiveauEau());
+        
         jeu.maj();
         jeu.afficherCartes(AvCourant);
         //jeu.choisirCarteDefausse(AvCourant);
-
+        
+        
         //System.out.println("NIVEAU EAU = " + G.getNiveauEau());
         int ind = joueurs.indexOf(AvCourant);
         //System.out.println(ind);
@@ -224,6 +225,8 @@ public class Controleur implements Observateur {
     }
 
     private void premiereInondations() {
+        
+        
         /*
         for (int i = 1; i <= 6; i++) {
             int nbCartesPaquet = G.getPaquetCInnond().size();

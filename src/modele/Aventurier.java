@@ -101,7 +101,7 @@ public abstract class Aventurier {
                 if (g.getPaquetCTresor().get(0).getNom() == "monté des eaux") {
                     carteMonté.MonteEau(g);
                     g.getPaquetCTresor().remove(0);
-
+                    System.out.println("carte monté des eaux tiré");
                 } else {
                     cartes.add(g.getPaquetCTresor().get(0));
                     g.getPaquetCTresor().remove(0);
