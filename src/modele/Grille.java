@@ -29,7 +29,7 @@ public class Grille {
         paquetCInnond = new ArrayList<>();
         paquetCTresor = initialiserPaquetTresor(paquetCTresor);
         initialiserPaquetInnond(paquetCInnond);
-
+       
     }
 
     public ArrayList<CarteTresor> getPaquetCTresor() {
@@ -87,6 +87,7 @@ public class Grille {
                 paquetTresor.add(new C_tresor(i));
             }
         }
+        System.out.println(paquetTresor.get(7));
         Collections.shuffle(paquetTresor);
         return paquetTresor;
     }

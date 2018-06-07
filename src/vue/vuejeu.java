@@ -108,7 +108,7 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonsactions.add(findetour);
         lesboutonsactions.add(deplacer);
         lesboutonsactions.add(assecher);
-        lesboutonsactions.add(findetour);
+        lesboutonsactions.add(rienfaire);
 
         int compteur = 0;
 

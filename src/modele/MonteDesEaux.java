@@ -10,13 +10,11 @@ package modele;
  * @author geitnert
  */
 public class MonteDesEaux extends CarteTresor {
-
-    private Grille g;
-
     public MonteDesEaux() {
+        super.setNom("monté des eaux");
     }
-
-    public void MonteeEaux() {
+   
+    public void MonteeEaux(Grille g) {
         g.setNiveauEau(g.getNiveauEau()+ 1);
     }
 }

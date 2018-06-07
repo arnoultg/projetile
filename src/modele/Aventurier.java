@@ -20,7 +20,6 @@ public abstract class Aventurier {
     private Tuile pos;
     private ArrayList<CarteTresor> cartes;
 
-
     public Aventurier(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         this.nomRole = nomRole;
         this.nomjoueur = nomjoueur;
@@ -48,17 +47,15 @@ public abstract class Aventurier {
         return cartes;
     }
 
-
-
     public ArrayList<Tuile> dispoAssecher(Grille g) {
         ArrayList<Tuile> liste = new ArrayList();
         ArrayList<Tuile> liste2 = new ArrayList();
         int x = pos.getX();
         int y = pos.getY();
         Tuile[][] grille = g.getGrilleTuile();
-        
-        for (Tuile tuile : tuilesAutour(liste, x, y, grille)){
-            if (tuile.getEtat() != Utils.EtatTuile.ASSECHEE){
+
+        for (Tuile tuile : tuilesAutour(liste, x, y, grille)) {
+            if (tuile.getEtat() != Utils.EtatTuile.ASSECHEE) {
                 liste2.add(tuile);
             }
         }
@@ -99,18 +96,18 @@ public abstract class Aventurier {
         for (int i = 1; i <= 2; i++) {
             int nbCartesPaquet = g.getPaquetCTresor().size();
             if (nbCartesPaquet > 0) {
-                 cartes.add(g.getPaquetCTresor().get(i));
+                cartes.add(g.getPaquetCTresor().get(i));
+                
                 g.getPaquetCTresor().remove(i);
             } else {
                 g.initialiserPaquetTresor(g.getPaquetCTresor());
                 i--;
             }
-            
+
         }
 
     }
-    
-    
+
     public void tirerCarteInnondation(Grille g) {
         for (int i = 1; i <= g.getNiveauEau(); i++) {
             int nbCartesPaquet = g.getPaquetCInnond().size();
@@ -125,6 +122,5 @@ public abstract class Aventurier {
 
     public void defausserCarte(int c) {
         cartes.remove(c);
-        }
     }
-
+}
