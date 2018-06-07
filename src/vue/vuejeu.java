@@ -43,7 +43,7 @@ import util.Utils.Pion;
 public class vuejeu extends JPanel implements Observe {
 
     private JFrame frame;
-    private ArrayList<JButton> lesbouttonstuilles;
+    private ArrayList<JButton> lesbouttonstuiles;
     private ArrayList<JButton> lesboutonsactions;
     private ArrayList<CarteTresor> cartes;
     private Observateur observateur;
@@ -68,7 +68,7 @@ public class vuejeu extends JPanel implements Observe {
         setDoubleBuffered(true);
 
 //initialisation 
-        lesbouttonstuilles = new ArrayList<>();
+        lesbouttonstuiles = new ArrayList<>();
         lesboutonsactions = new ArrayList<>();
         pionsjoueur = new ArrayList<>();
         cartes = new ArrayList<>();
@@ -83,7 +83,7 @@ public class vuejeu extends JPanel implements Observe {
         JPanel PMillieu = new JPanel(new BorderLayout());
         JPanel PBas = new JPanel(new BorderLayout());
 
-        //panelgrille.set;
+//panelgrille.set;
         frame.add(mainPanel);
         mainPanel.add(panelgrille);
         mainPanel.add(paneldroite);
@@ -113,11 +113,11 @@ public class vuejeu extends JPanel implements Observe {
         int compteur = 0;
 
         for (int i = 0; i < 36; i++) {
-            //if ((i < 3) || (i > 4 && i < 8) || (i == 12) || (i == 25) || (i > 29 && i < 33) || (i > 34)) {
+            
             if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
                 JPanel blanc = new JPanel();
                 panelgrille.add(blanc);
-                lesbouttonstuilles.add(null);
+                lesbouttonstuiles.add(null);
             } else {
 
                 panelgrille.add(getCellule(compteur));
@@ -129,34 +129,36 @@ public class vuejeu extends JPanel implements Observe {
 
         initAcPerform();
     }
+    
+    
 
     private JButton getCellule(int compteur) {
 
         Tuile t = g.getTuile(Iles.values()[compteur]);
-        JButton bouton = new JButton(t.getNom().toString());
+        JButton bouton = new JButton(t.getNom().toString()); // créé un bouton pour la tuille
         bouton.setBackground(t.getCouleur());
 
-        lesbouttonstuilles.add(bouton);
+        lesbouttonstuiles.add(bouton); 
         return bouton;
     }
 
     public void creationPion(ArrayList<Aventurier> aventuriers) {
         for (Aventurier av : aventuriers) {
-            pionD pion = new pionD(20, 20, 10, av.getNomRole().getCouleur(), av);
+            pionD pion = new pionD(20, 20, 10, av.getNomRole().getCouleur(), av); // crée un pionD pour chaque aventurer du jeu
             pionsjoueur.add(pion);
-            this.afficherPion();
+            this.afficherPion(); // affiche le Pion
         }
     }
 
     public void afficherPion() {
         for (pionD pion : pionsjoueur) {
-            lesbouttonstuilles.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion);
-            repaint();
+            lesbouttonstuiles.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion); //recupere le bouton sur le quel le pion doit etre afficher
+            repaint(); //appelle PaintComponent
 
         }
     }
 
-    public void afficher() {
+    public void afficher() {  // affiche la fenetre
         frame.setVisible(
                 true);
     }
@@ -171,10 +173,10 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    public void initAcPerform() {
-        for (JButton i : lesbouttonstuilles) {
+    public void initAcPerform() {  //créé toute les action pour les boutons
+        for (JButton i : lesbouttonstuiles) { //les boutons des tuiles
             if (i != null) {
-                int ind = lesbouttonstuilles.indexOf(i);
+                int ind = lesbouttonstuiles.indexOf(i);
                 i.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -186,7 +188,7 @@ public class vuejeu extends JPanel implements Observe {
             }
         }
         for (JButton i : lesboutonsactions) {
-            i.addActionListener(new ActionListener() {
+            i.addActionListener(new ActionListener() { //les boutons des actions
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Message m = new Message(TypesMessage.CLIC_ACTION);
@@ -197,7 +199,7 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    public void afficherCartes(Aventurier a) {
+    public void afficherCartes(Aventurier a) { //affiche les cartes de l'aventurier dans la console
         cartes = a.getCartes();
         for (int i = 0; i < cartes.size(); i++) {
             System.out.print(i + 1 +" : ");
@@ -205,7 +207,7 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    public void choisirCarteDefausse(Aventurier a) {
+    public void choisirCarteDefausse(Aventurier a) { //l'utilisateur choisie les cartes qu'il doit defausser
         cartes = a.getCartes();
         for (int i = a.getNbCartes(); i > 5; i--) {
             if (a.getNbCartes() == 6) {
@@ -220,19 +222,19 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    public void selecTuile(ArrayList<Tuile> liste, Color coul) {
+    public void selecTuile(ArrayList<Tuile> liste, Color coul) { //permet de mettre en rouge les tuiles disponible a assecher ou pour se deplacer
         for (Tuile t : liste) {
             if (coul != Color.RED) {
                 coul = t.getCouleur();
             }
             int placetuilleihm = t.getX() * 6 + t.getY();
-            lesbouttonstuilles.get(placetuilleihm).setBackground(coul);
-            //Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
+            lesbouttonstuiles.get(placetuilleihm).setBackground(coul);
+            //Casesaccessible.put(lesbouttonstuiles.get(placetuilleihm), t);
             //System.out.println(Casesaccessible.size());
         }
     }
 
-    public void afficherNomJoueur(Aventurier av) {
+    public void afficherNomJoueur(Aventurier av) { //affiche a l'ecran le nom du joueur et sa fonction
         if (av.getNomRole() == Utils.Pion.BLEU) {
             miseAJourNom(Joueur2, "pilote");
             miseAJourNom(nom, av.getNomjoueur());
@@ -254,19 +256,19 @@ public class vuejeu extends JPanel implements Observe {
         }
     }
 
-    private void miseAJourNom(JLabel label, String str) {
+    private void miseAJourNom(JLabel label, String str) { //met a jour le nom sur le label
         label.setText(str);
     }
 
-    public void MiseaJourTuile(Tuile t) {
+    public void MiseaJourTuile(Tuile t) { //permet de remettre la case en marron apres l'action assecher
         int placetuilleihm = t.getX() * 6 + t.getY();
-        lesbouttonstuilles.get(placetuilleihm).setBackground(t.getCouleur());
+        lesbouttonstuiles.get(placetuilleihm).setBackground(t.getCouleur());
     }
 
-    public void maj() {
-        for (JButton b : lesbouttonstuilles) {
+    public void maj() { //permet de remettre toute les cases de leurs couleurs
+        for (JButton b : lesbouttonstuiles) {
             if (b != null) {
-                b.setBackground(g.getGrilleTuile()[lesbouttonstuilles.indexOf(b) / 6][lesbouttonstuilles.indexOf(b) % 6].getCouleur());
+                b.setBackground(g.getGrilleTuile()[lesbouttonstuiles.indexOf(b) / 6][lesbouttonstuiles.indexOf(b) % 6].getCouleur());
             }
         }
     }
