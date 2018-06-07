@@ -14,9 +14,32 @@ import util.Utils;
  * @author geitnert
  */
 public class Plongeur extends Aventurier {
+    
+    ArrayList<Tuile> dejapasse = new ArrayList();
 
     public Plongeur(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         super(nomRole, nomjoueur, pos);
+    }
+
+    public ArrayList<Tuile> dispoAssecher(Grille g) {
+        ArrayList<Tuile> liste = new ArrayList();
+        int x = super.getPos().getX();
+        int y = super.getPos().getY();
+        Tuile[][] grille = g.getGrilleTuile();
+
+        if ((y != 0) && (grille[x][y - 1].getEtat() == Utils.EtatTuile.INONDEE) && !liste.contains(grille[x][y - 1])) {
+            liste.add(grille[x][y - 1]);
+        }
+        if ((x != 0) && (grille[x - 1][y].getEtat() == Utils.EtatTuile.INONDEE) && !liste.contains(grille[x - 1][y])) {
+            liste.add(grille[x - 1][y]);
+        }
+        if ((x != 5) && (grille[x + 1][y].getEtat() == Utils.EtatTuile.INONDEE) && !liste.contains(grille[x + 1][y])) {
+            liste.add(grille[x + 1][y]);
+        }
+        if ((y != 5) && (grille[x][y + 1].getEtat() == Utils.EtatTuile.INONDEE) && !liste.contains(grille[x][y + 1])) {
+            liste.add(grille[x][y + 1]);
+        }
+        return liste;
     }
 
     @Override
@@ -25,42 +48,60 @@ public class Plongeur extends Aventurier {
         if (liste.contains(super.getPos())) {
             liste.remove(super.getPos());
         }
-        Iterator<Tuile> iter = liste.iterator();
-        while (iter.hasNext()) {
-            if (iter.next().getEtat() == Utils.EtatTuile.COULEE) {
-                liste.remove(iter);
-            }
-        }
+        dejapasse.clear();
         return liste;
     }
 
     @Override
     public ArrayList<Tuile> tuilesAutour(ArrayList<Tuile> liste, int x, int y, Tuile[][] grille) {
 
-        if ((y != 0) && (grille[x][y - 1].getNom() != null) && !liste.contains(grille[x][y - 1])) {
-            liste.add(grille[x][y - 1]);
-            if ((grille[x][y - 1].getEtat() == Utils.EtatTuile.COULEE) || (grille[x][y - 1].getEtat() == Utils.EtatTuile.INONDEE)) {
-                liste = tuilesAutour(liste, grille[x][y - 1].getX(), grille[x][y - 1].getY(), grille);
+        Tuile t1 = (y !=0 ? grille[x][y - 1] : null);
+        Tuile t2 = (x !=0 ? grille[x - 1][y] : null);
+        Tuile t3 = (x !=5 ? grille[x + 1][y] : null);
+        Tuile t4 = (y !=5 ? grille[x][y + 1] : null);
+        
+        
+        if ((y != 0) && (!liste.contains(t1)) && (t1.getNom() != null)) {
+            if (t1.getEtat() != Utils.EtatTuile.COULEE) {
+                liste.add(t1);
+            }
+            if ((t1.getEtat() != Utils.EtatTuile.ASSECHEE) && !dejapasse.contains(t1)) {
+                dejapasse.add(t1);
+                liste = tuilesAutour(liste, t1.getX(), t1.getY(), grille);
             }
         }
-        if ((x != 0) && (grille[x - 1][y].getNom() != null) && !liste.contains(grille[x - 1][y])) {
-            liste.add(grille[x - 1][y]);
-            if ((grille[x - 1][y].getEtat() == Utils.EtatTuile.COULEE) || (grille[x - 1][y].getEtat() == Utils.EtatTuile.INONDEE)) {
-                liste = tuilesAutour(liste, grille[x - 1][y].getX(), grille[x - 1][y].getY(), grille);
+
+        if ((x != 0) && (!liste.contains(t2)) && (t2.getNom() != null)) {
+            if (t2.getEtat() != Utils.EtatTuile.COULEE) {
+                liste.add(t2);
+            }
+            if ((t2.getEtat() != Utils.EtatTuile.ASSECHEE) && !dejapasse.contains(t2)){
+                dejapasse.add(t2);
+                liste = tuilesAutour(liste, t2.getX(), t2.getY(), grille);
             }
         }
-        if ((x != 5) && (grille[x + 1][y].getNom() != null) && !liste.contains(grille[x + 1][y])) {
-            liste.add(grille[x + 1][y]);
-            if ((grille[x + 1][y].getEtat() == Utils.EtatTuile.COULEE) || (grille[x + 1][y].getEtat() == Utils.EtatTuile.INONDEE)) {
-                liste = tuilesAutour(liste, grille[x + 1][y].getX(), grille[x + 1][y].getY(), grille);
+
+        if ((x != 5) && (!liste.contains(t3)) && (t3.getNom() != null)) {
+            if (t3.getEtat() != Utils.EtatTuile.COULEE) {
+                liste.add(t3);
+            }
+            if ((t3.getEtat() != Utils.EtatTuile.ASSECHEE) && !dejapasse.contains(t3)){
+                dejapasse.add(t3);
+                liste = tuilesAutour(liste, t3.getX(), t3.getY(), grille);
             }
         }
-        if ((y != 5) && (grille[x][y + 1].getNom() != null) && !liste.contains(grille[x][y + 1])) {
-            liste.add(grille[x][y + 1]);
-            if ((grille[x][y + 1].getEtat() == Utils.EtatTuile.COULEE) || (grille[x][y + 1].getEtat() == Utils.EtatTuile.INONDEE)) {
-                liste = tuilesAutour(liste, grille[x][y + 1].getX(), grille[x][y + 1].getY(), grille);
+
+        if ((y != 5) && (!liste.contains(t4)) && (t4.getNom() != null)) {
+            if (t4.getEtat() != Utils.EtatTuile.COULEE) {
+                liste.add(t4);
+            }
+            if ((t4.getEtat() != Utils.EtatTuile.ASSECHEE) && !dejapasse.contains(t4)){
+                dejapasse.add(t4);
+                liste = tuilesAutour(liste, t4.getX(), t4.getY(), grille);
             }
         }
+        
+
         return liste;
     }
 
