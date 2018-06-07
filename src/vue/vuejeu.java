@@ -108,7 +108,7 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonsactions.add(findetour);
         lesboutonsactions.add(deplacer);
         lesboutonsactions.add(assecher);
-        lesboutonsactions.add(findetour);
+        lesboutonsactions.add(rienfaire);
 
         int compteur = 0;
 
@@ -255,8 +255,15 @@ public class vuejeu extends JPanel implements Observe {
         label.setText(str);
     }
     
-    public void MiseaJourassechage(Tuile t){
+    public void MiseaJourTuile(Tuile t){
         int placetuilleihm = t.getX() * 6 + t.getY();
             lesbouttonstuilles.get(placetuilleihm).setBackground(t.getCouleur());
+    }
+    public void maj(){
+        for (JButton b : lesbouttonstuilles) {
+            if (b != null){
+                b.setBackground(g.getGrilleTuile()[lesbouttonstuilles.indexOf(b)/6][lesbouttonstuilles.indexOf(b)%6].getCouleur());
+            }
+        }
     }
 }

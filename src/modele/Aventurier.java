@@ -96,11 +96,11 @@ public abstract class Aventurier {
     }
 
     public void tirerCartesTresors(Grille g) {
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 0; i < 2; i++) {
             int nbCartesPaquet = g.getPaquetCTresor().size();
             if (nbCartesPaquet > 0) {
-                 cartes.add(g.getPaquetCTresor().get(i));
-                g.getPaquetCTresor().remove(i);
+                cartes.add(g.getPaquetCTresor().get(0));
+                g.getPaquetCTresor().remove(0);
             } else {
                 g.initialiserPaquetTresor(g.getPaquetCTresor());
                 i--;
@@ -112,11 +112,11 @@ public abstract class Aventurier {
     
     
     public void tirerCarteInnondation(Grille g) {
-        for (int i = 1; i <= g.getNiveauEau(); i++) {
+        for (int i = 0; i < g.getNiveauEau(); i++) {
             int nbCartesPaquet = g.getPaquetCInnond().size();
             if (nbCartesPaquet > 0) {
-                g.getPaquetCInnond().get(i).innondeTuile(g);
-                g.getPaquetCInnond().remove(i);
+                g.getPaquetCInnond().get(0).innondeTuile(g);
+                g.getPaquetCInnond().remove(0);
             } else {
                 g.initialiserPaquetInnond(g.getPaquetCInnond());
             }

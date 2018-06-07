@@ -38,25 +38,25 @@ public class Plongeur extends Aventurier {
         if ((y != 0) && (grille[x][y - 1].getNom() != null) && !liste.contains(grille[x][y - 1])) {
             liste.add(grille[x][y - 1]);
             if ((grille[x][y - 1].getEtat() == Utils.EtatTuile.COULEE) || (grille[x][y - 1].getEtat() == Utils.EtatTuile.INONDEE)){
-                liste = tuilesAutour(liste,x,y,grille);
+                liste = tuilesAutour(liste,grille[x][y - 1].getX(),grille[x][y - 1].getY(),grille);
             }
         }
         if ((x != 0) && (grille[x-1][y].getNom() != null) && !liste.contains(grille[x-1][y])) {
             liste.add(grille[x-1][y]);
             if ((grille[x-1][y].getEtat() == Utils.EtatTuile.COULEE) || (grille[x-1][y].getEtat() == Utils.EtatTuile.INONDEE)){
-                liste = tuilesAutour(liste,x,y,grille);
+                liste = tuilesAutour(liste,grille[x-1][y].getX(),grille[x-1][y].getY(),grille);
             }
         }
         if ((x != 5) && (grille[x+1][y].getNom() != null) && !liste.contains(grille[x+1][y])) {
             liste.add(grille[x+1][y]);
             if ((grille[x+1][y].getEtat() == Utils.EtatTuile.COULEE) || (grille[x+1][y].getEtat() == Utils.EtatTuile.INONDEE)){
-                liste = tuilesAutour(liste,x,y,grille);
+                liste = tuilesAutour(liste,grille[x+1][y].getX(),grille[x+1][y].getY(),grille);
             }
         }
         if ((y != 5) && (grille[x][y + 1].getNom() != null) && !liste.contains(grille[x][y + 1])) {
             liste.add(grille[x][y + 1]);
             if ((grille[x][y + 1].getEtat() == Utils.EtatTuile.COULEE) || (grille[x][y + 1].getEtat() == Utils.EtatTuile.INONDEE)){
-                liste = tuilesAutour(liste,x,y,grille);
+                liste = tuilesAutour(liste,grille[x][y + 1].getX(),grille[x][y + 1].getY(),grille);
             }
         }
             return liste;
