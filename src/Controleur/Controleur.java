@@ -88,7 +88,6 @@ public class Controleur implements Observateur {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
                     this.deplacerJoueur(m.getTuile());
                     action = null;
-                    nbActions -= 1;
                 }
 
             } else if (action == "assecher") {
@@ -113,9 +112,9 @@ public class Controleur implements Observateur {
         System.out.println(G.getNiveauEau());
         jeu.maj();
         jeu.afficherCartes(AvCourant);
-        jeu.choisirCarteDefausse(AvCourant);
+        //jeu.choisirCarteDefausse(AvCourant);
 
-        System.out.println("NIVEAU EAU = " + G.getNiveauEau());
+        //System.out.println("NIVEAU EAU = " + G.getNiveauEau());
         int ind = joueurs.indexOf(AvCourant);
         //System.out.println(ind);
         //System.out.println(joueurs.size()-1);
