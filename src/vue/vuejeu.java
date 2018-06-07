@@ -229,9 +229,7 @@ public class vuejeu extends JPanel implements Observe {
             lesbouttonstuilles.get(placetuilleihm).setBackground(coul);
             //Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
             //System.out.println(Casesaccessible.size());
-
         }
-
     }
 
     public void afficherNomJoueur(Aventurier av) {
