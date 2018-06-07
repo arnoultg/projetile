@@ -93,12 +93,13 @@ public class Controleur implements Observateur {
 
             } else if (action == "assecher") {
                 //System.out.println(m.getTuile().getNom() + "a ete asseché");
-                
+                if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                 this.assechercase(m.getTuile());
                 
                 action = null;
                 nbActions -= 1;
+                }
             }
 
         }
@@ -110,7 +111,8 @@ public class Controleur implements Observateur {
         AvCourant.tirerCartesTresors(G);
         AvCourant.tirerCarteInnondation(G);
         jeu.maj();
-        //jeu.choisirCarteDefausse(AvCourant);
+        jeu.afficherCartes(AvCourant);
+        jeu.choisirCarteDefausse(AvCourant);
         
         System.out.println(G.getNiveauEau());
         int ind = joueurs.indexOf(AvCourant);
