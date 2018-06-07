@@ -63,8 +63,9 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
             }
 
-            action = (action == m.getAction() ? null : m.getAction());
-            System.out.println(action);
+            //if ((action == m.getAction())&& (nbActions > 0)){
+            action = (((action == m.getAction())|| (nbActions == 0)) ? null : m.getAction());
+            // System.out.println(action);
             if ((action == "deplacer") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
             } else if ((action == "assecher") && (nbActions > 0)) {
@@ -87,8 +88,8 @@ public class Controleur implements Observateur {
                 //System.out.println(m.getTuile().getNom() + "a ete asseché");
                 if (AvCourant.dispoAssecher(G).contains(m.getTuile())) {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
-                    this.assechercase(m.getTuile());
                     action = null;
+                    this.assechercase(m.getTuile());
                 }
             }
 
@@ -132,7 +133,7 @@ public class Controleur implements Observateur {
         if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {
             ((Pilote) AvCourant).setPouvoir(true);
         }
-        if (AvCourant.getNomRole() == Utils.Pion.ROUGE){
+        if ((AvCourant.getNomRole() == Utils.Pion.ROUGE) && ((Ingenieur) AvCourant).isPouvoirEnCours()){
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
     }
