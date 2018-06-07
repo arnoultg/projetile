@@ -116,13 +116,15 @@ public class Controleur implements Observateur {
 
         AvCourant.tirerCartesTresors(G);
         AvCourant.tirerCarteInnondation(G);
-        jeu.maj();
-        jeu.choisirCarteDefausse(AvCourant);
-
         System.out.println(G.getNiveauEau());
+        jeu.maj();
+        jeu.afficherCartes(AvCourant);
+        //jeu.choisirCarteDefausse(AvCourant);
+
+        //System.out.println("NIVEAU EAU = " + G.getNiveauEau());
         int ind = joueurs.indexOf(AvCourant);
-        System.out.println(ind);
-        System.out.println(joueurs.size() - 1);
+        //System.out.println(ind);
+        //System.out.println(joueurs.size()-1);
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         //System.out.println(AvCourant.getNomjoueur());

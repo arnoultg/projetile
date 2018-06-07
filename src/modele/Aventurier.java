@@ -8,6 +8,7 @@ package modele;
 import Enums.Iles;
 import java.util.ArrayList;
 import util.Utils;
+import modele.MonteDesEaux;
 
 /**
  *
@@ -95,16 +96,22 @@ public abstract class Aventurier {
     public void tirerCartesTresors(Grille g) {
         for (int i = 0; i < 2; i++) {
             int nbCartesPaquet = g.getPaquetCTresor().size();
+            MonteDesEaux carteMonté = new MonteDesEaux();
             if (nbCartesPaquet > 0) {
-                cartes.add(g.getPaquetCTresor().get(0));
-                g.getPaquetCTresor().remove(0);
+                if (g.getPaquetCTresor().get(0).getNom() == "monté des eaux") {
+                    carteMonté.MonteEau(g);
+                    g.getPaquetCTresor().remove(0);
+
+                } else {
+                    cartes.add(g.getPaquetCTresor().get(0));
+                    g.getPaquetCTresor().remove(0);
+                }
+
             } else {
                 g.initialiserPaquetTresor(g.getPaquetCTresor());
                 i--;
             }
-
         }
-
     }
 
     public void tirerCarteInnondation(Grille g) {

@@ -200,6 +200,7 @@ public class vuejeu extends JPanel implements Observe {
     public void afficherCartes(Aventurier a) {
         cartes = a.getCartes();
         for (int i = 0; i < cartes.size(); i++) {
+            System.out.print(i + 1 +" : ");
             System.out.println(cartes.get(i).getNom());
         }
     }
@@ -207,7 +208,11 @@ public class vuejeu extends JPanel implements Observe {
     public void choisirCarteDefausse(Aventurier a) {
         cartes = a.getCartes();
         for (int i = a.getNbCartes(); i > 5; i--) {
-            System.out.println("Carte a déf (1/2/3/4/5/6/7) : ");
+            if (a.getNbCartes() == 6) {
+                System.out.println("Carte a défausser (1/2/3/4/5/6) : ");
+            } else {
+                System.out.println("Carte a défausser (1/2/3/4/5/6/7) : ");
+            }
             Scanner entree = new Scanner(System.in);
             int carteSelectionnee = entree.nextInt();
             a.defausserCarte(carteSelectionnee - 1);
@@ -224,9 +229,7 @@ public class vuejeu extends JPanel implements Observe {
             lesbouttonstuilles.get(placetuilleihm).setBackground(coul);
             //Casesaccessible.put(lesbouttonstuilles.get(placetuilleihm), t);
             //System.out.println(Casesaccessible.size());
-
         }
-
     }
 
     public void afficherNomJoueur(Aventurier av) {
@@ -254,15 +257,16 @@ public class vuejeu extends JPanel implements Observe {
     private void miseAJourNom(JLabel label, String str) {
         label.setText(str);
     }
-    
-    public void MiseaJourTuile(Tuile t){
+
+    public void MiseaJourTuile(Tuile t) {
         int placetuilleihm = t.getX() * 6 + t.getY();
-            lesbouttonstuilles.get(placetuilleihm).setBackground(t.getCouleur());
+        lesbouttonstuilles.get(placetuilleihm).setBackground(t.getCouleur());
     }
-    public void maj(){
+
+    public void maj() {
         for (JButton b : lesbouttonstuilles) {
-            if (b != null){
-                b.setBackground(g.getGrilleTuile()[lesbouttonstuilles.indexOf(b)/6][lesbouttonstuilles.indexOf(b)%6].getCouleur());
+            if (b != null) {
+                b.setBackground(g.getGrilleTuile()[lesbouttonstuilles.indexOf(b) / 6][lesbouttonstuilles.indexOf(b) % 6].getCouleur());
             }
         }
     }
