@@ -112,7 +112,7 @@ public class Controleur implements Observateur {
 
         jeu.maj();
         jeu.afficherCartes(AvCourant);
-        //jeu.choisirCarteDefausse(AvCourant);
+        jeu.choisirCarteDefausse(AvCourant);
 
         //System.out.println("NIVEAU EAU = " + G.getNiveauEau());
         int ind = joueurs.indexOf(AvCourant);

@@ -200,13 +200,14 @@ public class vuejeu extends JPanel implements Observe {
     public void afficherCartes(Aventurier a) {
         cartes = a.getCartes();
         for (int i = 0; i < cartes.size(); i++) {
-            System.out.print(i + 1 +" : ");
+            System.out.print(i + 1 + " : ");
             System.out.println(cartes.get(i).getNom());
         }
     }
 
     public void choisirCarteDefausse(Aventurier a) {
         cartes = a.getCartes();
+        int carteSelectionnee;
         for (int i = a.getNbCartes(); i > 5; i--) {
             if (a.getNbCartes() == 6) {
                 System.out.println("Carte a défausser (1/2/3/4/5/6) : ");
@@ -214,8 +215,13 @@ public class vuejeu extends JPanel implements Observe {
                 System.out.println("Carte a défausser (1/2/3/4/5/6/7) : ");
             }
             Scanner entree = new Scanner(System.in);
-            int carteSelectionnee = entree.nextInt();
-            a.defausserCarte(carteSelectionnee - 1);
+            carteSelectionnee = entree.nextInt();
+            if (carteSelectionnee >= 1 && ((a.getNbCartes() == 6 && carteSelectionnee <= 6) || (a.getNbCartes() == 7 && carteSelectionnee <= 7))) {
+                a.defausserCarte(carteSelectionnee - 1);
+            } else {
+                System.out.println("Selection érronée, réessayer");
+                i++;
+            }
             afficherCartes(a);
         }
     }
