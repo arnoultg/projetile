@@ -70,12 +70,12 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
             }
-            
+
             action = (action == m.getAction() ? null : m.getAction());
             System.out.println(action);
             if ((action == "deplacer") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
-            } else if ((action == "assecher") && (nbActions > 0)){
+            } else if ((action == "assecher") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
             } else if (m.getAction() == "Fin_de_tour") {
                 this.finTour();
@@ -93,14 +93,15 @@ public class Controleur implements Observateur {
 
             } else if (action == "assecher") {
                 //System.out.println(m.getTuile().getNom() + "a ete asseché");
-                
-                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
-                this.assechercase(m.getTuile());
-                
-                action = null;
-                
-            }
+                if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
+                    jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
+                    this.assechercase(m.getTuile());
 
+                    action = null;
+
+                }
+
+            }
         }
     }
 
@@ -111,13 +112,14 @@ public class Controleur implements Observateur {
         AvCourant.tirerCarteInnondation(G);
         System.out.println(G.getNiveauEau());
         jeu.maj();
-        //jeu.choisirCarteDefausse(AvCourant);
-        
+        jeu.afficherCartes(AvCourant);
+        jeu.choisirCarteDefausse(AvCourant);
+
         System.out.println("NIVEAU EAU = " + G.getNiveauEau());
         int ind = joueurs.indexOf(AvCourant);
         //System.out.println(ind);
         //System.out.println(joueurs.size()-1);
-        AvCourant = (ind == joueurs.size()-1 ? joueurs.get(0) : joueurs.get(ind + 1));
+        AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         //System.out.println(AvCourant.getNomjoueur());
     }
@@ -230,13 +232,13 @@ public class Controleur implements Observateur {
         AvCourant.setPos(tuile);
         tuile.addAventurier(AvCourant);
         jeu.afficherPion();
-        nbActions = nbActions -1;
+        nbActions = nbActions - 1;
     }
 
     private void assechercase(Tuile tuile) {
         tuile.asseche();
         jeu.MiseaJourTuile(tuile);
-        nbActions = nbActions -1;
+        nbActions = nbActions - 1;
     }
 
     private void enleverAvTuile() {
