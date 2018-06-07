@@ -96,7 +96,6 @@ public class Controleur implements Observateur {
                 
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                 this.assechercase(m.getTuile());
-                jeu.MiseaJourassechage(m.getTuile());
                 
                 action = null;
                 nbActions -= 1;
@@ -110,13 +109,14 @@ public class Controleur implements Observateur {
         nbActions = 3;
         AvCourant.tirerCartesTresors(G);
         AvCourant.tirerCarteInnondation(G);
-        System.out.println(AvCourant.getNbCartes());
-        jeu.afficherCartes(AvCourant);
-        jeu.choisirCarteDefausse(AvCourant);
+        jeu.maj();
+        //jeu.choisirCarteDefausse(AvCourant);
         
         System.out.println(G.getNiveauEau());
         int ind = joueurs.indexOf(AvCourant);
-        AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
+        System.out.println(ind);
+        System.out.println(joueurs.size()-1);
+        AvCourant = (ind == joueurs.size()-1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         //System.out.println(AvCourant.getNomjoueur());
     }
@@ -233,6 +233,7 @@ public class Controleur implements Observateur {
 
     private void assechercase(Tuile tuile) {
         tuile.asseche();
+        jeu.MiseaJourTuile(tuile);
     }
 
     private void enleverAvTuile() {
