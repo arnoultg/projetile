@@ -13,8 +13,19 @@ import util.Utils;
  */
 public class Ingenieur extends Aventurier {
 
+    private boolean pouvoirEnCours;
     public Ingenieur(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         super(nomRole, nomjoueur, pos);
     }
+
+    public boolean isPouvoirEnCours() {
+        return pouvoirEnCours;
+    }
+
+    public void setPouvoirEnCours(boolean pouvoir) {
+        this.pouvoirEnCours = pouvoir;
+    }
+    
+    
     
 }

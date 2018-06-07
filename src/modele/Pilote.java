@@ -13,6 +13,8 @@ import util.Utils;
  * @author geitnert
  */
 public class Pilote extends Aventurier {
+    
+    private boolean pouvoir;
 
     public Pilote(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         super(nomRole, nomjoueur, pos);
@@ -30,7 +32,22 @@ public class Pilote extends Aventurier {
             }
         }
         liste.remove(super.getPos());
-        return liste;
+        if (!this.isPouvoir()) {
+            return liste;
+        }else {
+            return super.tuilesAutour(new ArrayList(), super.getPos().getX(), super.getPos().getY(), g.getGrilleTuile());
+        }
+        
     }
+
+    public boolean isPouvoir() {
+        return pouvoir;
+    }
+
+    public void setPouvoir(boolean pouvoir) {
+        this.pouvoir = pouvoir;
+    }
+    
+    
     
 }

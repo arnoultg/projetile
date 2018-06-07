@@ -70,12 +70,12 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
             }
-            
+
             action = (action == m.getAction() ? null : m.getAction());
             System.out.println(action);
             if ((action == "deplacer") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
-            } else if ((action == "assecher") && (nbActions > 0)){
+            } else if ((action == "assecher") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
             } else if (m.getAction() == "Fin_de_tour") {
                 this.finTour();
@@ -88,17 +88,16 @@ public class Controleur implements Observateur {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
                     this.deplacerJoueur(m.getTuile());
                     action = null;
-                    nbActions -= 1;
+
                 }
 
             } else if (action == "assecher") {
                 //System.out.println(m.getTuile().getNom() + "a ete asseché");
-                
-                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
-                this.assechercase(m.getTuile());
-                
-                action = null;
-                nbActions -= 1;
+                if (AvCourant.dispoAssecher(G).contains(m.getTuile())) {
+                    jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
+                    this.assechercase(m.getTuile());
+                    action = null;
+                }
             }
 
         }
@@ -107,20 +106,59 @@ public class Controleur implements Observateur {
     public void finTour() {
         action = null;
         nbActions = 3;
+
+        if ((AvCourant.getNomRole() == Utils.Pion.ROUGE)) {
+            ((Ingenieur) AvCourant).setPouvoirEnCours(false);
+        }
+        if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {
+            ((Pilote) AvCourant).setPouvoir(false);
+        }
+
         AvCourant.tirerCartesTresors(G);
         AvCourant.tirerCarteInnondation(G);
         jeu.maj();
-        //jeu.choisirCarteDefausse(AvCourant);
-        
+        jeu.choisirCarteDefausse(AvCourant);
+
         System.out.println(G.getNiveauEau());
         int ind = joueurs.indexOf(AvCourant);
         System.out.println(ind);
-        System.out.println(joueurs.size()-1);
-        AvCourant = (ind == joueurs.size()-1 ? joueurs.get(0) : joueurs.get(ind + 1));
+        System.out.println(joueurs.size() - 1);
+        AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         //System.out.println(AvCourant.getNomjoueur());
     }
+    
+    private void deplacerJoueur(Tuile tuile) {
+        enleverAvTuile();
+        AvCourant.setPos(tuile);
+        tuile.addAventurier(AvCourant);
+        jeu.afficherPion();
+        nbActions -= 1;
+        
+        if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {
+            ((Pilote) AvCourant).setPouvoir(true);
+        }
+        if (AvCourant.getNomRole() == Utils.Pion.ROUGE){
+            ((Ingenieur) AvCourant).setPouvoirEnCours(false);
+        }
+    }
 
+    private void assechercase(Tuile tuile) {
+        tuile.asseche();
+        jeu.MiseaJourTuile(tuile);
+        nbActions -= 1;
+        if (AvCourant.getNomRole() == Utils.Pion.ROUGE){
+            if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
+                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
+                action = "assecher";
+                ((Ingenieur) AvCourant).setPouvoirEnCours(true);
+            }else {
+                ((Ingenieur) AvCourant).setPouvoirEnCours(false);
+                nbActions += 1;
+            }
+        }
+    }
+    
     private void creationJoueur() {
 
         System.out.println("Combien de joueurs voulez vous ?");
@@ -222,18 +260,6 @@ public class Controleur implements Observateur {
                 }
             }
         }
-    }
-
-    private void deplacerJoueur(Tuile tuile) {
-        enleverAvTuile();
-        AvCourant.setPos(tuile);
-        tuile.addAventurier(AvCourant);
-        jeu.afficherPion();
-    }
-
-    private void assechercase(Tuile tuile) {
-        tuile.asseche();
-        jeu.MiseaJourTuile(tuile);
     }
 
     private void enleverAvTuile() {
