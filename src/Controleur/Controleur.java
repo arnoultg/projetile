@@ -64,7 +64,7 @@ public class Controleur implements Observateur {
             }
 
             //if ((action == m.getAction())&& (nbActions > 0)){
-            action = (((action == m.getAction())|| (nbActions == 0)) ? null : m.getAction());
+            action = (((action == m.getAction()) || (nbActions == 0)) ? null : m.getAction());
             // System.out.println(action);
             if ((action == "deplacer") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
@@ -155,10 +155,22 @@ public class Controleur implements Observateur {
     }
 
     private void creationJoueur() {
-
-        System.out.println("Combien de joueurs voulez vous ?");
+        int nbJoueur = 0;
         Scanner entree = new Scanner(System.in);
-        int nbJoueur = entree.nextInt();
+        for (int i = 10; i >= 0; i--) {
+            System.out.println("Combien de joueurs voulez vous ?");
+            nbJoueur = entree.nextInt();
+            if (nbJoueur > 1 && nbJoueur < 5) {
+                i = i - 10;
+            } else {
+                if (i == 0) {
+                    System.out.println("C'est pas trés sympa");
+                } else {
+                    System.out.println(i + " essais restants");
+                    System.out.println("Mettez un nombre compris entre 2 et 4 :");
+                }
+            }
+        }
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
 
         for (int x = 0; x < Utils.Pion.values().length; x++) {
@@ -239,8 +251,6 @@ public class Controleur implements Observateur {
         G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
-        
-
 
         /*
         for (int i = 1; i <= 6; i++) {
