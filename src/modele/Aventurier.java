@@ -111,9 +111,7 @@ public abstract class Aventurier {
                 g.initialiserPaquetTresor(g.getPaquetCTresor());
                 i--;
             }
-
         }
-
     }
 
     public void tirerCarteInnondation(Grille g) {

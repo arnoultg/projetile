@@ -87,8 +87,8 @@ public class Grille {
                 paquetTresor.add(new C_tresor(i));
             }
         }
-        Collections.shuffle(paquetTresor);
-        return paquetTresor;
+            Collections.shuffle(paquetTresor);
+            return paquetTresor;
     }
 
     public void setPaquetCInnond(ArrayList<Carte_Innondation> paquetCInnond) {
