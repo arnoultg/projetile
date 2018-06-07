@@ -109,7 +109,7 @@ public class Controleur implements Observateur {
 
         AvCourant.tirerCartesTresors(G);
         AvCourant.tirerCarteInnondation(G);
-        System.out.println(G.getNiveauEau());
+
         jeu.maj();
         jeu.afficherCartes(AvCourant);
         //jeu.choisirCarteDefausse(AvCourant);
@@ -122,18 +122,18 @@ public class Controleur implements Observateur {
         jeu.afficherNomJoueur(AvCourant);
         //System.out.println(AvCourant.getNomjoueur());
     }
-    
+
     private void deplacerJoueur(Tuile tuile) {
         enleverAvTuile();
         AvCourant.setPos(tuile);
         tuile.addAventurier(AvCourant);
         jeu.afficherPion();
         nbActions -= 1;
-        
+
         if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {
             ((Pilote) AvCourant).setPouvoir(true);
         }
-        if ((AvCourant.getNomRole() == Utils.Pion.ROUGE) && ((Ingenieur) AvCourant).isPouvoirEnCours()){
+        if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
     }
@@ -142,18 +142,18 @@ public class Controleur implements Observateur {
         tuile.asseche();
         jeu.MiseaJourTuile(tuile);
         nbActions -= 1;
-        if (AvCourant.getNomRole() == Utils.Pion.ROUGE){
+        if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
             if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 action = "assecher";
                 ((Ingenieur) AvCourant).setPouvoirEnCours(true);
-            }else {
+            } else {
                 ((Ingenieur) AvCourant).setPouvoirEnCours(false);
                 nbActions += 1;
             }
         }
     }
-    
+
     private void creationJoueur() {
 
         System.out.println("Combien de joueurs voulez vous ?");
@@ -225,6 +225,23 @@ public class Controleur implements Observateur {
     }
 
     private void premiereInondations() {
+
+        G.getTuile(Iles.LA_PORTE_DE_BRONZE).innonde();
+        G.getTuile(Iles.OBSERVATOIRE).innonde();
+        G.getTuile(Iles.LA_CAVERNE_DU_BRASIER).innonde();
+        G.getTuile(Iles.LE_LAGON_PERDU).innonde();
+        G.getTuile(Iles.LE_JARDIN_DES_MURMURES).innonde();
+        G.getTuile(Iles.LES_DUNES_DE_L_ILLUSION).innonde();
+        G.getTuile(Iles.LES_DUNES_DE_L_ILLUSION).innonde();
+        G.getTuile(Iles.LE_MARAIS_BRUMEUX).innonde();
+        G.getTuile(Iles.LE_MARAIS_BRUMEUX).innonde();
+        G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).innonde();
+        G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).innonde();
+        G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
+        G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
+        
+
+
         /*
         for (int i = 1; i <= 6; i++) {
             int nbCartesPaquet = G.getPaquetCInnond().size();
@@ -235,7 +252,7 @@ public class Controleur implements Observateur {
                 G.initialiserPaquetInnond(G.getPaquetCInnond());
             }
         }
-*/
+         */
     }
 
     private void initialiserGrille() {
@@ -265,7 +282,7 @@ public class Controleur implements Observateur {
     }
 
     private void initialiserjeu() {
-        
+
         G = new Grille(1);
         initialiserGrille();
         creationJoueur();

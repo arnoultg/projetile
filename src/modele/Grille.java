@@ -108,6 +108,7 @@ public class Grille {
     }
 
     public ArrayList<Carte_Innondation> nouveauPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {
+        paquetInnond.clear();
         for (int i = 0; i <= 23; i++) {
             Carte_Innondation carteinnond = new Carte_Innondation(Iles.values()[i]);
             if ((this.getTuile(carteinnond.getNomIle())).getEtat() != Utils.EtatTuile.COULEE) {
