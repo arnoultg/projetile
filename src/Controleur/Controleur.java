@@ -77,7 +77,6 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
             if (action == "deplacer") {
                 if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
-                    //System.out.println(m.getTuile().getNom() + "est la destination");
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
                     this.deplacerJoueur(m.getTuile());
                     action = null;
@@ -85,7 +84,6 @@ public class Controleur implements Observateur {
                 }
 
             } else if (action == "assecher") {
-                //System.out.println(m.getTuile().getNom() + "a ete asseché");
                 if (AvCourant.dispoAssecher(G).contains(m.getTuile())) {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                     action = null;
@@ -96,54 +94,50 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void finTour() {
+    public void finTour() { 
         action = null;
         nbActions = 3;
 
-        if ((AvCourant.getNomRole() == Utils.Pion.ROUGE)) {
+        if ((AvCourant.getNomRole() == Utils.Pion.ROUGE)) { //réinitialisation des pouvoirs du pilote et de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
         if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {
             ((Pilote) AvCourant).setPouvoir(false);
         }
 
-        AvCourant.tirerCartesTresors(G);
+        AvCourant.tirerCartesTresors(G);    //pioche des catres trésors et innondations
         AvCourant.tirerCarteInnondation(G);
-
         jeu.maj();
-        jeu.afficherCartes(AvCourant);
+        
+        jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
         jeu.choisirCarteDefausse(AvCourant);
 
-        //System.out.println("NIVEAU EAU = " + G.getNiveauEau());
-        int ind = joueurs.indexOf(AvCourant);
-        //System.out.println(ind);
-        //System.out.println(joueurs.size()-1);
+        int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
-        //System.out.println(AvCourant.getNomjoueur());
     }
 
     private void deplacerJoueur(Tuile tuile) {
-        enleverAvTuile();
+        enleverAvTuile();   //déplace le joueur sur la tuile séléctionnée
         AvCourant.setPos(tuile);
         tuile.addAventurier(AvCourant);
         jeu.afficherPion();
         nbActions -= 1;
 
-        if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {
+        if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {  //active le pouvoir du pilote
             ((Pilote) AvCourant).setPouvoir(true);
         }
-        if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
+        if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {  //désactive le pouvoir de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
     }
 
     private void assechercase(Tuile tuile) {
-        tuile.asseche();
+        tuile.asseche();    //asseche la tuile séléctionnée
         jeu.MiseaJourTuile(tuile);
         nbActions -= 1;
         if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
-            if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
+            if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {  
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 action = "assecher";
                 ((Ingenieur) AvCourant).setPouvoirEnCours(true);
@@ -274,10 +268,8 @@ public class Controleur implements Observateur {
             for (int y = 0; y < 6; y++) {
                 if (((y != 2 && y != 3) && (x == 0 || x == 5)) || ((x == 1 || x == 4) && (y == 0 || y == 5))) {
                     G.setTuile(x, y, new Tuile(null, Utils.EtatTuile.COULEE, x, y));
-                    //System.out.println(x + " " + y);
                 } else {
                     G.setTuile(x, y, new Tuile(liste[ind], Utils.EtatTuile.ASSECHEE, x, y));
-                    //System.out.println(ind);
 
                     ind++;
 
@@ -310,8 +302,6 @@ public class Controleur implements Observateur {
         Controleur C = new Controleur();
         C.initialiserjeu();
 
-        //jeu.afficherCartes(C.getJoueurs().get(0));
-        //jeu.choisirCarteDefausse(C.getJoueurs().get(0));
     }
 
 }
