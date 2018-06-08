@@ -72,22 +72,22 @@ public class Grille {
         return grilleTuile;
     }
 
-    public ArrayList<CarteTresor> initialiserPaquetTresor(ArrayList<CarteTresor> paquetTresor) {
+    public ArrayList<CarteTresor> initialiserPaquetTresor(ArrayList<CarteTresor> paquetTresor) {    //crée le paquet de carte trésor
         for (int i = 1; i <= 3; i++) {
-            paquetTresor.add(new Helicoptere());
+            paquetTresor.add(new Helicoptere());    //3 Hélicopteres
         }
         for (int i = 1; i <= 2; i++) {
-            paquetTresor.add(new SacDeSable());
+            paquetTresor.add(new SacDeSable());     // 2 Sacs de sable
         }
         for (int i = 1; i <= 3; i++) {
-            paquetTresor.add(new MonteDesEaux());
+            paquetTresor.add(new MonteDesEaux());   //3 Montees des eaux
         }
         for (Tresor i : Tresor.values()) {
             for (int j = 1; j <= 5; j++) {
-                paquetTresor.add(new C_tresor(i));
+                paquetTresor.add(new C_tresor(i));  //5 trésors de chaques types
             }
         }
-            Collections.shuffle(paquetTresor);
+            Collections.shuffle(paquetTresor);  //paquet mélangé
             return paquetTresor;
     }
 
@@ -95,7 +95,7 @@ public class Grille {
         this.paquetCInnond = paquetCInnond;
     }
 
-    public ArrayList<Carte_Innondation> initialiserPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {
+    public ArrayList<Carte_Innondation> initialiserPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {    //crée le paquet de carte innondation (début de partie)
         for (int i = 0; i <= 23; i++) {
             Carte_Innondation carteinnond = new Carte_Innondation(Iles.values()[i]);
                 paquetInnond.add(carteinnond);
@@ -107,7 +107,7 @@ public class Grille {
 
     }
 
-    public ArrayList<Carte_Innondation> nouveauPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {
+    public ArrayList<Carte_Innondation> nouveauPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {    //crée un paquet de carte innondation sans les tuiles déjà coulée (milieu de partie)
         paquetInnond.clear();
         for (int i = 0; i <= 23; i++) {
             Carte_Innondation carteinnond = new Carte_Innondation(Iles.values()[i]);

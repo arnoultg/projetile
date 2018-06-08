@@ -157,7 +157,7 @@ public class Controleur implements Observateur {
     private void creationJoueur() {
         int nbJoueur = 0;
         Scanner entree = new Scanner(System.in);
-        for (int i = 10; i >= 0; i--) {
+        for (int i = 10; i >= 0; i--) { //demande le nombre de joueur, recommence si le nombre chosi n'est pas compris entre 2 et 4
             System.out.println("Combien de joueurs voulez vous ?");
             nbJoueur = entree.nextInt();
             if (nbJoueur > 1 && nbJoueur < 5) {

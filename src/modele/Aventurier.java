@@ -93,7 +93,7 @@ public abstract class Aventurier {
         return cartes.size();
     }
 
-    public void tirerCartesTresors(Grille g) {
+    public void tirerCartesTresors(Grille g) {  //donne deux cartes du paquet de cartes trésor au joueur, et les retire du paquet
         for (int i = 0; i < 2; i++) {
             int nbCartesPaquet = g.getPaquetCTresor().size();
             MonteDesEaux carteMonté = new MonteDesEaux();
@@ -108,13 +108,13 @@ public abstract class Aventurier {
                 }
 
             } else {
-                g.initialiserPaquetTresor(g.getPaquetCTresor());
+                g.initialiserPaquetTresor(g.getPaquetCTresor());    //si le paquet de cartes trésor est vide, il le recrée
                 i--;
             }
         }
     }
 
-    public void tirerCarteInnondation(Grille g) {
+    public void tirerCarteInnondation(Grille g) {   //pioche des cartes du paquet de cartes innondation, et les retire du paquet
         for (int i = 0; i < g.getNiveauEau(); i++) {
             int nbCartesPaquet = g.getPaquetCInnond().size();
             if (nbCartesPaquet > 0) {
