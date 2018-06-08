@@ -172,7 +172,7 @@ public class Controleur implements Observateur {
         }
         Collections.shuffle(lescouleurs);
 
-        for (int x = 0; x < nbJoueur; x++) {
+        for (int x = 0; x < nbJoueur; x++) {    //demande le nom de chaques joueurs
             System.out.println("joueur n°" + (x + 1));
             System.out.println("quel est votre nom ?");
             String nomjoueur = entree.next();
@@ -215,7 +215,7 @@ public class Controleur implements Observateur {
                 t.addAventurier(Joueur);
                 Joueur.tirerCartesTresors(G);
                 addAventurier(Joueur);
-                System.out.println("Vous etes le explorateur \n");
+                System.out.println("Vous etes l'explorateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ORANGE) {
                 Tuile t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
@@ -230,7 +230,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    private void premiereInondations() {
+    private void premiereInondations() {    //innondation de début de partie
 
         G.getTuile(Iles.LA_PORTE_DE_BRONZE).innonde();
         G.getTuile(Iles.OBSERVATOIRE).innonde();
@@ -245,7 +245,7 @@ public class Controleur implements Observateur {
         G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
-
+                                                //innondation aléatoire
         /*
         for (int i = 1; i <= 6; i++) {
             int nbCartesPaquet = G.getPaquetCInnond().size();
@@ -259,7 +259,7 @@ public class Controleur implements Observateur {
          */
     }
 
-    private void initialiserGrille() {
+    private void initialiserGrille() {  //place les tuiles sur la grille
 
         int ind = 0;
         Iles[] liste = Iles.values();
