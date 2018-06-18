@@ -252,7 +252,8 @@ public class vuejeu extends JPanel implements Observe {
         //cartes = a.getCartes();
         MiseaJourCartes(a);
         //int carteSelectionnee;
-        for (int i = a.getNbCartes(); i > 5; i--) { //demande à l'utilisateur de recommencer si il se trompe de numero de carte
+        int nbCartes = a.getNbCartes();
+        for (int i = nbCartes; i > 5; i--) { //demande à l'utilisateur de recommencer si il se trompe de numero de carte
             //if (a.getNbCartes() == 6) {
             for (int j = 0; j < a.getNbCartes(); j++) {
                 lesboutonscartes.get(j).setEnabled(true);
@@ -318,12 +319,18 @@ public class vuejeu extends JPanel implements Observe {
     }
 
     public void MiseaJourCartes(Aventurier av) {
+        int nbCartes = av.getNbCartes();
         for (int i = 0; i < 7; i++) {
-            if (i < av.getNbCartes()) {
+            if (i < nbCartes) {
                 lesboutonscartes.get(i).setText(av.getCartes().get(i).getNom());
+                if (nbCartes > 5) {
+                    lesboutonscartes.get(i).setEnabled(true);
+                } else {
+                    lesboutonscartes.get(i).setEnabled(false);
+                }
             } else {
                 lesboutonscartes.get(i).setText("");
-
+                lesboutonscartes.get(i).setEnabled(false);
             }
         }
 

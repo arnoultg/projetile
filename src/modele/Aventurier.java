@@ -99,8 +99,5 @@ public abstract class Aventurier {
     public int getNbCartes() {
         return cartes.size();
     }
-    
-    public void defausserCarte(int c) {
-        removeCarte(getCartes().get(c));
-    }
+
 }

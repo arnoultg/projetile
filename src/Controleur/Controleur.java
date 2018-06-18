@@ -94,7 +94,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.CLIC_CARTE) {
             if (AvCourant.getNbCartes() > 5) {
-                AvCourant.defausserCarte(m.getCarte());
+                defausserCarte(m.getCarte());
                 jeu.MiseaJourCartes(AvCourant);
             }
         }else if(m.getType() ==  TypesMessage.DEMARRER){
@@ -239,57 +239,43 @@ public class Controleur implements Observateur {
             //System.out.println("joueur n°" + (x + 1));
             //System.out.println("quel est votre nom ?");
             //String nomjoueur = entree.next();
-
+            Tuile t;
+            Aventurier Joueur;
             if (lescouleurs.get(x) == Utils.Pion.JAUNE) {
-                Tuile t = G.getTuile(Iles.LA_PORTE_D_OR);
-                Navigateur Joueur = new Navigateur(Utils.Pion.JAUNE, nomsJoueurs.get(x), t);
-                t.addAventurier(Joueur);
-                //tirerCartesTresors();
-                addAventurier(Joueur);
+                t = G.getTuile(Iles.LA_PORTE_D_OR);
+                Joueur = new Navigateur(Utils.Pion.JAUNE, nomsJoueurs.get(x), t);
                 System.out.println("Vous etes le navigateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VIOLET) {
-                Tuile t = G.getTuile(Iles.LA_PORTE_DE_FER);
-                Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomsJoueurs.get(x), t);
-                t.addAventurier(Joueur);
-                //tirerCartesTresors();
-                addAventurier(Joueur);
+                t = G.getTuile(Iles.LA_PORTE_DE_FER);
+                Joueur = new Plongeur(Utils.Pion.VIOLET, nomsJoueurs.get(x), t);
                 System.out.println("Vous etes le plongeur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.BLEU) {
-                Tuile t = G.getTuile(Iles.HELIPORT);
-                Pilote Joueur = new Pilote(Utils.Pion.BLEU, nomsJoueurs.get(x), t);
-                t.addAventurier(Joueur);
-                //tirerCartesTresors();
-                addAventurier(Joueur);
+                t = G.getTuile(Iles.HELIPORT);
+                Joueur = new Pilote(Utils.Pion.BLEU, nomsJoueurs.get(x), t);
                 System.out.println("Vous etes le pilote \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ROUGE) {
-                Tuile t = G.getTuile(Iles.LA_PORTE_DE_BRONZE);
-                Ingenieur Joueur = new Ingenieur(Utils.Pion.ROUGE, nomsJoueurs.get(x), t);
-                t.addAventurier(Joueur);
-                //tirerCartesTresors();
-                addAventurier(Joueur);
+                t = G.getTuile(Iles.LA_PORTE_DE_BRONZE);
+                Joueur = new Ingenieur(Utils.Pion.ROUGE, nomsJoueurs.get(x), t);
                 System.out.println("Vous etes l'ingenieur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VERT) {
-                Tuile t = G.getTuile(Iles.LA_PORTE_DE_CUIVRE);
-                Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomsJoueurs.get(x), t);
-                t.addAventurier(Joueur);
-                //tirerCartesTresors();
-                addAventurier(Joueur);
+                t = G.getTuile(Iles.LA_PORTE_DE_CUIVRE);
+                Joueur = new Explorateur(Utils.Pion.VERT, nomsJoueurs.get(x), t);
                 System.out.println("Vous etes l'explorateur \n");
 
-            } else if (lescouleurs.get(x) == Utils.Pion.ORANGE) {
-                Tuile t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
-                Messager Joueur = new Messager(Utils.Pion.ORANGE, nomsJoueurs.get(x), t);
-                t.addAventurier(Joueur);
-                //tirerCartesTresors();
-                addAventurier(Joueur);
+            } else  /* if (lescouleurs.get(x) == Utils.Pion.ORANGE)*/ {
+                t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
+                Joueur = new Messager(Utils.Pion.ORANGE, nomsJoueurs.get(x), t);
                 System.out.println("Vous etes le messager \n");
 
             }
-
+            t.addAventurier(Joueur);
+            addAventurier(Joueur);
+            AvCourant = Joueur;
+            tirerCartesTresors();
         }
     }
 
