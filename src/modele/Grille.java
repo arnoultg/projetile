@@ -21,31 +21,23 @@ public class Grille {
     private Tuile[][] grilleTuile;
     private ArrayList<Carte_Innondation> paquetCInnond;
     private ArrayList<CarteTresor> paquetCTresor;
+    private ArrayList<Carte_Innondation> defausseInnond;
+    private ArrayList<CarteTresor> defausseTresor;
 
     public Grille(int niveauEau) {
         this.niveauEau = niveauEau;
         grilleTuile = new Tuile[6][6];
         paquetCTresor = new ArrayList<>();
         paquetCInnond = new ArrayList<>();
-        paquetCTresor = initialiserPaquetTresor(paquetCTresor);
-        paquetCInnond = initialiserPaquetInnond(paquetCInnond);
+        defausseInnond = new ArrayList<>();
+        defausseTresor = new ArrayList<>();
+        paquetCTresor = initialiserPaquetTresor();
+        paquetCInnond = initialiserPaquetInnond();
 
-    }
-
-    public ArrayList<CarteTresor> getPaquetCTresor() {
-        return paquetCTresor;
-    }
-
-    public ArrayList<Carte_Innondation> getPaquetCInnond() {
-        return paquetCInnond;
     }
 
     public int getNiveauEau() {
         return niveauEau;
-    }
-
-    public void setPaquetCTresor(ArrayList<CarteTresor> paquetCTresor) {
-        this.paquetCTresor = paquetCTresor;
     }
 
     public void setNiveauEau(int niveauEau) {
@@ -72,41 +64,75 @@ public class Grille {
         return grilleTuile;
     }
 
-    public ArrayList<CarteTresor> initialiserPaquetTresor(ArrayList<CarteTresor> paquetTresor) {    //crée le paquet de carte trésor
+    public ArrayList<CarteTresor> getPaquetCTresor() {
+        return paquetCTresor;
+    }
+
+    public ArrayList<Carte_Innondation> getPaquetCInnond() {
+        return paquetCInnond;
+    }
+
+    public void tirerCTresor(CarteTresor c) {
+        paquetCTresor.remove(c);
+        defausseTresor.add(c);
+    }
+
+    public void tirerCInnonde(Carte_Innondation c) {
+        paquetCInnond.remove(c);
+        defausseInnond.add(c);
+    }
+
+    public void addDefausseCTresor(CarteTresor c) {
+        defausseTresor.add(c);
+    }
+
+    public ArrayList<CarteTresor> initialiserPaquetTresor() {    //crée le paquet de carte trésor
         for (int i = 1; i <= 3; i++) {
-            paquetTresor.add(new Helicoptere());    //3 Hélicopteres
+            paquetCTresor.add(new Helicoptere());    //3 Hélicopteres
         }
         for (int i = 1; i <= 2; i++) {
-            paquetTresor.add(new SacDeSable());     // 2 Sacs de sable
+            paquetCTresor.add(new SacDeSable());     // 2 Sacs de sable
         }
         for (int i = 1; i <= 3; i++) {
-            paquetTresor.add(new MonteDesEaux());   //3 Montees des eaux
+            paquetCTresor.add(new MonteDesEaux());   //3 Montees des eaux
         }
         for (Tresor i : Tresor.values()) {
             for (int j = 1; j <= 5; j++) {
-                paquetTresor.add(new C_tresor(i));  //5 trésors de chaques types
+                paquetCTresor.add(new C_tresor(i));  //5 trésors de chaques types
             }
         }
-            Collections.shuffle(paquetTresor);  //paquet mélangé
-            return paquetTresor;
+        Collections.shuffle(paquetCTresor);  //paquet mélangé
+        return paquetCTresor;
     }
 
-    public void setPaquetCInnond(ArrayList<Carte_Innondation> paquetCInnond) {
+    /*public void setPaquetCInnond(ArrayList<Carte_Innondation> paquetCInnond) {
         this.paquetCInnond = paquetCInnond;
-    }
-
-    public ArrayList<Carte_Innondation> initialiserPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {    //crée le paquet de carte innondation (début de partie)
-        for (int i = 0; i <= 23; i++) {
-            Carte_Innondation carteinnond = new Carte_Innondation(Iles.values()[i]);
-                paquetInnond.add(carteinnond);
-            
+    }*/
+    public ArrayList<Carte_Innondation> initialiserPaquetInnond() {    //crée le paquet de carte innondation (début de partie)
+        for (Iles i : Iles.values()) {
+            Carte_Innondation carteinnond = new Carte_Innondation(i);
+            paquetCInnond.add(carteinnond);
         }
-
-        Collections.shuffle(paquetInnond);
-        return paquetInnond;
+        Collections.shuffle(paquetCInnond);
+        return paquetCInnond;
 
     }
 
+    public void reinitPaquetInnond() {
+        if (defausseInnond.size() != 0) {
+            Collections.shuffle(defausseInnond);
+            for (Carte_Innondation c : defausseInnond) {
+                paquetCInnond.add(0, c);
+            }
+        }
+    }
+
+    public void reinitPaquetTresor() {
+        Collections.shuffle(defausseTresor);
+        paquetCTresor = defausseTresor;
+        defausseTresor.clear();
+    }
+    /*
     public ArrayList<Carte_Innondation> nouveauPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {    //crée un paquet de carte innondation sans les tuiles déjà coulée (milieu de partie)
         paquetInnond.clear();
         for (int i = 0; i <= 23; i++) {
@@ -119,6 +145,6 @@ public class Grille {
         Collections.shuffle(paquetInnond);
         return paquetInnond;
 
-    }
+    }*/
 
 }

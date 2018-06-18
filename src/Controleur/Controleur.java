@@ -35,7 +35,7 @@ public class Controleur implements Observateur {
     }
 
     public Grille getGrille() {
-        return null;
+        return G;
     }
 
     public int getNbJoueur() {
@@ -94,7 +94,8 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void finTour() { 
+//----------------------------------------Actions d'un tour de jeux-----------------------------------------------    
+    public void finTour() {
         action = null;
         nbActions = 3;
 
@@ -105,17 +106,17 @@ public class Controleur implements Observateur {
             ((Pilote) AvCourant).setPouvoir(false);
         }
 
-        AvCourant.tirerCartesTresors(G);    //pioche des catres trésors et innondations
-        AvCourant.tirerCarteInnondation(G);
+        tirerCartesTresors();    //pioche des catres trésors et innondations
+        tirerCarteInnondation();
         jeu.maj();
-        
+
         jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
         jeu.choisirCarteDefausse(AvCourant);
 
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
-        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1:0);
+        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1 : 0);
     }
 
     private void deplacerJoueur(Tuile tuile) {
@@ -138,7 +139,7 @@ public class Controleur implements Observateur {
         jeu.MiseaJourTuile(tuile);
         nbActions -= 1;
         if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
-            if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {  
+            if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 action = "assecher";
                 ((Ingenieur) AvCourant).setPouvoirEnCours(true);
@@ -149,6 +150,51 @@ public class Controleur implements Observateur {
         }
     }
 
+    //----------------------------------------Actions sur les cartes-----------------------------------------------
+    public void tirerCartesTresors() {  //donne deux cartes du paquet de cartes trésor au joueur, et les retire du paquet
+
+        for (int i = 0; i < 2; i++) {
+            int nbCartesPaquet = G.getPaquetCTresor().size();
+            if (nbCartesPaquet == 0) {
+                G.reinitPaquetTresor();
+            }
+            CarteTresor c = G.getPaquetCTresor().get(0);
+            if (c.getNom() == "monté des eaux") {
+                ((MonteDesEaux) c).MonteEau(G);
+                System.out.println("carte monté des eaux tiré");
+            } else {
+                AvCourant.addCarte(c);
+            }
+            G.tirerCTresor(c);
+
+        }
+    }
+
+    public void tirerCarteInnondation() {   //pioche des cartes du paquet de cartes innondation, et les retire du paquet
+        for (int i = 0; i < G.getNiveauEau(); i++) {
+            int nbCartesPaquet = G.getPaquetCInnond().size();
+            if (nbCartesPaquet > 0) {
+                G.getPaquetCInnond().get(0).innondeTuile(G);
+                G.tirerCInnonde(G.getPaquetCInnond().get(0));
+                
+            } else {
+                G.reinitPaquetInnond();
+            }
+        }
+    }
+
+    public void defausserCarte(int c) {
+        CarteTresor carte = AvCourant.getCartes().get(c);
+        AvCourant.removeCarte(carte);
+        G.addDefausseCTresor(carte);
+    }
+
+    private void enleverAvTuile() {
+        AvCourant.getPos().getAventurierssur().remove(AvCourant);
+
+    }
+
+//----------------------------------------Initialisation du jeu-----------------------------------------------
     private void creationJoueur() {
         int nbJoueur = 0;
         Scanner entree = new Scanner(System.in);
@@ -182,7 +228,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_D_OR);
                 Navigateur Joueur = new Navigateur(Utils.Pion.JAUNE, nomjoueur, t);
                 t.addAventurier(Joueur);
-                Joueur.tirerCartesTresors(G);
+                tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes le navigateur \n");
 
@@ -190,7 +236,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_FER);
                 Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomjoueur, t);
                 t.addAventurier(Joueur);
-                Joueur.tirerCartesTresors(G);
+                tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes le plongeur \n");
 
@@ -198,7 +244,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.HELIPORT);
                 Pilote Joueur = new Pilote(Utils.Pion.BLEU, nomjoueur, t);
                 t.addAventurier(Joueur);
-                Joueur.tirerCartesTresors(G);
+                tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes le pilote \n");
 
@@ -206,7 +252,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_BRONZE);
                 Ingenieur Joueur = new Ingenieur(Utils.Pion.ROUGE, nomjoueur, t);
                 t.addAventurier(Joueur);
-                Joueur.tirerCartesTresors(G);
+                tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes l'ingenieur \n");
 
@@ -214,7 +260,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_CUIVRE);
                 Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomjoueur, t);
                 t.addAventurier(Joueur);
-                Joueur.tirerCartesTresors(G);
+                tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes l'explorateur \n");
 
@@ -222,7 +268,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
                 Messager Joueur = new Messager(Utils.Pion.ORANGE, nomjoueur, t);
                 t.addAventurier(Joueur);
-                Joueur.tirerCartesTresors(G);
+                tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes le messager \n");
 
@@ -246,7 +292,7 @@ public class Controleur implements Observateur {
         G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
-                                                //innondation aléatoire
+        //innondation aléatoire
         /*
         for (int i = 1; i <= 6; i++) {
             int nbCartesPaquet = G.getPaquetCInnond().size();
@@ -277,11 +323,6 @@ public class Controleur implements Observateur {
                 }
             }
         }
-    }
-
-    private void enleverAvTuile() {
-        AvCourant.getPos().getAventurierssur().remove(AvCourant);
-
     }
 
     private void initialiserjeu() {

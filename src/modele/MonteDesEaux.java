@@ -15,7 +15,7 @@ public class MonteDesEaux extends CarteTresor {
     }
     public void MonteEau(Grille g){
         g.setNiveauEau(g.getNiveauEau()+1); //monte le niveau d'eau de 1
-        g.setPaquetCInnond(g.nouveauPaquetInnond(g.getPaquetCInnond())); //recrée le paquet de carte innondation
+        g.reinitPaquetInnond(); //reinitialise le paquet avec la defausse mélangée sur le dessus du paquet
         
     }
 }

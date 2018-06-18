@@ -208,7 +208,6 @@ public class vuejeu extends JPanel implements Observe {
     }
 
     public void choisirCarteDefausse(Aventurier a) { //l'utilisateur choisie les cartes qu'il doit defausser
-        cartes = a.getCartes();
         int carteSelectionnee;
         for (int i = a.getNbCartes(); i > 5; i--) { //demande à l'utilisateur de recommencer si il se trompe de numero de carte
             if (a.getNbCartes() == 6) {

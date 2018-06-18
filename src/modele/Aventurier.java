@@ -48,6 +48,13 @@ public abstract class Aventurier {
         return cartes;
     }
 
+    public void addCarte(CarteTresor c) {
+        cartes.add(c);
+    }
+    public void removeCarte(CarteTresor c) {
+        cartes.remove(c);
+    }
+
     public ArrayList<Tuile> dispoAssecher(Grille g) {
         ArrayList<Tuile> liste = new ArrayList();
         ArrayList<Tuile> liste2 = new ArrayList();
@@ -92,41 +99,8 @@ public abstract class Aventurier {
     public int getNbCartes() {
         return cartes.size();
     }
-
-    public void tirerCartesTresors(Grille g) {  //donne deux cartes du paquet de cartes trésor au joueur, et les retire du paquet
-        for (int i = 0; i < 2; i++) {
-            int nbCartesPaquet = g.getPaquetCTresor().size();
-            MonteDesEaux carteMonté = new MonteDesEaux();
-            if (nbCartesPaquet > 0) {
-                if (g.getPaquetCTresor().get(0).getNom() == "monté des eaux") {
-                    carteMonté.MonteEau(g);
-                    g.getPaquetCTresor().remove(0);
-                    System.out.println("carte monté des eaux tiré");
-                } else {
-                    cartes.add(g.getPaquetCTresor().get(0));
-                    g.getPaquetCTresor().remove(0);
-                }
-
-            } else {
-                g.initialiserPaquetTresor(g.getPaquetCTresor());    //si le paquet de cartes trésor est vide, il le recrée
-                i--;
-            }
-        }
-    }
-
-    public void tirerCarteInnondation(Grille g) {   //pioche des cartes du paquet de cartes innondation, et les retire du paquet
-        for (int i = 0; i < g.getNiveauEau(); i++) {
-            int nbCartesPaquet = g.getPaquetCInnond().size();
-            if (nbCartesPaquet > 0) {
-                g.getPaquetCInnond().get(0).innondeTuile(g);
-                g.getPaquetCInnond().remove(0);
-            } else {
-                g.nouveauPaquetInnond(g.getPaquetCInnond());
-            }
-        }
-    }
-
+    
     public void defausserCarte(int c) {
-        cartes.remove(c);
+        removeCarte(getCartes().get(c));
     }
 }
