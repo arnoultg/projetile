@@ -244,7 +244,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_D_OR);
                 Navigateur Joueur = new Navigateur(Utils.Pion.JAUNE, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
-                tirerCartesTresors();
+                //tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes le navigateur \n");
 
@@ -252,7 +252,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_FER);
                 Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
-                tirerCartesTresors();
+                //tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes le plongeur \n");
 
@@ -260,7 +260,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.HELIPORT);
                 Pilote Joueur = new Pilote(Utils.Pion.BLEU, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
-                tirerCartesTresors();
+                //tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes le pilote \n");
 
@@ -268,7 +268,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_BRONZE);
                 Ingenieur Joueur = new Ingenieur(Utils.Pion.ROUGE, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
-                tirerCartesTresors();
+                //tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes l'ingenieur \n");
 
@@ -276,7 +276,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_CUIVRE);
                 Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
-                tirerCartesTresors();
+                //tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes l'explorateur \n");
 
@@ -284,7 +284,7 @@ public class Controleur implements Observateur {
                 Tuile t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
                 Messager Joueur = new Messager(Utils.Pion.ORANGE, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
-                tirerCartesTresors();
+                //tirerCartesTresors();
                 addAventurier(Joueur);
                 System.out.println("Vous etes le messager \n");
 

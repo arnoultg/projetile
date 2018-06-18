@@ -318,12 +318,15 @@ public class vuejeu extends JPanel implements Observe {
     }
 
     public void MiseaJourCartes(Aventurier av) {
-        for (int i = 0; i < av.getNbCartes(); i++) {
-            lesboutonscartes.get(i).setText(av.getCartes().get(i).getNom());
+        for (int i = 0; i < 7; i++) {
+            if (i < av.getNbCartes()) {
+                lesboutonscartes.get(i).setText(av.getCartes().get(i).getNom());
+            } else {
+                lesboutonscartes.get(i).setText("");
+
+            }
         }
-        for (int i = av.getNbCartes(); i < 7; i++) {
-            lesboutonscartes.get(i).setText("");
-        }
+
     }
 
     public void maj() { //permet de remettre toute les cases de leurs couleurs
