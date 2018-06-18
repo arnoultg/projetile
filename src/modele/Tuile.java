@@ -58,11 +58,11 @@ public class Tuile {
     
     public Color getCouleur (){
         if (this.getEtat() == Utils.EtatTuile.ASSECHEE) {
-            return new Color(167, 103, 38);
+            return new Color(167, 103, 38);         //marron
         } else if (this.getEtat() == Utils.EtatTuile.COULEE) {
-            return Color.blue;
+            return new Color(44, 117, 255);         //bleu
         } else {
-            return Color.yellow;
+            return new Color(254, 227, 71);         //jaune
         }
     }
 
