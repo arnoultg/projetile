@@ -91,6 +91,11 @@ public class Controleur implements Observateur {
                 }
             }
 
+        } else if (m.getType() == TypesMessage.CLIC_CARTE) {
+            if (AvCourant.getNbCartes() > 5) {
+                AvCourant.defausserCarte(m.getCarte());
+                jeu.MiseaJourCartes(AvCourant);
+            }
         }
     }
 
