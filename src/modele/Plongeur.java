@@ -55,18 +55,18 @@ public class Plongeur extends Aventurier {
     @Override
     public ArrayList<Tuile> tuilesAutour(ArrayList<Tuile> liste, int x, int y, Tuile[][] grille) {
 
-        Tuile t1 = (y !=0 ? grille[x][y - 1] : null);
+        Tuile t1 = (y !=0 ? grille[x][y - 1] : null);       //défini les tuiles adjacentes a celle de coordonnées x,y
         Tuile t2 = (x !=0 ? grille[x - 1][y] : null);
         Tuile t3 = (x !=5 ? grille[x + 1][y] : null);
         Tuile t4 = (y !=5 ? grille[x][y + 1] : null);
         
         
-        if ((y != 0) && (!liste.contains(t1)) && (t1.getNom() != null)) {
-            if (t1.getEtat() != Utils.EtatTuile.COULEE) {
+        if ((y != 0) && (!liste.contains(t1)) && (t1.getNom() != null)) {           //si la tuile existe et si elle n'a pas deja été ajoutée aux tuiles accessibles
+            if (t1.getEtat() != Utils.EtatTuile.COULEE) {                           //si elle est assechée ou innondée elle est une destination accessible
                 liste.add(t1);
             }
-            if ((t1.getEtat() != Utils.EtatTuile.ASSECHEE) && !dejapasse.contains(t1)) {
-                dejapasse.add(t1);
+            if ((t1.getEtat() != Utils.EtatTuile.ASSECHEE) && !dejapasse.contains(t1)) {    //si la tuile est innondée ou coulée réexecute la fonction en rapport a cette tuile
+                dejapasse.add(t1);                                                          
                 liste = tuilesAutour(liste, t1.getX(), t1.getY(), grille);
             }
         }

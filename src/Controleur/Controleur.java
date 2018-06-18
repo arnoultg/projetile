@@ -115,6 +115,7 @@ public class Controleur implements Observateur {
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
+        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1:0);
         jeu.MiseaJourCartes(AvCourant);
     }
 
