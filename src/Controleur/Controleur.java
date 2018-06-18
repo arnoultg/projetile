@@ -94,7 +94,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void finTour() { 
+    public void finTour() {
         action = null;
         nbActions = 3;
 
@@ -108,13 +108,14 @@ public class Controleur implements Observateur {
         AvCourant.tirerCartesTresors(G);    //pioche des catres trésors et innondations
         AvCourant.tirerCarteInnondation(G);
         jeu.maj();
-        
-        jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
+
+        //jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
         jeu.choisirCarteDefausse(AvCourant);
 
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
+        jeu.MiseaJourCartes(AvCourant);
     }
 
     private void deplacerJoueur(Tuile tuile) {
@@ -137,7 +138,7 @@ public class Controleur implements Observateur {
         jeu.MiseaJourTuile(tuile);
         nbActions -= 1;
         if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
-            if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {  
+            if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 action = "assecher";
                 ((Ingenieur) AvCourant).setPouvoirEnCours(true);
@@ -245,7 +246,7 @@ public class Controleur implements Observateur {
         G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
-                                                //innondation aléatoire
+        //innondation aléatoire
         /*
         for (int i = 1; i <= 6; i++) {
             int nbCartesPaquet = G.getPaquetCInnond().size();
@@ -294,6 +295,7 @@ public class Controleur implements Observateur {
         jeu.addObservateur(this);
         jeu.creationPion(joueurs);
         jeu.afficherNomJoueur(AvCourant);
+        jeu.MiseaJourCartes(AvCourant);
         jeu.afficher();
 
     }

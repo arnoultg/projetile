@@ -43,8 +43,9 @@ import util.Utils.Pion;
 public class vuejeu extends JPanel implements Observe {
 
     private JFrame frame;
-    private ArrayList<JButton> lesbouttonstuiles;
+    private ArrayList<JButton> lesboutonstuiles;
     private ArrayList<JButton> lesboutonsactions;
+    private ArrayList<JButton> lesboutonscartes;
     private ArrayList<CarteTresor> cartes;
     private Observateur observateur;
     private ArrayList<pionD> pionsjoueur;
@@ -68,28 +69,30 @@ public class vuejeu extends JPanel implements Observe {
         setDoubleBuffered(true);
 
 //initialisation 
-        lesbouttonstuiles = new ArrayList<>();
+        lesboutonstuiles = new ArrayList<>();
         lesboutonsactions = new ArrayList<>();
+        lesboutonscartes = new ArrayList<>();
         pionsjoueur = new ArrayList<>();
         cartes = new ArrayList<>();
-        JButton bouton = new JButton();
 
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
         JPanel panelgrille = new JPanel(new GridLayout(6, 6));
-        JPanel paneldroite = new JPanel(new GridLayout(3, 0));
+        JPanel paneldroite = new JPanel(new BorderLayout());
 
         JPanel PHaut = new JPanel(new BorderLayout());
         JPanel PMillieu = new JPanel(new BorderLayout());
         JPanel PBas = new JPanel(new BorderLayout());
+        JPanel PDroite = new JPanel(new BorderLayout());
 
 //panelgrille.set;
         frame.add(mainPanel);
         mainPanel.add(panelgrille);
         mainPanel.add(paneldroite);
-        paneldroite.add(PHaut);
-        paneldroite.add(PMillieu);
-        paneldroite.add(PBas);
+        paneldroite.add(PDroite, BorderLayout.EAST);
+        paneldroite.add(PHaut, BorderLayout.NORTH);
+        paneldroite.add(PMillieu, BorderLayout.CENTER);
+        paneldroite.add(PBas, BorderLayout.SOUTH);
 
         PHaut.add("North", nom);
         PHaut.add("Center", Joueur2);
@@ -110,14 +113,45 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonsactions.add(assecher);
         lesboutonsactions.add(rienfaire);
 
+        JPanel boutonsCartes = new JPanel(new GridLayout(3, 2));
+        PDroite.add(boutonsCartes, BorderLayout.NORTH);
+        JButton carte1 = new JButton("");
+        carte1.setEnabled(false);
+        JButton carte2 = new JButton("");
+        carte2.setEnabled(false);
+        JButton carte3 = new JButton("");
+        carte3.setEnabled(false);
+        JButton carte4 = new JButton("");
+        carte4.setEnabled(false);
+        JButton carte5 = new JButton("");
+        carte5.setEnabled(false);
+        JButton carte6 = new JButton("");
+        carte6.setEnabled(false);
+        JButton carte7 = new JButton("");
+        carte7.setEnabled(false);
+        boutonsCartes.add(carte1);
+        boutonsCartes.add(carte2);
+        boutonsCartes.add(carte3);
+        boutonsCartes.add(carte4);
+        boutonsCartes.add(carte5);
+        boutonsCartes.add(carte6);
+        boutonsCartes.add(carte7);
+        lesboutonscartes.add(carte1);
+        lesboutonscartes.add(carte2);
+        lesboutonscartes.add(carte3);
+        lesboutonscartes.add(carte4);
+        lesboutonscartes.add(carte5);
+        lesboutonscartes.add(carte6);
+        lesboutonscartes.add(carte7);
+
         int compteur = 0;
 
         for (int i = 0; i < 36; i++) {
-            
+
             if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
                 JPanel blanc = new JPanel();
                 panelgrille.add(blanc);
-                lesbouttonstuiles.add(null);
+                lesboutonstuiles.add(null);
             } else {
 
                 panelgrille.add(getCellule(compteur));
@@ -129,8 +163,6 @@ public class vuejeu extends JPanel implements Observe {
 
         initAcPerform();
     }
-    
-    
 
     private JButton getCellule(int compteur) {
 
@@ -138,7 +170,7 @@ public class vuejeu extends JPanel implements Observe {
         JButton bouton = new JButton(t.getNom().toString()); // créé un bouton pour la tuille
         bouton.setBackground(t.getCouleur());
 
-        lesbouttonstuiles.add(bouton); 
+        lesboutonstuiles.add(bouton);
         return bouton;
     }
 
@@ -152,7 +184,7 @@ public class vuejeu extends JPanel implements Observe {
 
     public void afficherPion() {
         for (pionD pion : pionsjoueur) {
-            lesbouttonstuiles.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion); //recupere le bouton sur le quel le pion doit etre afficher
+            lesboutonstuiles.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion); //recupere le bouton sur le quel le pion doit etre afficher
             repaint(); //appelle PaintComponent
 
         }
@@ -174,9 +206,9 @@ public class vuejeu extends JPanel implements Observe {
     }
 
     public void initAcPerform() {  //créé toute les action pour les boutons
-        for (JButton i : lesbouttonstuiles) { //les boutons des tuiles
+        for (JButton i : lesboutonstuiles) { //les boutons des tuiles
             if (i != null) {
-                int ind = lesbouttonstuiles.indexOf(i);
+                int ind = lesboutonstuiles.indexOf(i);
                 i.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -197,34 +229,47 @@ public class vuejeu extends JPanel implements Observe {
                 }
             });
         }
+        for (JButton i : lesboutonscartes) {
+            i.addActionListener(new ActionListener() { //les boutons des cartes
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Message m = new Message(TypesMessage.CLIC_CARTE);
+                    //m.setCarte();
+                    notifierObservateur(m);
+                }
+            });
+        }
     }
 
-    public void afficherCartes(Aventurier a) { //affiche les cartes de l'aventurier dans la console
+    /*public void afficherCartes(Aventurier a) { //affiche les cartes de l'aventurier dans la console
         cartes = a.getCartes();
         for (int i = 0; i < cartes.size(); i++) {
             System.out.print(i + 1 + " : ");
             System.out.println(cartes.get(i).getNom());
         }
-    }
-
+    }*/
     public void choisirCarteDefausse(Aventurier a) { //l'utilisateur choisie les cartes qu'il doit defausser
         cartes = a.getCartes();
-        int carteSelectionnee;
+        MiseaJourCartes(a);
+        //int carteSelectionnee;
         for (int i = a.getNbCartes(); i > 5; i--) { //demande à l'utilisateur de recommencer si il se trompe de numero de carte
-            if (a.getNbCartes() == 6) {
-                System.out.println("Carte a défausser (1/2/3/4/5/6) : ");
-            } else {
-                System.out.println("Carte a défausser (1/2/3/4/5/6/7) : ");
+            //if (a.getNbCartes() == 6) {
+            for (int j = 0; j < a.getNbCartes(); j++) {
+                lesboutonscartes.get(j).setEnabled(true);
             }
-            Scanner entree = new Scanner(System.in);
+            //System.out.println("Carte a défausser (1/2/3/4/5/6) : ");
+            //} else {
+            //System.out.println("Carte a défausser (1/2/3/4/5/6/7) : ");
+            //}
+            /*Scanner entree = new Scanner(System.in);
             carteSelectionnee = entree.nextInt();
             if (carteSelectionnee >= 1 && ((a.getNbCartes() == 6 && carteSelectionnee <= 6) || (a.getNbCartes() == 7 && carteSelectionnee <= 7))) {
                 a.defausserCarte(carteSelectionnee - 1);
             } else {
                 System.out.println("Selection érronée, réessayer");
                 i++;
-            }
-            afficherCartes(a); //réactualise la main 
+            }*/
+            //afficherCartes(a); //réactualise la main 
         }
     }
 
@@ -234,7 +279,7 @@ public class vuejeu extends JPanel implements Observe {
                 coul = t.getCouleur();
             }
             int placetuilleihm = t.getX() * 6 + t.getY();
-            lesbouttonstuiles.get(placetuilleihm).setBackground(coul);
+            lesboutonstuiles.get(placetuilleihm).setBackground(coul);
             //Casesaccessible.put(lesbouttonstuiles.get(placetuilleihm), t);
             //System.out.println(Casesaccessible.size());
         }
@@ -268,13 +313,19 @@ public class vuejeu extends JPanel implements Observe {
 
     public void MiseaJourTuile(Tuile t) { //permet de remettre la case en marron apres l'action assecher
         int placetuilleihm = t.getX() * 6 + t.getY();
-        lesbouttonstuiles.get(placetuilleihm).setBackground(t.getCouleur());
+        lesboutonstuiles.get(placetuilleihm).setBackground(t.getCouleur());
+    }
+
+    public void MiseaJourCartes(Aventurier av) {
+        for (int i = 0; i < av.getNbCartes(); i++) {
+            lesboutonscartes.get(i).setText(av.getCartes().get(i).getNom());
+        }
     }
 
     public void maj() { //permet de remettre toute les cases de leurs couleurs
-        for (JButton b : lesbouttonstuiles) {
+        for (JButton b : lesboutonstuiles) {
             if (b != null) {
-                b.setBackground(g.getGrilleTuile()[lesbouttonstuiles.indexOf(b) / 6][lesbouttonstuiles.indexOf(b) % 6].getCouleur());
+                b.setBackground(g.getGrilleTuile()[lesboutonstuiles.indexOf(b) / 6][lesboutonstuiles.indexOf(b) % 6].getCouleur());
             }
         }
     }
