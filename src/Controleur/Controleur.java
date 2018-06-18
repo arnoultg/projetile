@@ -15,6 +15,7 @@ import util.Utils;
 import vue.Message;
 import vue.Observateur;
 import vue.TypesMessage;
+import vue.vueDebut;
 import vue.vuejeu;
 
 /**
@@ -96,6 +97,10 @@ public class Controleur implements Observateur {
                 AvCourant.defausserCarte(m.getCarte());
                 jeu.MiseaJourCartes(AvCourant);
             }
+        }else if(m.getType() ==  TypesMessage.DEMARRER){
+            initialiserjeu(m.getNbjoueurs(),m.getNomsJoueurs());
+            
+            
         }
     }
 
@@ -204,8 +209,8 @@ public class Controleur implements Observateur {
     }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
-    private void creationJoueur() {
-        int nbJoueur = 0;
+    private void creationJoueur(int nbJoueur,ArrayList<String> nomsJoueurs) {
+        /*
         Scanner entree = new Scanner(System.in);
         for (int i = 10; i >= 0; i--) { //demande le nombre de joueur, recommence si le nombre chosi n'est pas compris entre 2 et 4
             System.out.println("Combien de joueurs voulez vous ?");
@@ -221,6 +226,8 @@ public class Controleur implements Observateur {
                 }
             }
         }
+        */
+        
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
 
         for (int x = 0; x < Utils.Pion.values().length; x++) {
@@ -229,13 +236,13 @@ public class Controleur implements Observateur {
         Collections.shuffle(lescouleurs);
 
         for (int x = 0; x < nbJoueur; x++) {    //demande le nom de chaques joueurs
-            System.out.println("joueur n°" + (x + 1));
-            System.out.println("quel est votre nom ?");
-            String nomjoueur = entree.next();
+            //System.out.println("joueur n°" + (x + 1));
+            //System.out.println("quel est votre nom ?");
+            //String nomjoueur = entree.next();
 
             if (lescouleurs.get(x) == Utils.Pion.JAUNE) {
                 Tuile t = G.getTuile(Iles.LA_PORTE_D_OR);
-                Navigateur Joueur = new Navigateur(Utils.Pion.JAUNE, nomjoueur, t);
+                Navigateur Joueur = new Navigateur(Utils.Pion.JAUNE, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
                 tirerCartesTresors();
                 addAventurier(Joueur);
@@ -243,7 +250,7 @@ public class Controleur implements Observateur {
 
             } else if (lescouleurs.get(x) == Utils.Pion.VIOLET) {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_FER);
-                Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomjoueur, t);
+                Plongeur Joueur = new Plongeur(Utils.Pion.VIOLET, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
                 tirerCartesTresors();
                 addAventurier(Joueur);
@@ -251,7 +258,7 @@ public class Controleur implements Observateur {
 
             } else if (lescouleurs.get(x) == Utils.Pion.BLEU) {
                 Tuile t = G.getTuile(Iles.HELIPORT);
-                Pilote Joueur = new Pilote(Utils.Pion.BLEU, nomjoueur, t);
+                Pilote Joueur = new Pilote(Utils.Pion.BLEU, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
                 tirerCartesTresors();
                 addAventurier(Joueur);
@@ -259,7 +266,7 @@ public class Controleur implements Observateur {
 
             } else if (lescouleurs.get(x) == Utils.Pion.ROUGE) {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_BRONZE);
-                Ingenieur Joueur = new Ingenieur(Utils.Pion.ROUGE, nomjoueur, t);
+                Ingenieur Joueur = new Ingenieur(Utils.Pion.ROUGE, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
                 tirerCartesTresors();
                 addAventurier(Joueur);
@@ -267,7 +274,7 @@ public class Controleur implements Observateur {
 
             } else if (lescouleurs.get(x) == Utils.Pion.VERT) {
                 Tuile t = G.getTuile(Iles.LA_PORTE_DE_CUIVRE);
-                Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomjoueur, t);
+                Explorateur Joueur = new Explorateur(Utils.Pion.VERT, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
                 tirerCartesTresors();
                 addAventurier(Joueur);
@@ -275,7 +282,7 @@ public class Controleur implements Observateur {
 
             } else if (lescouleurs.get(x) == Utils.Pion.ORANGE) {
                 Tuile t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
-                Messager Joueur = new Messager(Utils.Pion.ORANGE, nomjoueur, t);
+                Messager Joueur = new Messager(Utils.Pion.ORANGE, nomsJoueurs.get(x), t);
                 t.addAventurier(Joueur);
                 tirerCartesTresors();
                 addAventurier(Joueur);
@@ -334,11 +341,11 @@ public class Controleur implements Observateur {
         }
     }
 
-    private void initialiserjeu() {
+    private void initialiserjeu(int nbJoueur,ArrayList<String> nomsJoueurs) {
 
         G = new Grille(1);
         initialiserGrille();
-        creationJoueur();
+        creationJoueur(nbJoueur, nomsJoueurs);
         premiereInondations();
         AvCourant = joueurs.get(0);
         jeu = new vuejeu(G);
@@ -352,7 +359,9 @@ public class Controleur implements Observateur {
 
     public static void main(String[] args) {
         Controleur C = new Controleur();
-        C.initialiserjeu();
+        vueDebut debut = new vueDebut();
+        debut.afficher();
+        debut.addObservateur(C);
 
     }
 

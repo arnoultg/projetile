@@ -12,5 +12,6 @@ package vue;
 public enum TypesMessage {
     CLIC_TUILE,
     CLIC_ACTION,
-    CLIC_CARTE
+    CLIC_CARTE,
+    DEMARRER;
 }
