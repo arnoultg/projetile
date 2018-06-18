@@ -83,19 +83,17 @@ public class vuejeu extends JPanel implements Observe {
         JPanel PHaut = new JPanel(new BorderLayout());
         JPanel PMillieu = new JPanel(new BorderLayout());
         JPanel PBas = new JPanel(new BorderLayout());
-        JPanel PDroite = new JPanel(new BorderLayout());
 
 //panelgrille.set;
         frame.add(mainPanel);
         mainPanel.add(panelgrille);
         mainPanel.add(paneldroite);
-        paneldroite.add(PDroite, BorderLayout.EAST);
         paneldroite.add(PHaut, BorderLayout.NORTH);
         paneldroite.add(PMillieu, BorderLayout.CENTER);
         paneldroite.add(PBas, BorderLayout.SOUTH);
 
-        PHaut.add("North", nom);
-        PHaut.add("Center", Joueur2);
+        PHaut.add(nom, BorderLayout.WEST);
+        PHaut.add(Joueur2, BorderLayout.EAST);
 
         JPanel toucheaction = new JPanel(new GridLayout(0, 4));
         PBas.add(toucheaction);
@@ -113,8 +111,8 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonsactions.add(assecher);
         lesboutonsactions.add(rienfaire);
 
-        JPanel boutonsCartes = new JPanel(new GridLayout(3, 2));
-        PDroite.add(boutonsCartes, BorderLayout.NORTH);
+        JPanel boutonsCartes = new JPanel(new GridLayout(2, 4));
+        PMillieu.add(boutonsCartes, BorderLayout.CENTER);
         JButton carte1 = new JButton("");
         carte1.setEnabled(false);
         JButton carte2 = new JButton("");
@@ -129,6 +127,8 @@ public class vuejeu extends JPanel implements Observe {
         carte6.setEnabled(false);
         JButton carte7 = new JButton("");
         carte7.setEnabled(false);
+        JButton carte8 = new JButton("");
+        carte8.setEnabled(false);
         boutonsCartes.add(carte1);
         boutonsCartes.add(carte2);
         boutonsCartes.add(carte3);
@@ -136,6 +136,7 @@ public class vuejeu extends JPanel implements Observe {
         boutonsCartes.add(carte5);
         boutonsCartes.add(carte6);
         boutonsCartes.add(carte7);
+        boutonsCartes.add(carte8);
         lesboutonscartes.add(carte1);
         lesboutonscartes.add(carte2);
         lesboutonscartes.add(carte3);
