@@ -71,7 +71,7 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
             } else if ((action == "assecher") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
-            } else if (m.getAction() == "Fin_de_tour") {
+            } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes()<= 5)) {
                 this.finTour();
             }
 
