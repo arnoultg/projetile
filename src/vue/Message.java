@@ -16,7 +16,7 @@ public class Message {
     TypesMessage type;
     Tuile tuile;
     String action;
-    CarteTresor carte;
+    int carte;
 
     public Message(TypesMessage type) {
         this.type = type;
@@ -42,11 +42,11 @@ public class Message {
         this.action = action;
     }
     
-    public void setCarte(CarteTresor carte) {
+    public void setCarte(int carte) {
         this.carte = carte;
     }
 
-    public CarteTresor getCarte() {
+    public int getCarte() {
         return carte;
     }
 }

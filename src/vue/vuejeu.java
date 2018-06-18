@@ -234,7 +234,7 @@ public class vuejeu extends JPanel implements Observe {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Message m = new Message(TypesMessage.CLIC_CARTE);
-                    //m.setCarte();
+                    m.setCarte(lesboutonscartes.indexOf(i));
                     notifierObservateur(m);
                 }
             });
@@ -249,7 +249,7 @@ public class vuejeu extends JPanel implements Observe {
         }
     }*/
     public void choisirCarteDefausse(Aventurier a) { //l'utilisateur choisie les cartes qu'il doit defausser
-        cartes = a.getCartes();
+        //cartes = a.getCartes();
         MiseaJourCartes(a);
         //int carteSelectionnee;
         for (int i = a.getNbCartes(); i > 5; i--) { //demande à l'utilisateur de recommencer si il se trompe de numero de carte
@@ -270,6 +270,7 @@ public class vuejeu extends JPanel implements Observe {
                 i++;
             }*/
             //afficherCartes(a); //réactualise la main 
+            //MiseaJourCartes(a);
         }
     }
 
@@ -319,6 +320,9 @@ public class vuejeu extends JPanel implements Observe {
     public void MiseaJourCartes(Aventurier av) {
         for (int i = 0; i < av.getNbCartes(); i++) {
             lesboutonscartes.get(i).setText(av.getCartes().get(i).getNom());
+        }
+        for (int i = av.getNbCartes(); i < 7; i++) {
+            lesboutonscartes.get(i).setText("");
         }
     }
 

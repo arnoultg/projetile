@@ -35,7 +35,7 @@ public class Controleur implements Observateur {
     }
 
     public Grille getGrille() {
-        return null;
+        return G;
     }
 
     public int getNbJoueur() {
@@ -91,6 +91,11 @@ public class Controleur implements Observateur {
                 }
             }
 
+        } else if (m.getType() == TypesMessage.CLIC_CARTE) {
+            if (AvCourant.getNbCartes() > 5) {
+                AvCourant.defausserCarte(m.getCarte());
+                jeu.MiseaJourCartes(AvCourant);
+            }
         }
     }
 
@@ -115,7 +120,7 @@ public class Controleur implements Observateur {
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
-        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1:0);
+        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1 : 0);
         jeu.MiseaJourCartes(AvCourant);
     }
 
