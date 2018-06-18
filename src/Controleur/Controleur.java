@@ -94,7 +94,9 @@ public class Controleur implements Observateur {
         }
     }
 
+
 //----------------------------------------Actions d'un tour de jeux-----------------------------------------------    
+    
     public void finTour() {
         action = null;
         nbActions = 3;
@@ -109,14 +111,17 @@ public class Controleur implements Observateur {
         tirerCartesTresors();    //pioche des catres trésors et innondations
         tirerCarteInnondation();
         jeu.maj();
-
-        jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
+        
+        //jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
+        //jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
         jeu.choisirCarteDefausse(AvCourant);
 
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1 : 0);
+        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1:0);
+        jeu.MiseaJourCartes(AvCourant);
     }
 
     private void deplacerJoueur(Tuile tuile) {
@@ -336,6 +341,7 @@ public class Controleur implements Observateur {
         jeu.addObservateur(this);
         jeu.creationPion(joueurs);
         jeu.afficherNomJoueur(AvCourant);
+        jeu.MiseaJourCartes(AvCourant);
         jeu.afficher();
 
     }

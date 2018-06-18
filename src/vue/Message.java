@@ -5,6 +5,7 @@
  */
 package vue;
 
+import modele.CarteTresor;
 import modele.Tuile;
 
 /**
@@ -15,6 +16,7 @@ public class Message {
     TypesMessage type;
     Tuile tuile;
     String action;
+    CarteTresor carte;
 
     public Message(TypesMessage type) {
         this.type = type;
@@ -40,5 +42,11 @@ public class Message {
         this.action = action;
     }
     
-    
+    public void setCarte(CarteTresor carte) {
+        this.carte = carte;
+    }
+
+    public CarteTresor getCarte() {
+        return carte;
+    }
 }
