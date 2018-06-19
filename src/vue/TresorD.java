@@ -6,8 +6,12 @@
 package vue;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import javax.swing.JPanel;
 import modele.Aventurier;
+import modele.Tuile;
 
 /**
  *
@@ -15,19 +19,34 @@ import modele.Aventurier;
  */
 public class TresorD extends JPanel {
 
-    private int centreX, centreY, rayon;
+    private int centreX, centreY;
     private Color couleur;
-    private Aventurier aventurier;
+    private Tuile tuile;
 
-    public TresorD(int centreX, int centreY, Color couleur) {
+    public Tuile getTuile() {
+        return tuile;
+    }
+
+    public TresorD(int centreX, int centreY, Color couleur,Tuile t) {
         setBackground(Color.white);
         setDoubleBuffered(true);
 
         this.centreX = centreX;
         this.centreY = centreY;
-        this.rayon = rayon;
         this.couleur = couleur;
-        this.aventurier = aventurier;
+        this.tuile = t;
 
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(couleur);
+        g.fillRect(centreX, centreY, 20, 20);
+
+    }
+
+    public void paintComponent(Graphics g) {
+        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        this.draw(g);
     }
 }

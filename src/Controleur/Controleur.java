@@ -88,32 +88,37 @@ public class Controleur implements Observateur {
             //if ((action == m.getAction())&& (nbActions > 0)){
             action = (((action == m.getAction()) || (nbActions == 0)) ? null : m.getAction());
             // System.out.println(action);
-            if ((action == "deplacer") && (nbActions > 0)) {
-                jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
-            } else if ((action == "assecher") && (nbActions > 0)) {
-                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
-            } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
-                this.finTour();
-            } else if ((m.getAction() == "Prendre tresor") && (nbActions > 0)) {
-                if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getTresor() == Tresor.PIERRE)) {
-                    defausserQuatreTresor(Tresor.PIERRE);
-                    jeu.tresorGagne(Tresor.PIERRE);
-                    jeu.MiseaJourCartes(AvCourant);
-                } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getTresor() == Tresor.CALYCE)) {
-                    defausserQuatreTresor(Tresor.CALYCE);
-                    jeu.tresorGagne(Tresor.CALYCE);
-                    jeu.MiseaJourCartes(AvCourant);
-                } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getTresor() == Tresor.CRYSTAL)) {
-                    defausserQuatreTresor(Tresor.CRYSTAL);
-                    jeu.tresorGagne(Tresor.CRYSTAL);
-                    jeu.MiseaJourCartes(AvCourant);
-                } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getTresor() == Tresor.STATUE)) {
-                    defausserQuatreTresor(Tresor.STATUE);
-                    jeu.tresorGagne(Tresor.STATUE);
-                    jeu.MiseaJourCartes(AvCourant);
-                } else {
-                    System.out.println("Pas de trésor à récuperrer");
+            if (nbActions > 0) {
+                if (action == "deplacer") {
+                    jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
+                } else if (action == "assecher") {
+                    jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
+                } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
+                    this.finTour();
+                } else if (m.getAction() == "Prendre tresor") {
+                    if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getTresor() == Tresor.PIERRE)) {
+                        defausserQuatreTresor(Tresor.PIERRE);
+                        jeu.tresorGagne(Tresor.PIERRE);
+                        jeu.MiseaJourCartes(AvCourant);
+                    } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getTresor() == Tresor.CALYCE)) {
+                        defausserQuatreTresor(Tresor.CALYCE);
+                        jeu.tresorGagne(Tresor.CALYCE);
+                        jeu.MiseaJourCartes(AvCourant);
+                    } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getTresor() == Tresor.CRYSTAL)) {
+                        defausserQuatreTresor(Tresor.CRYSTAL);
+                        jeu.tresorGagne(Tresor.CRYSTAL);
+                        jeu.MiseaJourCartes(AvCourant);
+                    } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getTresor() == Tresor.STATUE)) {
+                        defausserQuatreTresor(Tresor.STATUE);
+                        jeu.tresorGagne(Tresor.STATUE);
+                        jeu.MiseaJourCartes(AvCourant);
+                    } else {
+                        System.out.println("Pas de trésor à récuperrer");
+                    }
                 }
+            }
+            if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
+                this.finTour();
             }
             if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
                 this.finTour();
@@ -384,6 +389,7 @@ public class Controleur implements Observateur {
         jeu = new vuejeu(G);
         jeu.addObservateur(this);
         jeu.creationPion(joueurs);
+        jeu.creationTresor();
         jeu.afficherNomJoueur(AvCourant);
         jeu.MiseaJourCartes(AvCourant);
         jeu.afficher();
