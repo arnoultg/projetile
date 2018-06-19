@@ -203,17 +203,17 @@ public class vuejeu extends JPanel implements Observe {
         for (Tuile[] tuiles : g.getGrilleTuile()) {
             for (Tuile tuile : tuiles) {
                 if (tuile.getTresor() == Tresor.CALYCE) {
-                    TresorD Calyce = new TresorD(5, 80, Color.GREEN, tuile);
+                    TresorD Calyce = new TresorD(5, 100, Color.GREEN, tuile);
                     TresorsDessin.add(Calyce);
                 } else if (tuile.getTresor() == Tresor.CRYSTAL) {
-                    TresorD crystal = new TresorD(5, 80, Color.red, tuile);
+                    TresorD crystal = new TresorD(5, 100, Color.red, tuile);
                     TresorsDessin.add(crystal);
                 } else if (tuile.getTresor() == Tresor.PIERRE) {
-                    TresorD pierre = new TresorD(5, 80, Color.PINK, tuile);
+                    TresorD pierre = new TresorD(5, 100, Color.PINK, tuile);
                     TresorsDessin.add(pierre);
 
                 } else if (tuile.getTresor() == Tresor.STATUE) {
-                    TresorD statue = new TresorD(5, 80, Color.orange, tuile);
+                    TresorD statue = new TresorD(5, 100, Color.orange, tuile);
                     TresorsDessin.add(statue);
                 }
             }
