@@ -96,7 +96,7 @@ public class Controleur implements Observateur {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
                 } else if (action == "assecher"){
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
-                } else if (action == "Prendre_tresor") {
+                } else if (action == "Prendre Tresor") {
                     if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos()).getTresor() ==  Tresor.PIERRE) {
                         defausserQuatreTresor(Tresor.PIERRE);
                         jeu.tresorGagne(Tresor.PIERRE);
@@ -116,7 +116,7 @@ public class Controleur implements Observateur {
                     } else {
                         System.out.println("Pas de trésor à récuperrer");
                     }
-                } else if (action == "Donner_Tresor") {
+                } else if (action == "Donner Tresor") {
                     ArrayList<Aventurier> liste =  AvCourant.getPos().getAventurierssur();
                     liste.remove(AvCourant);
                     if (liste.size() == 0) {
@@ -146,7 +146,7 @@ public class Controleur implements Observateur {
             }
 
             
-        } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action != "Donner_Tresor")) {
+        } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action != "Donner Tresor")) {
             if (AvCourant.getNbCartes() > 5) {
                 defausserCarte(AvCourant.getCartes().get(m.getCarte()));
                 jeu.MiseaJourCartes(AvCourant);
@@ -154,10 +154,10 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.DEMARRER) {
             initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
             
-        }else if ((m.getType() == TypesMessage.CLIC_JOUEUR) && (action == "Donner_Tresor")){
+        }else if ((m.getType() == TypesMessage.CLIC_JOUEUR) && (action == "Donner Tresor")){
             destinataire = AvCourant.getPos().getAventurierssur().get(0);
             
-        }else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action == "Donner_Tresor") && (destinataire != null)){
+        }else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action == "Donner Tresor") && (destinataire != null)){
             donnerCTresor(destinataire, AvCourant.getCartes().get(m.getCarte()));
             destinataire = null;
         }
