@@ -100,16 +100,16 @@ public class vuejeu extends JPanel implements Observe {
         JButton findetour = new JButton("Fin_de_tour");
         JButton deplacer = new JButton("deplacer");
         JButton assecher = new JButton("assecher");
-        JButton rienfaire = new JButton("rien faire");
+        JButton prendretresor = new JButton("Prendre_tresor");
 
         toucheaction.add(findetour);
         toucheaction.add(deplacer);
         toucheaction.add(assecher);
-        toucheaction.add(rienfaire);
+        toucheaction.add(prendretresor);
         lesboutonsactions.add(findetour);
         lesboutonsactions.add(deplacer);
         lesboutonsactions.add(assecher);
-        lesboutonsactions.add(rienfaire);
+        lesboutonsactions.add(prendretresor);
 
         JPanel boutonsCartes = new JPanel(new GridLayout(2, 4));
         PMillieu.add(boutonsCartes, BorderLayout.CENTER);

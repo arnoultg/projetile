@@ -55,6 +55,25 @@ public class Controleur implements Observateur {
         this.AvCourant = AvCourant;
     }
 
+    public boolean quatreTresors(Tresor tresor) {
+        int nbTres = 0;
+        for (int i = 0; i < AvCourant.getNbCartes(); i++) {
+            if (AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
+                nbTres++;
+            }
+        }
+        return nbTres >= 4;
+    }
+
+    public void defausserQuatreTresor(Tresor tresor) {
+        int nbTresDefause = 0;
+        for (int i = 0; i < AvCourant.getNbCartes(); i++) {
+            if (nbTresDefause < 4 && AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
+                defausserCarte(i);
+            }
+        }
+    }
+
     @Override
     public void traiterMessage(Message m) {
 
@@ -71,8 +90,21 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
             } else if ((action == "assecher") && (nbActions > 0)) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
-            } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes()<= 5)) {
+            } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
                 this.finTour();
+            } else if ((m.getAction() == "Prendre_tresor") && (nbActions > 0)) {
+                if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DE_LA_LUNE || AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DU_SOLEIL)) {
+                    defausserQuatreTresor(Tresor.PIERRE);
+                } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getNom() == Iles.LE_PALAIS_DE_CORAIL || AvCourant.getPos().getNom() == Iles.LE_PALAIS_DES_MAREES)) {
+                    defausserQuatreTresor(Tresor.CALYCE);
+                } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DU_BRASIER || AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DES_OMBRES)) {
+                    defausserQuatreTresor(Tresor.CRYSTAL);
+                } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_HURLEMENTS || AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_MURMURES)) {
+                    defausserQuatreTresor(Tresor.STATUE);
+                } else {
+                    System.out.println("Pas de trésor à récuperrer");
+                }
+
             }
 
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
@@ -97,16 +129,13 @@ public class Controleur implements Observateur {
                 defausserCarte(m.getCarte());
                 jeu.MiseaJourCartes(AvCourant);
             }
-        }else if(m.getType() ==  TypesMessage.DEMARRER){
-            initialiserjeu(m.getNbjoueurs(),m.getNomsJoueurs());
-            
-            
+        } else if (m.getType() == TypesMessage.DEMARRER) {
+            initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
+
         }
     }
 
-
 //----------------------------------------Actions d'un tour de jeux-----------------------------------------------    
-    
     public void finTour() {
         action = null;
         nbActions = 3;
@@ -121,7 +150,7 @@ public class Controleur implements Observateur {
         tirerCartesTresors();    //pioche des catres trésors et innondations
         tirerCarteInnondation();
         jeu.maj();
-        
+
         //jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
         jeu.choisirCarteDefausse(AvCourant);
 
@@ -129,7 +158,7 @@ public class Controleur implements Observateur {
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1 : 0);
-        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1:0);
+        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1 : 0);
         jeu.MiseaJourCartes(AvCourant);
     }
 
@@ -190,7 +219,7 @@ public class Controleur implements Observateur {
             if (nbCartesPaquet > 0) {
                 G.getPaquetCInnond().get(0).innondeTuile(G);
                 G.tirerCInnonde(G.getPaquetCInnond().get(0));
-                
+
             } else {
                 G.reinitPaquetInnond();
             }
@@ -209,7 +238,7 @@ public class Controleur implements Observateur {
     }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
-    private void creationJoueur(int nbJoueur,ArrayList<String> nomsJoueurs) {
+    private void creationJoueur(int nbJoueur, ArrayList<String> nomsJoueurs) {
         /*
         Scanner entree = new Scanner(System.in);
         for (int i = 10; i >= 0; i--) { //demande le nombre de joueur, recommence si le nombre chosi n'est pas compris entre 2 et 4
@@ -226,8 +255,8 @@ public class Controleur implements Observateur {
                 }
             }
         }
-        */
-        
+         */
+
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
 
         for (int x = 0; x < Utils.Pion.values().length; x++) {
@@ -266,7 +295,7 @@ public class Controleur implements Observateur {
                 Joueur = new Explorateur(Utils.Pion.VERT, nomsJoueurs.get(x), t);
                 System.out.println("Vous etes l'explorateur \n");
 
-            } else  /* if (lescouleurs.get(x) == Utils.Pion.ORANGE)*/ {
+            } else /* if (lescouleurs.get(x) == Utils.Pion.ORANGE)*/ {
                 t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
                 Joueur = new Messager(Utils.Pion.ORANGE, nomsJoueurs.get(x), t);
                 System.out.println("Vous etes le messager \n");
@@ -327,7 +356,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    private void initialiserjeu(int nbJoueur,ArrayList<String> nomsJoueurs) {
+    private void initialiserjeu(int nbJoueur, ArrayList<String> nomsJoueurs) {
 
         G = new Grille(1);
         initialiserGrille();
