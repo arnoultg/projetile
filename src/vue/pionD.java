@@ -36,7 +36,7 @@ public class pionD extends JPanel {
         this.aventurier = aventurier;
         
 
-        //System.out.println("constructeur");
+        
     }
 
     public Aventurier getAventurier() {
