@@ -310,6 +310,7 @@ public class Controleur implements Observateur {
 
     private void premiereInondations() {    //innondation de début de partie
 
+        /*
         G.getTuile(Iles.LA_PORTE_DE_BRONZE).innonde();
         G.getTuile(Iles.OBSERVATOIRE).innonde();
         G.getTuile(Iles.LA_CAVERNE_DU_BRASIER).innonde();
@@ -324,24 +325,24 @@ public class Controleur implements Observateur {
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
         G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
         //innondation aléatoire
-        /*
+         */
         for (int i = 1; i <= 6; i++) {
             int nbCartesPaquet = G.getPaquetCInnond().size();
             if (nbCartesPaquet > 0) {
                 G.getPaquetCInnond().get(0).innondeTuile(G);
                 G.getPaquetCInnond().remove(0);
             } else {
-                G.initialiserPaquetInnond(G.getPaquetCInnond());
+                G.initialiserPaquetInnond();
             }
         }
-         */
+
     }
 
     private void initialiserGrille() {  //place les tuiles sur la grille
 
         int ind = 0;
         Iles[] liste = Iles.values();
-
+        
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 6; y++) {
                 if (((y != 2 && y != 3) && (x == 0 || x == 5)) || ((x == 1 || x == 4) && (y == 0 || y == 5))) {
@@ -354,6 +355,22 @@ public class Controleur implements Observateur {
                 }
             }
         }
+        initialiserTresor();
+    }
+    
+    private void initialiserTresor(){
+        G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).setTresor(Tresor.PIERRE);
+        G.getTuile(Iles.LE_TEMPLE_DU_SOLEIL).setTresor(Tresor.PIERRE);
+        
+        G.getTuile(Iles.LE_JARDIN_DES_MURMURES).setTresor(Tresor.STATUE);
+        G.getTuile(Iles.LE_JARDIN_DES_HURLEMENTS).setTresor(Tresor.STATUE);
+        
+        G.getTuile(Iles.LA_CAVERNE_DU_BRASIER).setTresor(Tresor.CRYSTAL);
+        G.getTuile(Iles.LA_CAVERNE_DES_OMBRES).setTresor(Tresor.CRYSTAL);
+        
+        G.getTuile(Iles.LE_PALAIS_DES_MAREES).setTresor(Tresor.CALYCE);
+        G.getTuile(Iles.LE_PALAIS_DE_CORAIL).setTresor(Tresor.CALYCE);
+        
     }
 
     private void initialiserjeu(int nbJoueur, ArrayList<String> nomsJoueurs) {
