@@ -118,7 +118,7 @@ public class Controleur implements Observateur {
                     }
                 }
             }
-            if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
+            if ((m.getAction() == "Fin de tour") && (AvCourant.getNbCartes() <= 5)) {
                     this.finTour();
             }
                     

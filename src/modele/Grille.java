@@ -94,7 +94,7 @@ public class Grille {
             paquetCTresor.add(new SacDeSable());     // 2 Sacs de sable
         }
         for (int i = 1; i <= 2; i++) {
-            paquetCTresor.add(new MonteDesEaux());   //3 Montees des eaux
+            paquetCTresor.add(new MonteDesEaux());   //2 Montees des eaux
         }
         for (Tresor i : Tresor.values()) {
             for (int j = 1; j <= 5; j++) {
