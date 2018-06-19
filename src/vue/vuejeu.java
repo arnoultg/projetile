@@ -6,6 +6,7 @@
 package vue;
 
 import Enums.Iles;
+import Enums.Tresor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -57,14 +58,14 @@ public class vuejeu extends JPanel implements Observe {
     public vuejeu(Grille g) {
         GraphicsEnvironment environnement = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle fenetre = environnement.getMaximumWindowBounds();
-        int xfentre = (int) fenetre.getWidth();
+        int xfenetre = (int) fenetre.getWidth();
         int yfenetre = (int) fenetre.getHeight();
         this.g = g;
 
 // ouverture fenetre
         frame = new JFrame();
         frame.setTitle("Carte");
-        frame.setSize(xfentre, yfenetre);
+        frame.setSize(xfenetre, yfenetre);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setDoubleBuffered(true);
 
@@ -95,21 +96,24 @@ public class vuejeu extends JPanel implements Observe {
         PHaut.add(nom, BorderLayout.WEST);
         PHaut.add(Joueur2, BorderLayout.EAST);
 
-        JPanel toucheaction = new JPanel(new GridLayout(0, 4));
+        JPanel toucheaction = new JPanel(new GridLayout(0, 5));
         PBas.add(toucheaction);
         JButton findetour = new JButton("Fin_de_tour");
         JButton deplacer = new JButton("deplacer");
         JButton assecher = new JButton("assecher");
-        JButton prendretresor = new JButton("Prendre_tresor");
+        JButton prendretres = new JButton("Prendre tresors");
+        JButton donnerCarte = new JButton("Donner carte");
 
         toucheaction.add(findetour);
         toucheaction.add(deplacer);
         toucheaction.add(assecher);
-        toucheaction.add(prendretresor);
+        toucheaction.add(prendretres);
+        toucheaction.add(donnerCarte);
         lesboutonsactions.add(findetour);
         lesboutonsactions.add(deplacer);
         lesboutonsactions.add(assecher);
-        lesboutonsactions.add(prendretresor);
+        lesboutonsactions.add(prendretres);
+        lesboutonsactions.add(donnerCarte);
 
         JPanel boutonsCartes = new JPanel(new GridLayout(2, 4));
         PMillieu.add(boutonsCartes, BorderLayout.CENTER);
@@ -153,6 +157,7 @@ public class vuejeu extends JPanel implements Observe {
                 JPanel blanc = new JPanel();
                 panelgrille.add(blanc);
                 lesboutonstuiles.add(null);
+
             } else {
 
                 panelgrille.add(getCellule(compteur));
@@ -188,6 +193,16 @@ public class vuejeu extends JPanel implements Observe {
             lesboutonstuiles.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion); //recupere le bouton sur le quel le pion doit etre afficher
             repaint(); //appelle PaintComponent
 
+        }
+    }
+    
+    public void creationTresor(){
+        for (Tuile[] tuiles : g.getGrilleTuile()){
+            for (Tuile tuile : tuiles){
+                if(tuile.getTresor() == Tresor.CALYCE){
+                    
+                }
+            }
         }
     }
 
