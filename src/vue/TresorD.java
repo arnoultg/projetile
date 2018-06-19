@@ -30,4 +30,4 @@ public class TresorD extends JPanel {
         this.aventurier = aventurier;
 
     }
-    
+}
