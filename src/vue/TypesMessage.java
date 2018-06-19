@@ -13,5 +13,6 @@ public enum TypesMessage {
     CLIC_TUILE,
     CLIC_ACTION,
     CLIC_CARTE,
-    DEMARRER;
+    DEMARRER,
+    CLIC_JOUEUR;
 }

@@ -29,7 +29,6 @@ public class Tuile {
         this.X = X;
         this.Y = Y;
         aventurierssur = new ArrayList<>();
-        
     }
 
     public Iles getNom() {

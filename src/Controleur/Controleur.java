@@ -26,6 +26,7 @@ public class Controleur implements Observateur {
 
     private static ArrayList<Aventurier> joueurs;
     private String action = null;
+    private Aventurier destinataire;
     private static vuejeu jeu;
     private static Aventurier AvCourant;
     private int nbActions = 3;
@@ -69,7 +70,7 @@ public class Controleur implements Observateur {
         int nbTresDefause = 0;
         for (int i = 0; i < AvCourant.getNbCartes(); i++) {
             if (nbTresDefause < 4 && AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
-                defausserCarte(i);
+                defausserCarte(AvCourant.getCartes().get(i));
             }
         }
     }
@@ -83,9 +84,11 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
             }
 
-            //if ((action == m.getAction())&& (nbActions > 0)){
+            if (action == m.getAction()){
+                destinataire = null;
+            }
             action = (((action == m.getAction()) || (nbActions == 0)) ? null : m.getAction());
-            // System.out.println(action);
+            
             if (nbActions > 0) {
                 if (action == "deplacer") {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
@@ -104,7 +107,13 @@ public class Controleur implements Observateur {
                         System.out.println("Pas de trésor à récuperrer");
                     }
                 } else if (action == "Donner_Tresor") {
-                    
+                    ArrayList<Aventurier> liste =  AvCourant.getPos().getAventurierssur();
+                    liste.remove(AvCourant);
+                    if (liste.size() == 0) {
+                        System.out.println("pas d'autres aventuriers sur la tuile");
+                    }else {
+                        
+                    }
                 }
             }
             if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
@@ -127,13 +136,20 @@ public class Controleur implements Observateur {
             }
 
             
-        } else if (m.getType() == TypesMessage.CLIC_CARTE) {
+        } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action != "Donner_Tresor")) {
             if (AvCourant.getNbCartes() > 5) {
-                defausserCarte(m.getCarte());
+                defausserCarte(AvCourant.getCartes().get(m.getCarte()));
                 jeu.MiseaJourCartes(AvCourant);
             }
         } else if (m.getType() == TypesMessage.DEMARRER) {
             initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
+            
+        }else if ((m.getType() == TypesMessage.CLIC_JOUEUR) && (action == "Donner_Tresor")){
+            destinataire = AvCourant.getPos().getAventurierssur().get(0);
+            
+        }else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action == "Donner_Tresor") && (destinataire != null)){
+            donnerCTresor(destinataire, AvCourant.getCartes().get(m.getCarte()));
+            destinataire = null;
         }
     }
 
@@ -228,10 +244,9 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void defausserCarte(int c) {
-        CarteTresor carte = AvCourant.getCartes().get(c);
-        AvCourant.removeCarte(carte);
-        G.addDefausseCTresor(carte);
+    public void defausserCarte(CarteTresor c) {
+        AvCourant.removeCarte(c);
+        G.addDefausseCTresor(c);
     }
 
     private void enleverAvTuile() {
@@ -239,10 +254,11 @@ public class Controleur implements Observateur {
 
     }
 
-    private void donnerCTresor(Aventurier av) {
-        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : AvCourant.getPos().equals(av.getPos()));
+    private void donnerCTresor(Aventurier av, CarteTresor c) {
+        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : (AvCourant.getPos().equals(av.getPos())&& (c.getClass().getName() == "modele.C_tresor")));
         if (conditions) {
-
+            av.addCarte(c);
+            AvCourant.removeCarte(c);
         }
     }
 
