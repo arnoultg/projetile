@@ -86,36 +86,38 @@ public class Controleur implements Observateur {
             //if ((action == m.getAction())&& (nbActions > 0)){
             action = (((action == m.getAction()) || (nbActions == 0)) ? null : m.getAction());
             // System.out.println(action);
-            if ((action == "deplacer") && (nbActions > 0)) {
-                jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
-            } else if ((action == "assecher") && (nbActions > 0)) {
-                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
-            } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
-                this.finTour();
-            } else if ((m.getAction() == "Prendre_tresor") && (nbActions > 0)) {
-                if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DE_LA_LUNE || AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DU_SOLEIL)) {
-                    defausserQuatreTresor(Tresor.PIERRE);
-                } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getNom() == Iles.LE_PALAIS_DE_CORAIL || AvCourant.getPos().getNom() == Iles.LE_PALAIS_DES_MAREES)) {
-                    defausserQuatreTresor(Tresor.CALYCE);
-                } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DU_BRASIER || AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DES_OMBRES)) {
-                    defausserQuatreTresor(Tresor.CRYSTAL);
-                } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_HURLEMENTS || AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_MURMURES)) {
-                    defausserQuatreTresor(Tresor.STATUE);
-                } else {
-                    System.out.println("Pas de trésor à récuperrer");
+            if (nbActions > 0) {
+                if (action == "deplacer") {
+                    jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
+                } else if (action == "assecher"){
+                    jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
+                } else if (action == "Prendre_tresor") {
+                    if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DE_LA_LUNE || AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DU_SOLEIL)) {
+                        defausserQuatreTresor(Tresor.PIERRE);
+                    } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getNom() == Iles.LE_PALAIS_DE_CORAIL || AvCourant.getPos().getNom() == Iles.LE_PALAIS_DES_MAREES)) {
+                        defausserQuatreTresor(Tresor.CALYCE);
+                    } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DU_BRASIER || AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DES_OMBRES)) {
+                        defausserQuatreTresor(Tresor.CRYSTAL);
+                    } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_HURLEMENTS || AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_MURMURES)) {
+                        defausserQuatreTresor(Tresor.STATUE);
+                    } else {
+                        System.out.println("Pas de trésor à récuperrer");
+                    }
+                } else if (action == "Donner_Tresor") {
+                    
                 }
-
             }
-
+            if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
+                    this.finTour();
+            }
+                    
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
             if (action == "deplacer") {
                 if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
                     this.deplacerJoueur(m.getTuile());
                     action = null;
-
                 }
-
             } else if (action == "assecher") {
                 if (AvCourant.dispoAssecher(G).contains(m.getTuile())) {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
@@ -124,6 +126,7 @@ public class Controleur implements Observateur {
                 }
             }
 
+            
         } else if (m.getType() == TypesMessage.CLIC_CARTE) {
             if (AvCourant.getNbCartes() > 5) {
                 defausserCarte(m.getCarte());
@@ -131,7 +134,6 @@ public class Controleur implements Observateur {
             }
         } else if (m.getType() == TypesMessage.DEMARRER) {
             initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
-
         }
     }
 
@@ -236,14 +238,17 @@ public class Controleur implements Observateur {
         AvCourant.getPos().getAventurierssur().remove(AvCourant);
 
     }
-    
-    private void donnerCTresor(Aventurier av){
-       //boolean conditions = () 
+
+    private void donnerCTresor(Aventurier av) {
+        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : AvCourant.getPos().equals(av.getPos()));
+        if (conditions) {
+
+        }
     }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
-    private void creationJoueur(int nbJoueur,ArrayList<String> nomsJoueurs) {
-        
+    private void creationJoueur(int nbJoueur, ArrayList<String> nomsJoueurs) {
+
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
 
         for (int x = 0; x < Utils.Pion.values().length; x++) {
@@ -331,7 +336,7 @@ public class Controleur implements Observateur {
 
         int ind = 0;
         Iles[] liste = Iles.values();
-        
+
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 6; y++) {
                 if (((y != 2 && y != 3) && (x == 0 || x == 5)) || ((x == 1 || x == 4) && (y == 0 || y == 5))) {
@@ -346,20 +351,20 @@ public class Controleur implements Observateur {
         }
         initialiserTresor();
     }
-    
-    private void initialiserTresor(){
+
+    private void initialiserTresor() {
         G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).setTresor(Tresor.PIERRE);
         G.getTuile(Iles.LE_TEMPLE_DU_SOLEIL).setTresor(Tresor.PIERRE);
-        
+
         G.getTuile(Iles.LE_JARDIN_DES_MURMURES).setTresor(Tresor.STATUE);
         G.getTuile(Iles.LE_JARDIN_DES_HURLEMENTS).setTresor(Tresor.STATUE);
-        
+
         G.getTuile(Iles.LA_CAVERNE_DU_BRASIER).setTresor(Tresor.CRYSTAL);
         G.getTuile(Iles.LA_CAVERNE_DES_OMBRES).setTresor(Tresor.CRYSTAL);
-        
+
         G.getTuile(Iles.LE_PALAIS_DES_MAREES).setTresor(Tresor.CALYCE);
         G.getTuile(Iles.LE_PALAIS_DE_CORAIL).setTresor(Tresor.CALYCE);
-        
+
     }
 
     private void initialiserjeu(int nbJoueur, ArrayList<String> nomsJoueurs) {
@@ -383,7 +388,6 @@ public class Controleur implements Observateur {
         vueDebut debut = new vueDebut();
         debut.afficher();
         debut.addObservateur(C);
-        
 
     }
 

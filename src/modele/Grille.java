@@ -128,15 +128,11 @@ public class Grille {
     }
 
     public void reinitPaquetTresor() {
-        System.out.println(defausseTresor.size());
-        System.out.println(paquetCTresor.size());
         Collections.shuffle(defausseTresor);
-        for (int i = 0; i< defausseTresor.size(); i++){
-            paquetCTresor.set(i, defausseTresor.get(i));
+        for (CarteTresor i : defausseTresor){
+            paquetCTresor.add(i);
         }
         defausseTresor.clear();
-        System.out.println(defausseTresor.size());
-        System.out.println(paquetCTresor.size());
     }
     /*
     public ArrayList<Carte_Innondation> nouveauPaquetInnond(ArrayList<Carte_Innondation> paquetInnond) {    //crée un paquet de carte innondation sans les tuiles déjà coulée (milieu de partie)
