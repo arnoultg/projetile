@@ -97,21 +97,10 @@ public class Controleur implements Observateur {
                 } else if (action == "assecher"){
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 } else if (action == "Prendre Tresor") {
-                    if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos()).getTresor() ==  Tresor.PIERRE) {
-                        defausserQuatreTresor(Tresor.PIERRE);
-                        jeu.tresorGagne(Tresor.PIERRE);
-                        jeu.MiseaJourCartes(AvCourant);
-                    } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos()).getTresor() ==  Tresor.CALYCE) {
-                        defausserQuatreTresor(Tresor.CALYCE);
-                        jeu.tresorGagne(Tresor.CALYCE);
-                        jeu.MiseaJourCartes(AvCourant);
-                    } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos()).getTresor() ==  Tresor.CRYSTAL) {
-                        defausserQuatreTresor(Tresor.CRYSTAL);
-                        jeu.tresorGagne(Tresor.CRYSTAL);
-                        jeu.MiseaJourCartes(AvCourant);
-                    } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos()).getTresor() ==  Tresor.STATUE) {
-                        defausserQuatreTresor(Tresor.STATUE);
-                        jeu.tresorGagne(Tresor.STATUE);
+                    Tresor tresor = AvCourant.getPos().getTresor();
+                    if (tresor != null && quatreTresors(tresor)) {
+                        defausserQuatreTresor(tresor);
+                        jeu.tresorGagne(tresor);
                         jeu.MiseaJourCartes(AvCourant);
                     } else {
                         System.out.println("Pas de trésor à récuperrer");
@@ -136,12 +125,14 @@ public class Controleur implements Observateur {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
                     this.deplacerJoueur(m.getTuile());
                     action = null;
+                    nbActions -= 1;
                 }
             } else if (action == "assecher") {
                 if (AvCourant.dispoAssecher(G).contains(m.getTuile())) {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
                     action = null;
                     this.assechercase(m.getTuile());
+                    nbActions -= 1;
                 }
             }
 
@@ -189,12 +180,9 @@ public class Controleur implements Observateur {
         jeu.MiseaJourCartes(AvCourant);
     }
 
-    private void deplacerJoueur(Tuile tuile) {
-        enleverAvTuile();   //déplace le joueur sur la tuile séléctionnée
-        AvCourant.setPos(tuile);
-        tuile.addAventurier(AvCourant);
+    private void deplacerJoueur(Tuile tuile) {   
+        AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
         jeu.afficherPion();
-        nbActions -= 1;
 
         if (AvCourant.getClass().getName() == "modele.Pilote") {  //active le pouvoir du pilote
             ((Pilote) AvCourant).setPouvoir(true);
@@ -207,7 +195,7 @@ public class Controleur implements Observateur {
     private void assechercase(Tuile tuile) {
         tuile.asseche();    //asseche la tuile séléctionnée
         jeu.MiseaJourTuile(tuile);
-        nbActions -= 1;
+        
         if (AvCourant.getClass().getName() == "modele.Ingenieur") {
             if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
@@ -266,10 +254,6 @@ public class Controleur implements Observateur {
     public void defausserCarte(CarteTresor c) {
         AvCourant.removeCarte(c);
         G.addDefausseCTresor(c);
-    }
-
-    private void enleverAvTuile() {
-        AvCourant.getPos().getAventurierssur().remove(AvCourant);
     }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
