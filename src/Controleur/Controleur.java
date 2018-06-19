@@ -209,6 +209,15 @@ public class Controleur implements Observateur {
             }
         }
     }
+    
+    private void donnerCTresor(Aventurier av, CarteTresor c) {
+        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : (AvCourant.getPos().equals(av.getPos())&& (c.getClass().getName() == "modele.C_tresor")));
+        if (conditions) {
+            av.addCarte(c);
+            AvCourant.removeCarte(c);
+            nbActions += 1;
+        }
+    }
 
     //----------------------------------------Actions sur les cartes-----------------------------------------------
     public void tirerCartesTresors() {  //donne deux cartes du paquet de cartes trésor au joueur, et les retire du paquet
@@ -251,15 +260,6 @@ public class Controleur implements Observateur {
 
     private void enleverAvTuile() {
         AvCourant.getPos().getAventurierssur().remove(AvCourant);
-
-    }
-
-    private void donnerCTresor(Aventurier av, CarteTresor c) {
-        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : (AvCourant.getPos().equals(av.getPos())&& (c.getClass().getName() == "modele.C_tresor")));
-        if (conditions) {
-            av.addCarte(c);
-            AvCourant.removeCarte(c);
-        }
     }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
