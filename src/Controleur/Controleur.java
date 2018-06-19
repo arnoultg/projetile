@@ -111,10 +111,10 @@ public class Controleur implements Observateur {
         action = null;
         nbActions = 3;
 
-        if ((AvCourant.getNomRole() == Utils.Pion.ROUGE)) { //réinitialisation des pouvoirs du pilote et de l'ingenieur
+        if (AvCourant.getClass().getName() == "modele.Ingenieur") { //réinitialisation des pouvoirs du pilote et de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
-        if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {
+        if (AvCourant.getClass().getName() == "modele.Pilote") {
             ((Pilote) AvCourant).setPouvoir(false);
         }
 
@@ -128,8 +128,7 @@ public class Controleur implements Observateur {
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
-        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1 : 0);
-        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1:0);
+        nbActions += (AvCourant.getClass().getName() == "modele.Navigateur" ? 1 : 0);
         jeu.MiseaJourCartes(AvCourant);
     }
 
@@ -140,10 +139,10 @@ public class Controleur implements Observateur {
         jeu.afficherPion();
         nbActions -= 1;
 
-        if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {  //active le pouvoir du pilote
+        if (AvCourant.getClass().getName() == "modele.Pilote") {  //active le pouvoir du pilote
             ((Pilote) AvCourant).setPouvoir(true);
         }
-        if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {  //désactive le pouvoir de l'ingenieur
+        if (AvCourant.getClass().getName() == "modele.Ingenieur") {  //désactive le pouvoir de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
     }
@@ -152,7 +151,7 @@ public class Controleur implements Observateur {
         tuile.asseche();    //asseche la tuile séléctionnée
         jeu.MiseaJourTuile(tuile);
         nbActions -= 1;
-        if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
+        if (AvCourant.getClass().getName() == "modele.Ingenieur") {
             if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 action = "assecher";
@@ -170,6 +169,7 @@ public class Controleur implements Observateur {
         for (int i = 0; i < 2; i++) {
             int nbCartesPaquet = G.getPaquetCTresor().size();
             if (nbCartesPaquet == 0) {
+                System.out.println("reinit");
                 G.reinitPaquetTresor();
             }
             CarteTresor c = G.getPaquetCTresor().get(0);
@@ -207,26 +207,13 @@ public class Controleur implements Observateur {
         AvCourant.getPos().getAventurierssur().remove(AvCourant);
 
     }
+    
+    private void donnerCTresor(Aventurier av){
+       //boolean conditions = () 
+    }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
     private void creationJoueur(int nbJoueur,ArrayList<String> nomsJoueurs) {
-        /*
-        Scanner entree = new Scanner(System.in);
-        for (int i = 10; i >= 0; i--) { //demande le nombre de joueur, recommence si le nombre chosi n'est pas compris entre 2 et 4
-            System.out.println("Combien de joueurs voulez vous ?");
-            nbJoueur = entree.nextInt();
-            if (nbJoueur > 1 && nbJoueur < 5) {
-                i = i - 10;
-            } else {
-                if (i == 0) {
-                    System.out.println("C'est pas trés sympa");
-                } else {
-                    System.out.println(i + " essais restants");
-                    System.out.println("Mettez un nombre compris entre 2 et 4 :");
-                }
-            }
-        }
-        */
         
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
 
@@ -275,6 +262,8 @@ public class Controleur implements Observateur {
             t.addAventurier(Joueur);
             addAventurier(Joueur);
             AvCourant = Joueur;
+            System.out.println(AvCourant.getClass().getName());
+            System.out.println(AvCourant.getClass().getName() == "modele.Explorateur");
             tirerCartesTresors();
         }
     }
@@ -348,6 +337,7 @@ public class Controleur implements Observateur {
         vueDebut debut = new vueDebut();
         debut.afficher();
         debut.addObservateur(C);
+        
 
     }
 
