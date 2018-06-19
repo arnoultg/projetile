@@ -55,6 +55,25 @@ public class Controleur implements Observateur {
         this.AvCourant = AvCourant;
     }
 
+    public boolean quatreTresors(Tresor tresor) {
+        int nbTres = 0;
+        for (int i = 0; i < AvCourant.getNbCartes(); i++) {
+            if (AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
+                nbTres++;
+            }
+        }
+        return nbTres >= 4;
+    }
+
+    public void defausserQuatreTresor(Tresor tresor) {
+        int nbTresDefause = 0;
+        for (int i = 0; i < AvCourant.getNbCartes(); i++) {
+            if (nbTresDefause < 4 && AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
+                defausserCarte(i);
+            }
+        }
+    }
+
     @Override
     public void traiterMessage(Message m) {
 
@@ -73,6 +92,19 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
             } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
                 this.finTour();
+            } else if ((m.getAction() == "Prendre_tresor") && (nbActions > 0)) {
+                if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DE_LA_LUNE || AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DU_SOLEIL)) {
+                    defausserQuatreTresor(Tresor.PIERRE);
+                } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getNom() == Iles.LE_PALAIS_DE_CORAIL || AvCourant.getPos().getNom() == Iles.LE_PALAIS_DES_MAREES)) {
+                    defausserQuatreTresor(Tresor.CALYCE);
+                } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DU_BRASIER || AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DES_OMBRES)) {
+                    defausserQuatreTresor(Tresor.CRYSTAL);
+                } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_HURLEMENTS || AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_MURMURES)) {
+                    defausserQuatreTresor(Tresor.STATUE);
+                } else {
+                    System.out.println("Pas de trésor à récuperrer");
+                }
+
             }
 
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
@@ -108,10 +140,10 @@ public class Controleur implements Observateur {
         action = null;
         nbActions = 3;
 
-        if ((AvCourant.getNomRole() == Utils.Pion.ROUGE)) { //réinitialisation des pouvoirs du pilote et de l'ingenieur
+        if (AvCourant.getClass().getName() == "modele.Ingenieur") { //réinitialisation des pouvoirs du pilote et de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
-        if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {
+        if (AvCourant.getClass().getName() == "modele.Pilote") {
             ((Pilote) AvCourant).setPouvoir(false);
         }
 
@@ -125,8 +157,7 @@ public class Controleur implements Observateur {
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
-        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1 : 0);
-        nbActions += (AvCourant.getNomRole() == Utils.Pion.JAUNE ? 1 : 0);
+        nbActions += (AvCourant.getClass().getName() == "modele.Navigateur" ? 1 : 0);
         jeu.MiseaJourCartes(AvCourant);
     }
 
@@ -137,10 +168,10 @@ public class Controleur implements Observateur {
         jeu.afficherPion();
         nbActions -= 1;
 
-        if ((AvCourant.getNomRole() == Utils.Pion.BLEU)) {  //active le pouvoir du pilote
+        if (AvCourant.getClass().getName() == "modele.Pilote") {  //active le pouvoir du pilote
             ((Pilote) AvCourant).setPouvoir(true);
         }
-        if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {  //désactive le pouvoir de l'ingenieur
+        if (AvCourant.getClass().getName() == "modele.Ingenieur") {  //désactive le pouvoir de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
     }
@@ -149,7 +180,7 @@ public class Controleur implements Observateur {
         tuile.asseche();    //asseche la tuile séléctionnée
         jeu.MiseaJourTuile(tuile);
         nbActions -= 1;
-        if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
+        if (AvCourant.getClass().getName() == "modele.Ingenieur") {
             if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 action = "assecher";
@@ -167,6 +198,7 @@ public class Controleur implements Observateur {
         for (int i = 0; i < 2; i++) {
             int nbCartesPaquet = G.getPaquetCTresor().size();
             if (nbCartesPaquet == 0) {
+                System.out.println("reinit");
                 G.reinitPaquetTresor();
             }
             CarteTresor c = G.getPaquetCTresor().get(0);
@@ -204,27 +236,14 @@ public class Controleur implements Observateur {
         AvCourant.getPos().getAventurierssur().remove(AvCourant);
 
     }
+    
+    private void donnerCTresor(Aventurier av){
+       //boolean conditions = () 
+    }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
-    private void creationJoueur(int nbJoueur, ArrayList<String> nomsJoueurs) {
-        /*
-        Scanner entree = new Scanner(System.in);
-        for (int i = 10; i >= 0; i--) { //demande le nombre de joueur, recommence si le nombre chosi n'est pas compris entre 2 et 4
-            System.out.println("Combien de joueurs voulez vous ?");
-            nbJoueur = entree.nextInt();
-            if (nbJoueur > 1 && nbJoueur < 5) {
-                i = i - 10;
-            } else {
-                if (i == 0) {
-                    System.out.println("C'est pas trés sympa");
-                } else {
-                    System.out.println(i + " essais restants");
-                    System.out.println("Mettez un nombre compris entre 2 et 4 :");
-                }
-            }
-        }
-         */
-
+    private void creationJoueur(int nbJoueur,ArrayList<String> nomsJoueurs) {
+        
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
 
         for (int x = 0; x < Utils.Pion.values().length; x++) {
@@ -272,6 +291,8 @@ public class Controleur implements Observateur {
             t.addAventurier(Joueur);
             addAventurier(Joueur);
             AvCourant = Joueur;
+            System.out.println(AvCourant.getClass().getName());
+            System.out.println(AvCourant.getClass().getName() == "modele.Explorateur");
             tirerCartesTresors();
         }
     }
@@ -362,6 +383,7 @@ public class Controleur implements Observateur {
         vueDebut debut = new vueDebut();
         debut.afficher();
         debut.addObservateur(C);
+        
 
     }
 
