@@ -263,19 +263,17 @@ public class vuejeu extends JPanel implements Observe {
     public void tresorGagne(Tresor tresor) {
 
         for (int i = 0; i < lescasesblanches.size(); i++) {
-            if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
-                if (tresor == Tresor.CALYCE && i == 0) {
-                    lescasesblanches.get(i).setBackground(Color.green);
-                } else if (tresor == Tresor.CRYSTAL && i == 3) {
-                    lescasesblanches.get(i).setBackground(Color.red);
-                } else if (tresor == Tresor.PIERRE && i == 8) {
-                    lescasesblanches.get(i).setBackground(Color.pink);
-                } else if (tresor == Tresor.STATUE && i == 11) {
-                    lescasesblanches.get(i).setBackground(Color.orange);
-                }
+            if (tresor == Tresor.CALYCE && i == 0) {
+                lescasesblanches.get(i).setBackground(Color.green);
+            } else if (tresor == Tresor.CRYSTAL && i == 3) {
+                lescasesblanches.get(i).setBackground(Color.red);
+            } else if (tresor == Tresor.PIERRE && i == 8) {
+                lescasesblanches.get(i).setBackground(Color.pink);
+            } else if (tresor == Tresor.STATUE && i == 11) {
+                lescasesblanches.get(i).setBackground(Color.orange);
             }
         }
-
+        repaint();
     }
 
     public void afficher() {  // affiche la fenetre
