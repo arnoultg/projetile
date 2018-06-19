@@ -93,13 +93,13 @@ public class Controleur implements Observateur {
             } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
                 this.finTour();
             } else if ((m.getAction() == "Prendre_tresor") && (nbActions > 0)) {
-                if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DE_LA_LUNE || AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DU_SOLEIL)) {
+                if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getTresor() == Tresor.PIERRE)) {
                     defausserQuatreTresor(Tresor.PIERRE);
-                } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getNom() == Iles.LE_PALAIS_DE_CORAIL || AvCourant.getPos().getNom() == Iles.LE_PALAIS_DES_MAREES)) {
+                } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getTresor() == Tresor.CALYCE)) {
                     defausserQuatreTresor(Tresor.CALYCE);
-                } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DU_BRASIER || AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DES_OMBRES)) {
+                } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getTresor() == Tresor.CRYSTAL)) {
                     defausserQuatreTresor(Tresor.CRYSTAL);
-                } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_HURLEMENTS || AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_MURMURES)) {
+                } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getTresor() == Tresor.STATUE)) {
                     defausserQuatreTresor(Tresor.STATUE);
                 } else {
                     System.out.println("Pas de trésor à récuperrer");
