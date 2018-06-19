@@ -372,6 +372,7 @@ public class Controleur implements Observateur {
         jeu = new vuejeu(G);
         jeu.addObservateur(this);
         jeu.creationPion(joueurs);
+        jeu.creationTresor();
         jeu.afficherNomJoueur(AvCourant);
         jeu.MiseaJourCartes(AvCourant);
         jeu.afficher();
