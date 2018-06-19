@@ -26,6 +26,7 @@ public class Controleur implements Observateur {
 
     private static ArrayList<Aventurier> joueurs;
     private String action = null;
+    private Aventurier destinataire;
     private static vuejeu jeu;
     private static Aventurier AvCourant;
     private int nbActions = 3;
@@ -70,7 +71,7 @@ public class Controleur implements Observateur {
         int nbCartes = AvCourant.getNbCartes();
         for (int i = nbCartes - 1; i >= 0; i--) {
             if (nbTresDefause < 5 && AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
-                defausserCarte(i);
+                defausserCarte(AvCourant.getCartes().get(i));
                 nbTresDefause++;
             }
         }
@@ -85,35 +86,35 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
             }
 
-            //if ((action == m.getAction())&& (nbActions > 0)){
+            if (action == m.getAction()){
+                destinataire = null;
+            }
             action = (((action == m.getAction()) || (nbActions == 0)) ? null : m.getAction());
-            // System.out.println(action);
+            
             if (nbActions > 0) {
                 if (action == "deplacer") {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
-                } else if (action == "assecher") {
+                } else if (action == "assecher"){
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
-                } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
-                    this.finTour();
-                } else if (m.getAction() == "Prendre tresor") {
-                    if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getTresor() == Tresor.PIERRE)) {
+                } else if (action == "Prendre_tresor") {
+                    if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DE_LA_LUNE || AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DU_SOLEIL)) {
                         defausserQuatreTresor(Tresor.PIERRE);
-                        jeu.tresorGagne(Tresor.PIERRE);
-                        jeu.MiseaJourCartes(AvCourant);
-                    } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getTresor() == Tresor.CALYCE)) {
+                    } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getNom() == Iles.LE_PALAIS_DE_CORAIL || AvCourant.getPos().getNom() == Iles.LE_PALAIS_DES_MAREES)) {
                         defausserQuatreTresor(Tresor.CALYCE);
-                        jeu.tresorGagne(Tresor.CALYCE);
-                        jeu.MiseaJourCartes(AvCourant);
-                    } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getTresor() == Tresor.CRYSTAL)) {
+                    } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DU_BRASIER || AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DES_OMBRES)) {
                         defausserQuatreTresor(Tresor.CRYSTAL);
-                        jeu.tresorGagne(Tresor.CRYSTAL);
-                        jeu.MiseaJourCartes(AvCourant);
-                    } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getTresor() == Tresor.STATUE)) {
+                    } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_HURLEMENTS || AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_MURMURES)) {
                         defausserQuatreTresor(Tresor.STATUE);
-                        jeu.tresorGagne(Tresor.STATUE);
-                        jeu.MiseaJourCartes(AvCourant);
                     } else {
                         System.out.println("Pas de trésor à récuperrer");
+                    }
+                } else if (action == "Donner_Tresor") {
+                    ArrayList<Aventurier> liste =  AvCourant.getPos().getAventurierssur();
+                    liste.remove(AvCourant);
+                    if (liste.size() == 0) {
+                        System.out.println("pas d'autres aventuriers sur la tuile");
+                    }else {
+                        
                     }
                 }
             }
@@ -137,13 +138,20 @@ public class Controleur implements Observateur {
             }
 
             
-        } else if (m.getType() == TypesMessage.CLIC_CARTE) {
+        } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action != "Donner_Tresor")) {
             if (AvCourant.getNbCartes() > 5) {
-                defausserCarte(m.getCarte());
+                defausserCarte(AvCourant.getCartes().get(m.getCarte()));
                 jeu.MiseaJourCartes(AvCourant);
             }
         } else if (m.getType() == TypesMessage.DEMARRER) {
             initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
+            
+        }else if ((m.getType() == TypesMessage.CLIC_JOUEUR) && (action == "Donner_Tresor")){
+            destinataire = AvCourant.getPos().getAventurierssur().get(0);
+            
+        }else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action == "Donner_Tresor") && (destinataire != null)){
+            donnerCTresor(destinataire, AvCourant.getCartes().get(m.getCarte()));
+            destinataire = null;
         }
     }
 
@@ -238,10 +246,9 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void defausserCarte(int c) {
-        CarteTresor carte = AvCourant.getCartes().get(c);
-        AvCourant.removeCarte(carte);
-        G.addDefausseCTresor(carte);
+    public void defausserCarte(CarteTresor c) {
+        AvCourant.removeCarte(c);
+        G.addDefausseCTresor(c);
     }
 
     private void enleverAvTuile() {
@@ -249,10 +256,11 @@ public class Controleur implements Observateur {
 
     }
 
-    private void donnerCTresor(Aventurier av) {
-        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : AvCourant.getPos().equals(av.getPos()));
+    private void donnerCTresor(Aventurier av, CarteTresor c) {
+        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : (AvCourant.getPos().equals(av.getPos())&& (c.getClass().getName() == "modele.C_tresor")));
         if (conditions) {
-
+            av.addCarte(c);
+            AvCourant.removeCarte(c);
         }
     }
 
