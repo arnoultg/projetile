@@ -6,18 +6,21 @@
 package vue;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.BevelBorder;
 import modele.Grille;
 
 /**
@@ -44,22 +47,28 @@ public class vueDebut implements Observe {
 
         fenetreInitialisation = new JFrame("Demarrage");
         fenetreInitialisation.setLayout(new BorderLayout());
+        
         haut = new JPanel();
         demarrer = new JButton("demarrer");
+        
         fenetreInitialisation.add(haut, BorderLayout.NORTH);
         fenetreInitialisation.add(demarrer, BorderLayout.SOUTH);
+        
         demarrer.setEnabled(false);
+        nomJoueur2.setBackground(Color.GRAY);
+        nomJoueur4.setBackground(Color.GRAY);
+        
 
         JPanel grillehaut = new JPanel(new GridLayout(1, 2));
         JLabel nbJoueur = new JLabel("nombre de joueur");
         grillehaut.add(nbJoueur);
         choixJoueur = new JComboBox(new String[]{"0", "2", "3", "4"});
         grillehaut.add(choixJoueur);
-
         haut.add(grillehaut);
 
         grilleCentre = new JPanel(new GridLayout(4, 2));
         fenetreInitialisation.add(grilleCentre, BorderLayout.CENTER);
+        
         for (int i = 0; i < 8; i++) {
             if ((i % 2) == 0) {
                 JLabel joueur = new JLabel("nom du joueur n°" + (i / 2 + 1));
@@ -134,7 +143,7 @@ public class vueDebut implements Observe {
 
     public void afficher() {
         fenetreInitialisation.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        fenetreInitialisation.setSize(400, 150);
+        fenetreInitialisation.setSize(400, 200);
         fenetreInitialisation.setVisible(true);
 
     }
