@@ -68,7 +68,7 @@ public class Controleur implements Observateur {
     public void defausserQuatreTresor(Tresor tresor) {
         int nbTresDefause = 0;
         int nbCartes = AvCourant.getNbCartes();
-        for (int i = 0; i < nbCartes; i++) {
+        for (int i = nbCartes - 1; i >= 0; i--) {
             if (nbTresDefause < 5 && AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
                 defausserCarte(i);
                 nbTresDefause++;
@@ -118,12 +118,9 @@ public class Controleur implements Observateur {
                 }
             }
             if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
-                this.finTour();
+                    this.finTour();
             }
-            if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
-                this.finTour();
-            }
-
+                    
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
             if (action == "deplacer") {
                 if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
@@ -139,6 +136,7 @@ public class Controleur implements Observateur {
                 }
             }
 
+            
         } else if (m.getType() == TypesMessage.CLIC_CARTE) {
             if (AvCourant.getNbCartes() > 5) {
                 defausserCarte(m.getCarte());

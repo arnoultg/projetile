@@ -51,9 +51,9 @@ public class vuejeu extends JPanel implements Observe {
     private Observateur observateur;
     private ArrayList<pionD> pionsjoueur;
     private ArrayList<TresorD> TresorsDessin;
+    private ArrayList<JPanel> lescasesblanches;
     JLabel nom = new JLabel();
     JLabel Joueur2 = new JLabel();
-
     private Grille g;
 
     public vuejeu(Grille g) {
@@ -76,7 +76,8 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonscartes = new ArrayList<>();
         pionsjoueur = new ArrayList<>();
         cartes = new ArrayList<>();
-        TresorsDessin =  new ArrayList<>();
+        TresorsDessin = new ArrayList<>();
+        lescasesblanches = new ArrayList<>();
 
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
@@ -159,6 +160,7 @@ public class vuejeu extends JPanel implements Observe {
                 JPanel blanc = new JPanel();
 
                 panelgrille.add(blanc);
+                lescasesblanches.add(blanc);
                 lesboutonstuiles.add(null);
 
             } else {
@@ -169,7 +171,6 @@ public class vuejeu extends JPanel implements Observe {
             }
 
         }
-
         initAcPerform();
     }
 
@@ -204,17 +205,17 @@ public class vuejeu extends JPanel implements Observe {
         for (Tuile[] tuiles : g.getGrilleTuile()) {
             for (Tuile tuile : tuiles) {
                 if (tuile.getTresor() == Tresor.CALYCE) {
-                    TresorD Calyce = new TresorD(5, 80, Color.GREEN, tuile);
+                    TresorD Calyce = new TresorD(5, 100, Color.GREEN, tuile);
                     TresorsDessin.add(Calyce);
                 } else if (tuile.getTresor() == Tresor.CRYSTAL) {
-                    TresorD crystal = new TresorD(5, 80, Color.red, tuile);
+                    TresorD crystal = new TresorD(5, 100, Color.red, tuile);
                     TresorsDessin.add(crystal);
                 } else if (tuile.getTresor() == Tresor.PIERRE) {
-                    TresorD pierre = new TresorD(5, 80, Color.PINK, tuile);
+                    TresorD pierre = new TresorD(5, 100, Color.PINK, tuile);
                     TresorsDessin.add(pierre);
 
                 } else if (tuile.getTresor() == Tresor.STATUE) {
-                    TresorD statue = new TresorD(5, 80, Color.orange, tuile);
+                    TresorD statue = new TresorD(5, 100, Color.orange, tuile);
                     TresorsDessin.add(statue);
                 }
             }
@@ -228,6 +229,23 @@ public class vuejeu extends JPanel implements Observe {
             tresor.repaint(); //appelle PaintComponent
 
         }
+    }
+
+    public void tresorGagne(Tresor tresor) {
+        
+        for (int i = 0; i < lescasesblanches.size(); i++)
+        if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
+            if (tresor == Tresor.CALYCE && i == 0) {
+                lescasesblanches.get(i).setBackground(Color.green);
+            } else if (tresor == Tresor.CRYSTAL && i == 3) {
+                lescasesblanches.get(i).setBackground(Color.red);
+            } else if (tresor == Tresor.PIERRE && i == 8) {
+                lescasesblanches.get(i).setBackground(Color.pink);
+            } else if (tresor == Tresor.STATUE && i == 11) {
+                lescasesblanches.get(i).setBackground(Color.orange);
+            }
+        }
+
     }
 
     public void afficher() {  // affiche la fenetre
@@ -375,7 +393,7 @@ public class vuejeu extends JPanel implements Observe {
         }
 
     }
-    
+
     public void maj() { //permet de remettre toute les cases de leurs couleurs
         for (JButton b : lesboutonstuiles) {
             if (b != null) {
