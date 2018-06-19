@@ -97,14 +97,22 @@ public class Controleur implements Observateur {
                 } else if (action == "assecher"){
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 } else if (action == "Prendre_tresor") {
-                    if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DE_LA_LUNE || AvCourant.getPos().getNom() == Iles.LE_TEMPLE_DU_SOLEIL)) {
+                    if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos()).getTresor() ==  Tresor.PIERRE) {
                         defausserQuatreTresor(Tresor.PIERRE);
-                    } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getNom() == Iles.LE_PALAIS_DE_CORAIL || AvCourant.getPos().getNom() == Iles.LE_PALAIS_DES_MAREES)) {
+                        jeu.tresorGagne(Tresor.PIERRE);
+                        jeu.MiseaJourCartes(AvCourant);
+                    } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos()).getTresor() ==  Tresor.CALYCE) {
                         defausserQuatreTresor(Tresor.CALYCE);
-                    } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DU_BRASIER || AvCourant.getPos().getNom() == Iles.LA_CAVERNE_DES_OMBRES)) {
+                        jeu.tresorGagne(Tresor.CALYCE);
+                        jeu.MiseaJourCartes(AvCourant);
+                    } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos()).getTresor() ==  Tresor.CRYSTAL) {
                         defausserQuatreTresor(Tresor.CRYSTAL);
-                    } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_HURLEMENTS || AvCourant.getPos().getNom() == Iles.LE_JARDIN_DES_MURMURES)) {
+                        jeu.tresorGagne(Tresor.CRYSTAL);
+                        jeu.MiseaJourCartes(AvCourant);
+                    } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos()).getTresor() ==  Tresor.STATUE) {
                         defausserQuatreTresor(Tresor.STATUE);
+                        jeu.tresorGagne(Tresor.STATUE);
+                        jeu.MiseaJourCartes(AvCourant);
                     } else {
                         System.out.println("Pas de trésor à récuperrer");
                     }

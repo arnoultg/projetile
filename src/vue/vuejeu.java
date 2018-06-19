@@ -104,8 +104,8 @@ public class vuejeu extends JPanel implements Observe {
         JButton findetour = new JButton("Fin_de_tour");
         JButton deplacer = new JButton("deplacer");
         JButton assecher = new JButton("assecher");
-        JButton prendretres = new JButton("Prendre tresor");
-        JButton donnerCarte = new JButton("Donner carte");
+        JButton prendretres = new JButton("Prendre_tresor");
+        JButton donnerCarte = new JButton("Donner_Tresor");
 
         toucheaction.add(findetour);
         toucheaction.add(deplacer);
@@ -232,9 +232,8 @@ public class vuejeu extends JPanel implements Observe {
     }
 
     public void tresorGagne(Tresor tresor) {
-        
-        for (int i = 0; i < lescasesblanches.size(); i++)
-        if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
+
+        for (int i = 0; i < lescasesblanches.size(); i++) {
             if (tresor == Tresor.CALYCE && i == 0) {
                 lescasesblanches.get(i).setBackground(Color.green);
             } else if (tresor == Tresor.CRYSTAL && i == 3) {
@@ -245,7 +244,7 @@ public class vuejeu extends JPanel implements Observe {
                 lescasesblanches.get(i).setBackground(Color.orange);
             }
         }
-
+        repaint();
     }
 
     public void afficher() {  // affiche la fenetre
