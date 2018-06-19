@@ -215,7 +215,7 @@ public class vuejeu extends JPanel implements Observe {
                 if (i == 0 && tresor == Tresor.CRYSTAL) {
                     panelTres.setBackground(Color.red);
                 } else if (i == 5 && tresor == Tresor.STATUE) {
-                    panelTres.setBackground(Color.yellow);
+                    panelTres.setBackground(Color.orange);
                 } else if (i == 30 && tresor == Tresor.PIERRE) {
                     panelTres.setBackground(Color.pink);
                 } else if (i == 35 && tresor == Tresor.CALYCE) {
@@ -370,7 +370,7 @@ public class vuejeu extends JPanel implements Observe {
         }
 
     }
-
+    
     public void maj() { //permet de remettre toute les cases de leurs couleurs
         for (JButton b : lesboutonstuiles) {
             if (b != null) {

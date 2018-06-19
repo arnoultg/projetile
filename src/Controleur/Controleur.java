@@ -67,9 +67,11 @@ public class Controleur implements Observateur {
 
     public void defausserQuatreTresor(Tresor tresor) {
         int nbTresDefause = 0;
-        for (int i = 0; i < AvCourant.getNbCartes(); i++) {
-            if (nbTresDefause < 4 && AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
+        int nbCartes = AvCourant.getNbCartes();
+        for (int i = 0; i < nbCartes; i++) {
+            if (nbTresDefause < 5 && AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
                 defausserCarte(i);
+                nbTresDefause++;
             }
         }
     }
@@ -97,26 +99,24 @@ public class Controleur implements Observateur {
                     defausserQuatreTresor(Tresor.PIERRE);
                     jeu.tresorGagne(Tresor.PIERRE);
                     jeu.MiseaJourCartes(AvCourant);
-                    jeu.maj();
                 } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getTresor() == Tresor.CALYCE)) {
                     defausserQuatreTresor(Tresor.CALYCE);
                     jeu.tresorGagne(Tresor.CALYCE);
                     jeu.MiseaJourCartes(AvCourant);
-                    jeu.maj();
                 } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getTresor() == Tresor.CRYSTAL)) {
                     defausserQuatreTresor(Tresor.CRYSTAL);
                     jeu.tresorGagne(Tresor.CRYSTAL);
                     jeu.MiseaJourCartes(AvCourant);
-                    jeu.maj();
                 } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getTresor() == Tresor.STATUE)) {
                     defausserQuatreTresor(Tresor.STATUE);
                     jeu.tresorGagne(Tresor.STATUE);
                     jeu.MiseaJourCartes(AvCourant);
-                    jeu.maj();
                 } else {
                     System.out.println("Pas de trésor à récuperrer");
                 }
-
+            }
+            if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
+                this.finTour();
             }
 
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
@@ -125,9 +125,7 @@ public class Controleur implements Observateur {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
                     this.deplacerJoueur(m.getTuile());
                     action = null;
-
                 }
-
             } else if (action == "assecher") {
                 if (AvCourant.dispoAssecher(G).contains(m.getTuile())) {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
@@ -143,7 +141,6 @@ public class Controleur implements Observateur {
             }
         } else if (m.getType() == TypesMessage.DEMARRER) {
             initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
-
         }
     }
 
@@ -248,14 +245,17 @@ public class Controleur implements Observateur {
         AvCourant.getPos().getAventurierssur().remove(AvCourant);
 
     }
-    
-    private void donnerCTresor(Aventurier av){
-       //boolean conditions = () 
+
+    private void donnerCTresor(Aventurier av) {
+        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : AvCourant.getPos().equals(av.getPos()));
+        if (conditions) {
+
+        }
     }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
-    private void creationJoueur(int nbJoueur,ArrayList<String> nomsJoueurs) {
-        
+    private void creationJoueur(int nbJoueur, ArrayList<String> nomsJoueurs) {
+
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
 
         for (int x = 0; x < Utils.Pion.values().length; x++) {
@@ -343,7 +343,7 @@ public class Controleur implements Observateur {
 
         int ind = 0;
         Iles[] liste = Iles.values();
-        
+
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 6; y++) {
                 if (((y != 2 && y != 3) && (x == 0 || x == 5)) || ((x == 1 || x == 4) && (y == 0 || y == 5))) {
@@ -358,20 +358,20 @@ public class Controleur implements Observateur {
         }
         initialiserTresor();
     }
-    
-    private void initialiserTresor(){
+
+    private void initialiserTresor() {
         G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).setTresor(Tresor.PIERRE);
         G.getTuile(Iles.LE_TEMPLE_DU_SOLEIL).setTresor(Tresor.PIERRE);
-        
+
         G.getTuile(Iles.LE_JARDIN_DES_MURMURES).setTresor(Tresor.STATUE);
         G.getTuile(Iles.LE_JARDIN_DES_HURLEMENTS).setTresor(Tresor.STATUE);
-        
+
         G.getTuile(Iles.LA_CAVERNE_DU_BRASIER).setTresor(Tresor.CRYSTAL);
         G.getTuile(Iles.LA_CAVERNE_DES_OMBRES).setTresor(Tresor.CRYSTAL);
-        
+
         G.getTuile(Iles.LE_PALAIS_DES_MAREES).setTresor(Tresor.CALYCE);
         G.getTuile(Iles.LE_PALAIS_DE_CORAIL).setTresor(Tresor.CALYCE);
-        
+
     }
 
     private void initialiserjeu(int nbJoueur, ArrayList<String> nomsJoueurs) {
@@ -395,7 +395,6 @@ public class Controleur implements Observateur {
         vueDebut debut = new vueDebut();
         debut.afficher();
         debut.addObservateur(C);
-        
 
     }
 
