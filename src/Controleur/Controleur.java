@@ -92,15 +92,27 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
             } else if ((m.getAction() == "Fin_de_tour") && (AvCourant.getNbCartes() <= 5)) {
                 this.finTour();
-            } else if ((m.getAction() == "Prendre_tresor") && (nbActions > 0)) {
+            } else if ((m.getAction() == "Prendre tresor") && (nbActions > 0)) {
                 if (quatreTresors(Tresor.PIERRE) && (AvCourant.getPos().getTresor() == Tresor.PIERRE)) {
                     defausserQuatreTresor(Tresor.PIERRE);
+                    jeu.tresorGagne(Tresor.PIERRE);
+                    jeu.MiseaJourCartes(AvCourant);
+                    jeu.maj();
                 } else if (quatreTresors(Tresor.CALYCE) && (AvCourant.getPos().getTresor() == Tresor.CALYCE)) {
                     defausserQuatreTresor(Tresor.CALYCE);
+                    jeu.tresorGagne(Tresor.CALYCE);
+                    jeu.MiseaJourCartes(AvCourant);
+                    jeu.maj();
                 } else if (quatreTresors(Tresor.CRYSTAL) && (AvCourant.getPos().getTresor() == Tresor.CRYSTAL)) {
                     defausserQuatreTresor(Tresor.CRYSTAL);
+                    jeu.tresorGagne(Tresor.CRYSTAL);
+                    jeu.MiseaJourCartes(AvCourant);
+                    jeu.maj();
                 } else if (quatreTresors(Tresor.STATUE) && (AvCourant.getPos().getTresor() == Tresor.STATUE)) {
                     defausserQuatreTresor(Tresor.STATUE);
+                    jeu.tresorGagne(Tresor.STATUE);
+                    jeu.MiseaJourCartes(AvCourant);
+                    jeu.maj();
                 } else {
                     System.out.println("Pas de trésor à récuperrer");
                 }

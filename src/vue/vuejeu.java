@@ -101,7 +101,7 @@ public class vuejeu extends JPanel implements Observe {
         JButton findetour = new JButton("Fin_de_tour");
         JButton deplacer = new JButton("deplacer");
         JButton assecher = new JButton("assecher");
-        JButton prendretres = new JButton("Prendre tresors");
+        JButton prendretres = new JButton("Prendre tresor");
         JButton donnerCarte = new JButton("Donner carte");
 
         toucheaction.add(findetour);
@@ -155,6 +155,7 @@ public class vuejeu extends JPanel implements Observe {
 
             if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
                 JPanel blanc = new JPanel();
+
                 panelgrille.add(blanc);
                 lesboutonstuiles.add(null);
 
@@ -195,12 +196,30 @@ public class vuejeu extends JPanel implements Observe {
 
         }
     }
-    
-    public void creationTresor(){
-        for (Tuile[] tuiles : g.getGrilleTuile()){
-            for (Tuile tuile : tuiles){
-                if(tuile.getTresor() == Tresor.CALYCE){
-                    
+
+    public void creationTresor() {
+        for (Tuile[] tuiles : g.getGrilleTuile()) {
+            for (Tuile tuile : tuiles) {
+                if (tuile.getTresor() == Tresor.CALYCE) {
+
+                }
+            }
+        }
+    }
+
+    public void tresorGagne(Tresor tresor) {
+        for (int i = 0; i < 36; i++) {
+
+            if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
+                JPanel panelTres = new JPanel();
+                if (i == 0 && tresor == Tresor.CRYSTAL) {
+                    panelTres.setBackground(Color.red);
+                } else if (i == 5 && tresor == Tresor.STATUE) {
+                    panelTres.setBackground(Color.yellow);
+                } else if (i == 30 && tresor == Tresor.PIERRE) {
+                    panelTres.setBackground(Color.pink);
+                } else if (i == 35 && tresor == Tresor.CALYCE) {
+                    panelTres.setBackground(Color.green);
                 }
             }
         }
