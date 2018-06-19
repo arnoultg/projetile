@@ -50,6 +50,7 @@ public class vuejeu extends JPanel implements Observe {
     private ArrayList<CarteTresor> cartes;
     private Observateur observateur;
     private ArrayList<pionD> pionsjoueur;
+    private ArrayList<TresorD> TresorsDessin;
     JLabel nom = new JLabel();
     JLabel Joueur2 = new JLabel();
 
@@ -75,6 +76,7 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonscartes = new ArrayList<>();
         pionsjoueur = new ArrayList<>();
         cartes = new ArrayList<>();
+        TresorsDessin =  new ArrayList<>();
 
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
@@ -184,25 +186,46 @@ public class vuejeu extends JPanel implements Observe {
         for (Aventurier av : aventuriers) {
             pionD pion = new pionD(20, 20, 10, av.getNomRole().getCouleur(), av); // crée un pionD pour chaque aventurer du jeu
             pionsjoueur.add(pion);
-            this.afficherPion(); // affiche le Pion
+
         }
+        this.afficherPion(); // affiche le Pion
     }
 
     public void afficherPion() {
         for (pionD pion : pionsjoueur) {
             lesboutonstuiles.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion); //recupere le bouton sur le quel le pion doit etre afficher
-            repaint(); //appelle PaintComponent
+            pion.repaint(); //appelle PaintComponent
 
         }
     }
-    
-    public void creationTresor(){
-        for (Tuile[] tuiles : g.getGrilleTuile()){
-            for (Tuile tuile : tuiles){
-                if(tuile.getTresor() == Tresor.CALYCE){
-                    
+
+    public void creationTresor() {
+        for (Tuile[] tuiles : g.getGrilleTuile()) {
+            for (Tuile tuile : tuiles) {
+                if (tuile.getTresor() == Tresor.CALYCE) {
+                    TresorD Calyce = new TresorD(5, 100, Color.GREEN, tuile);
+                    TresorsDessin.add(Calyce);
+                } else if (tuile.getTresor() == Tresor.CRYSTAL) {
+                    TresorD crystal = new TresorD(5, 100, Color.red, tuile);
+                    TresorsDessin.add(crystal);
+                } else if (tuile.getTresor() == Tresor.PIERRE) {
+                    TresorD pierre = new TresorD(5, 100, Color.PINK, tuile);
+                    TresorsDessin.add(pierre);
+
+                } else if (tuile.getTresor() == Tresor.STATUE) {
+                    TresorD statue = new TresorD(5, 100, Color.orange, tuile);
+                    TresorsDessin.add(statue);
                 }
             }
+        }
+        this.afficherTresor();
+    }
+
+    public void afficherTresor() {
+        for (TresorD tresor : TresorsDessin) {
+            lesboutonstuiles.get(tresor.getTuile().getX() * 6 + tresor.getTuile().getY()).add(tresor); //recupere le bouton sur le quel le pion doit etre afficher
+            tresor.repaint(); //appelle PaintComponent
+
         }
     }
 
