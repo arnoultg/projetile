@@ -136,7 +136,8 @@ public class Controleur implements Observateur {
                 }
             }
 
-            
+        } else if (m.getType() == TypesMessage.CLIC_ACTION_SPE) {
+            //action = 
         } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action != "Donner Tresor")) {
             if (AvCourant.getNbCartes() > 5) {
                 defausserCarte(AvCourant.getCartes().get(m.getCarte()));
