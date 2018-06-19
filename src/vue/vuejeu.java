@@ -51,9 +51,9 @@ public class vuejeu extends JPanel implements Observe {
     private Observateur observateur;
     private ArrayList<pionD> pionsjoueur;
     private ArrayList<TresorD> TresorsDessin;
+    private ArrayList<JPanel> lescasesblanches;
     JLabel nom = new JLabel();
     JLabel Joueur2 = new JLabel();
-
     private Grille g;
 
     public vuejeu(Grille g) {
@@ -76,49 +76,39 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonscartes = new ArrayList<>();
         pionsjoueur = new ArrayList<>();
         cartes = new ArrayList<>();
-        TresorsDessin =  new ArrayList<>();
+        TresorsDessin = new ArrayList<>();
+        lescasesblanches = new ArrayList<>();
 
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
         JPanel panelgrille = new JPanel(new GridLayout(6, 6));
-        JPanel paneldroite = new JPanel(new BorderLayout());
+        JPanel paneldroite = new JPanel(new GridLayout(6, 0));
 
         JPanel PHaut = new JPanel(new BorderLayout());
+        JPanel PRole = new JPanel(new BorderLayout());
         JPanel PMillieu = new JPanel(new BorderLayout());
+        JPanel actionUtili = new JPanel();
         JPanel PBas = new JPanel(new BorderLayout());
+        JPanel TerminerTour = new JPanel();
 
 //panelgrille.set;
         frame.add(mainPanel);
         mainPanel.add(panelgrille);
         mainPanel.add(paneldroite);
-        paneldroite.add(PHaut, BorderLayout.NORTH);
-        paneldroite.add(PMillieu, BorderLayout.CENTER);
-        paneldroite.add(PBas, BorderLayout.SOUTH);
 
+//premiere ligne 
         PHaut.add(nom, BorderLayout.WEST);
-        PHaut.add(Joueur2, BorderLayout.EAST);
+        paneldroite.add(PHaut);
 
-        JPanel toucheaction = new JPanel(new GridLayout(0, 5));
-        PBas.add(toucheaction);
-        JButton findetour = new JButton("Fin_de_tour");
-        JButton deplacer = new JButton("deplacer");
-        JButton assecher = new JButton("assecher");
-        JButton prendretres = new JButton("Prendre tresors");
-        JButton donnerCarte = new JButton("Donner carte");
+//2eme ligne
+        PHaut.add(Joueur2, BorderLayout.WEST);
+        paneldroite.add(PRole);
 
-        toucheaction.add(findetour);
-        toucheaction.add(deplacer);
-        toucheaction.add(assecher);
-        toucheaction.add(prendretres);
-        toucheaction.add(donnerCarte);
-        lesboutonsactions.add(findetour);
-        lesboutonsactions.add(deplacer);
-        lesboutonsactions.add(assecher);
-        lesboutonsactions.add(prendretres);
-        lesboutonsactions.add(donnerCarte);
-
-        JPanel boutonsCartes = new JPanel(new GridLayout(2, 4));
+//3eme ligne
+        paneldroite.add(PMillieu);
+        JPanel boutonsCartes = new JPanel(new GridLayout(3, 3));
         PMillieu.add(boutonsCartes, BorderLayout.CENTER);
+
         JButton carte1 = new JButton("");
         carte1.setEnabled(false);
         JButton carte2 = new JButton("");
@@ -135,6 +125,8 @@ public class vuejeu extends JPanel implements Observe {
         carte7.setEnabled(false);
         JButton carte8 = new JButton("");
         carte8.setEnabled(false);
+        JButton carte9 = new JButton("");
+        carte9.setEnabled(false);
         boutonsCartes.add(carte1);
         boutonsCartes.add(carte2);
         boutonsCartes.add(carte3);
@@ -143,6 +135,7 @@ public class vuejeu extends JPanel implements Observe {
         boutonsCartes.add(carte6);
         boutonsCartes.add(carte7);
         boutonsCartes.add(carte8);
+        boutonsCartes.add(carte9);
         lesboutonscartes.add(carte1);
         lesboutonscartes.add(carte2);
         lesboutonscartes.add(carte3);
@@ -150,6 +143,43 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonscartes.add(carte5);
         lesboutonscartes.add(carte6);
         lesboutonscartes.add(carte7);
+        
+//4eme ligne
+        JLabel Action = new JLabel("Action utilisateur");
+        actionUtili.add(Action);
+        paneldroite.add(actionUtili);
+
+//5eme ligne
+        JPanel toucheaction = new JPanel(new GridLayout(0, 4));
+
+        JButton deplacer = new JButton("deplacer");
+        JButton assecher = new JButton("assecher");
+        JButton prendretres = new JButton("Prendre tresor");
+        JButton donnerCarte = new JButton("Donner carte");
+
+        toucheaction.add(deplacer);
+        toucheaction.add(assecher);
+        toucheaction.add(prendretres);
+        toucheaction.add(donnerCarte);
+
+        lesboutonsactions.add(deplacer);
+        lesboutonsactions.add(assecher);
+        lesboutonsactions.add(prendretres);
+        lesboutonsactions.add(donnerCarte);
+        
+        PBas.add(toucheaction);
+        paneldroite.add(PBas);
+
+//6eme ligne
+        JButton findetour = new JButton("Fin de tour");
+        JPanel touchefinir = new JPanel(new GridLayout(0,3));
+        touchefinir.add(new JPanel());
+        touchefinir.add(findetour);
+        touchefinir.add(new JPanel());
+        lesboutonsactions.add(findetour);
+        paneldroite.add(touchefinir);
+        
+        
 
         int compteur = 0;
 
@@ -157,7 +187,9 @@ public class vuejeu extends JPanel implements Observe {
 
             if (g.getGrilleTuile()[i / 6][i % 6].getNom() == null) {
                 JPanel blanc = new JPanel();
+
                 panelgrille.add(blanc);
+                lescasesblanches.add(blanc);
                 lesboutonstuiles.add(null);
 
             } else {
@@ -168,7 +200,6 @@ public class vuejeu extends JPanel implements Observe {
             }
 
         }
-
         initAcPerform();
     }
 
@@ -227,6 +258,22 @@ public class vuejeu extends JPanel implements Observe {
             tresor.repaint(); //appelle PaintComponent
 
         }
+    }
+
+    public void tresorGagne(Tresor tresor) {
+
+        for (int i = 0; i < lescasesblanches.size(); i++) {
+            if (tresor == Tresor.CALYCE && i == 0) {
+                lescasesblanches.get(i).setBackground(Color.green);
+            } else if (tresor == Tresor.CRYSTAL && i == 3) {
+                lescasesblanches.get(i).setBackground(Color.red);
+            } else if (tresor == Tresor.PIERRE && i == 8) {
+                lescasesblanches.get(i).setBackground(Color.pink);
+            } else if (tresor == Tresor.STATUE && i == 11) {
+                lescasesblanches.get(i).setBackground(Color.orange);
+            }
+        }
+        repaint();
     }
 
     public void afficher() {  // affiche la fenetre

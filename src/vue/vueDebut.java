@@ -62,7 +62,7 @@ public class vueDebut implements Observe {
         JPanel grillehaut = new JPanel(new GridLayout(1, 2));
         JLabel nbJoueur = new JLabel("nombre de joueur");
         grillehaut.add(nbJoueur);
-        choixJoueur = new JComboBox(new String[]{"0", "2", "3", "4"});
+        choixJoueur = new JComboBox(new String[]{"", "2", "3", "4"});
         grillehaut.add(choixJoueur);
         haut.add(grillehaut);
 
