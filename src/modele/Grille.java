@@ -74,14 +74,15 @@ public class Grille {
 
     public void tirerCTresor(CarteTresor c) {
         paquetCTresor.remove(c);
-        defausseTresor.add(c);
     }
 
     public void tirerCInnonde(Carte_Innondation c) {
         paquetCInnond.remove(c);
         if (getTuile(c.getNomIle()).getEtat() != Utils.EtatTuile.COULEE){
             defausseInnond.add(c);
-        };
+        }else {
+            System.out.println("coulee");
+        }
     }
 
     public void addDefausseCTresor(CarteTresor c) {
@@ -103,6 +104,7 @@ public class Grille {
                 paquetCTresor.add(new C_tresor(i));  //5 trésors de chaques types
             }
         }
+        System.out.println(paquetCTresor.size());
         Collections.shuffle(paquetCTresor);  //paquet mélangé
         return paquetCTresor;
     }
@@ -116,17 +118,22 @@ public class Grille {
             paquetCInnond.add(carteinnond);
         }
         Collections.shuffle(paquetCInnond);
+        System.out.println(paquetCInnond.size());
         return paquetCInnond;
-
     }
 
     public void reinitPaquetInnond() {
+        System.out.println(defausseInnond.size());
+        System.out.println(paquetCInnond.size());
         if (defausseInnond.size() != 0) {
             Collections.shuffle(defausseInnond);
             for (Carte_Innondation c : defausseInnond) {
                 paquetCInnond.add(0, c);
             }
+            defausseInnond.clear();
         }
+        System.out.println(defausseInnond.size());
+        System.out.println(paquetCInnond.size());
     }
 
     public void reinitPaquetTresor() {

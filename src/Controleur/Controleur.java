@@ -86,15 +86,15 @@ public class Controleur implements Observateur {
                 jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
             }
 
-            if (action == m.getAction()){
+            if (action == m.getAction()) {
                 destinataire = null;
             }
             action = (((action == m.getAction()) || (nbActions == 0)) ? null : m.getAction());
-            
+
             if (nbActions > 0) {
                 if (action == "deplacer") {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
-                } else if (action == "assecher"){
+                } else if (action == "assecher") {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 } else if (action == "Prendre Tresor") {
                     Tresor tresor = AvCourant.getPos().getTresor();
@@ -106,19 +106,19 @@ public class Controleur implements Observateur {
                         System.out.println("Pas de trésor à récuperrer");
                     }
                 } else if (action == "Donner Tresor") {
-                    ArrayList<Aventurier> liste =  AvCourant.getPos().getAventurierssur();
+                    ArrayList<Aventurier> liste = AvCourant.getPos().getAventurierssur();
                     liste.remove(AvCourant);
                     if (liste.size() == 0) {
                         System.out.println("pas d'autres aventuriers sur la tuile");
-                    }else {
-                        
+                    } else {
+
                     }
                 }
             }
             if ((m.getAction() == "Fin de tour") && (AvCourant.getNbCartes() <= 5)) {
-                    this.finTour();
+                this.finTour();
             }
-                    
+
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
             if (action == "deplacer") {
                 if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
@@ -145,11 +145,11 @@ public class Controleur implements Observateur {
             }
         } else if (m.getType() == TypesMessage.DEMARRER) {
             initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
-            
-        }else if ((m.getType() == TypesMessage.CLIC_JOUEUR) && (action == "Donner Tresor")){
+
+        } else if ((m.getType() == TypesMessage.CLIC_JOUEUR) && (action == "Donner Tresor")) {
             destinataire = AvCourant.getPos().getAventurierssur().get(0);
-            
-        }else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action == "Donner Tresor") && (destinataire != null)){
+
+        } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action == "Donner Tresor") && (destinataire != null)) {
             donnerCTresor(destinataire, AvCourant.getCartes().get(m.getCarte()));
             destinataire = null;
         }
@@ -181,7 +181,7 @@ public class Controleur implements Observateur {
         jeu.MiseaJourCartes(AvCourant);
     }
 
-    private void deplacerJoueur(Tuile tuile) {   
+    private void deplacerJoueur(Tuile tuile) {
         AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
         jeu.afficherPion();
 
@@ -196,7 +196,7 @@ public class Controleur implements Observateur {
     private void assechercase(Tuile tuile) {
         tuile.asseche();    //asseche la tuile séléctionnée
         jeu.MiseaJourTuile(tuile);
-        
+
         if (AvCourant.getClass().getName() == "modele.Ingenieur") {
             if (!((Ingenieur) AvCourant).isPouvoirEnCours()) {
                 jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
@@ -208,9 +208,9 @@ public class Controleur implements Observateur {
             }
         }
     }
-    
+
     private void donnerCTresor(Aventurier av, CarteTresor c) {
-        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : (AvCourant.getPos().equals(av.getPos())&& (c.getClass().getName() == "modele.C_tresor")));
+        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : (AvCourant.getPos().equals(av.getPos()) && (c.getClass().getName() == "modele.C_tresor")));
         if (conditions) {
             av.addCarte(c);
             AvCourant.removeCarte(c);
@@ -224,25 +224,24 @@ public class Controleur implements Observateur {
         for (int i = 0; i < 2; i++) {
             int nbCartesPaquet = G.getPaquetCTresor().size();
             if (nbCartesPaquet == 0) {
-                System.out.println("reinit");
+                System.out.println("reinit tresor");
                 G.reinitPaquetTresor();
             }
             CarteTresor c = G.getPaquetCTresor().get(0);
+            G.tirerCTresor(c);
             if (c.getNom() == "monté des eaux") {
-                ((MonteDesEaux) c).MonteEau(G);
                 System.out.println("carte monté des eaux tiré");
+                G.addDefausseCTresor(c);
+                ((MonteDesEaux) c).MonteEau(G);
             } else {
                 AvCourant.addCarte(c);
             }
-            G.tirerCTresor(c);
-
         }
     }
 
     public void tirerCarteInnondation() {   //pioche des cartes du paquet de cartes innondation, et les retire du paquet
         for (int i = 0; i < G.getNiveauEau(); i++) {
-            int nbCartesPaquet = G.getPaquetCInnond().size();
-            if (nbCartesPaquet > 0) {
+            if (G.getPaquetCInnond().size() > 0) {
                 G.getPaquetCInnond().get(0).innondeTuile(G);
                 G.tirerCInnonde(G.getPaquetCInnond().get(0));
 
@@ -332,13 +331,8 @@ public class Controleur implements Observateur {
         //innondation aléatoire
          */
         for (int i = 1; i <= 6; i++) {
-            int nbCartesPaquet = G.getPaquetCInnond().size();
-            if (nbCartesPaquet > 0) {
-                G.getPaquetCInnond().get(0).innondeTuile(G);
-                G.getPaquetCInnond().remove(0);
-            } else {
-                G.initialiserPaquetInnond();
-            }
+            G.getPaquetCInnond().get(0).innondeTuile(G);
+            G.tirerCInnonde(G.getPaquetCInnond().get(0));
         }
 
     }
@@ -354,9 +348,7 @@ public class Controleur implements Observateur {
                     G.setTuile(x, y, new Tuile(null, Utils.EtatTuile.COULEE, x, y));
                 } else {
                     G.setTuile(x, y, new Tuile(liste[ind], Utils.EtatTuile.ASSECHEE, x, y));
-
                     ind++;
-
                 }
             }
         }
