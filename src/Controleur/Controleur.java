@@ -415,7 +415,8 @@ public class Controleur implements Observateur {
         jeu = new vuejeu(G);
         creationJoueur(nbJoueur, nomsJoueurs);
         premiereInondations();
-        AvCourant = joueurs.get(0);    
+        AvCourant = joueurs.get(0);
+        jeu.maj();
         jeu.addObservateur(this);
         jeu.creationPion(joueurs);
         jeu.creationTresor();
