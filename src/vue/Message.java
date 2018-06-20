@@ -6,6 +6,7 @@
 package vue;
 
 import java.util.ArrayList;
+import modele.Aventurier;
 import modele.CarteTresor;
 import modele.Tuile;
 
@@ -20,7 +21,18 @@ public class Message {
     int carte;
     int nbjoueurs;
     ArrayList<String> nomsJoueurs;
+    CarteTresor carteTr;
+    Aventurier destinataire;
 
+    
+    public CarteTresor getCarteTr() {
+        return carteTr;
+    }
+
+    public Aventurier getDestinataire() {
+        return destinataire;
+    }
+    
     public Message(TypesMessage type) {
         this.type = type;
     }

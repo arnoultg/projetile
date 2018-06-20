@@ -32,10 +32,14 @@ public class vueDonnerCarte {
     private int numbouton;
     private Aventurier aventurier;
     private CarteTresor carte;
+    private ArrayList<Aventurier> listeAv;
 
     public vueDonnerCarte(ArrayList<Aventurier> liste, Aventurier AvCourant) {
         lesboutonscartes = new ArrayList<>();
-
+        listeAv = new ArrayList<>();
+        for (Aventurier avent : liste) {
+            listeAv.add(avent);
+        }
         frame = new JFrame("Donner Carte");
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
         frame.add(mainPanel);
@@ -198,6 +202,7 @@ public class vueDonnerCarte {
             lesboutonscartesJ.add(carte7j);
             lesboutonscartesJ.add(carte8j);
             lesboutonscartesJ.add(carte9j);
+            lesboutonscartesJ.add(carte10j);
 
             panelGCentre.add(panelJoueur);
             afficherCartesJoueurs(av, lesboutonscartesJ);
@@ -232,7 +237,10 @@ public class vueDonnerCarte {
             @Override
             public void actionPerformed(ActionEvent e
             ) {
+                System.out.println("t");
                 Message m = new Message(TypesMessage.VALIDER);
+                m.destinataire = aventurier;
+                m.carteTr = carte;
                 notifierObservateur(m);
                 frame.setVisible(false);
             }
@@ -262,13 +270,17 @@ public class vueDonnerCarte {
                     @Override
                     public void actionPerformed(ActionEvent e
                     ) {
+                        int compteur = 0;
                         for (JButton bouton : lesboutonscartes) {
-                            if (e.getSource().equals(bouton)) {
+                            if (e.getSource().equals(bouton) && compteur < nbCartes) {
                                 bouton.setEnabled(false);
-                                carte = av.getCartes().get(numbouton);
+                                carte = av.getCartes().get(compteur);
+                            } else if (compteur >= nbCartes) {
+                                bouton.setEnabled(false);
                             } else {
                                 bouton.setEnabled(true);
                             }
+                            compteur++;
                         }
                     }
                 }
@@ -295,9 +307,21 @@ public class vueDonnerCarte {
                     @Override
                     public void actionPerformed(ActionEvent e
                     ) {
-                        Message m = new Message(TypesMessage.CLIC_JOUEUR);
-
-                        notifierObservateur(m);
+                        int compteur = 0;
+                        for (Aventurier av : listeAv) {
+                            compteur = 0;
+                            for (JButton bouton : lesboutonscartesJ) {
+                                if (e.getSource().equals(bouton)) {
+                                    bouton.setEnabled(false);
+                                    aventurier = av;
+                                } else if (av.getNbCartes() == compteur) {
+                                    bouton.setEnabled(true);
+                                } else {
+                                    bouton.setEnabled(false);
+                                }
+                                compteur++;
+                            }
+                        }
                     }
                 }
                 );

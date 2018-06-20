@@ -27,7 +27,6 @@ public class Controleur implements Observateur {
 
     private static ArrayList<Aventurier> joueurs;
     private String action = null;
-    private Aventurier destinataire;
     private static vuejeu jeu;
     private static Aventurier AvCourant;
     private int nbActions = 3;
@@ -86,10 +85,6 @@ public class Controleur implements Observateur {
         if (m.getType() == TypesMessage.CLIC_ACTION) {
             if (action != null) {
                 marquageNonCoulee(Color.white);
-            }
-
-            if (action == m.getAction()) {
-                destinataire = null;
             }
             action = (((action == m.getAction()) || (nbActions == 0)) ? null : m.getAction());
 
@@ -152,14 +147,11 @@ public class Controleur implements Observateur {
             }
         } else if (m.getType() == TypesMessage.DEMARRER) {
             initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
-
-        } else if ((m.getType() == TypesMessage.CLIC_JOUEUR) && (action == "Donner Tresor")) {
-            destinataire = AvCourant.getPos().getAventurierssur().get(0);
-
-        } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action == "Donner Tresor") && (destinataire != null)) {
-            donnerCTresor(destinataire, AvCourant.getCartes().get(m.getCarte()));
-            destinataire = null;
+            
+        }else if (m.getType() == TypesMessage.VALIDER){
+            donnerCTresor(m.getDestinataire(), m.getCarteTr());
         }
+        
     }
 
 //----------------------------------------Actions d'un tour de jeux-----------------------------------------------    
