@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import modele.Aventurier;
+import modele.CarteTresor;
 import util.Utils;
 
 /**
@@ -28,6 +29,9 @@ public class vueDonnerCarte {
     private JFrame frame;
     private Observateur observateur;
     private ArrayList<JButton> lesboutonscartes;
+    private int numbouton;
+    private Aventurier aventurier;
+    private CarteTresor carte;
 
     public vueDonnerCarte(ArrayList<Aventurier> liste, Aventurier AvCourant) {
         lesboutonscartes = new ArrayList<>();
@@ -249,9 +253,26 @@ public class vueDonnerCarte {
     public void afficherCartes(Aventurier av) {
         int nbCartes = av.getNbCartes();
         for (int i = 0; i < 7; i++) {
+            numbouton = i;
             if (i < nbCartes) {
                 lesboutonscartes.get(i).setText(av.getCartes().get(i).getNom());
                 lesboutonscartes.get(i).setEnabled(true);
+                lesboutonscartes.get(i).addActionListener(
+                        new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        for (JButton bouton : lesboutonscartes) {
+                            if (e.getSource().equals(bouton)) {
+                                bouton.setEnabled(false);
+                                carte = av.getCartes().get(numbouton);
+                            } else {
+                                bouton.setEnabled(true);
+                            }
+                        }
+                    }
+                }
+                );
             } else {
                 lesboutonscartes.get(i).setText("");
                 lesboutonscartes.get(i).setEnabled(false);
@@ -269,6 +290,18 @@ public class vueDonnerCarte {
             } else if (i == nbCartes) {
                 lesboutonscartesJ.get(i).setText("");
                 lesboutonscartesJ.get(i).setEnabled(true);
+                lesboutonscartesJ.get(i).addActionListener(
+                        new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        Message m = new Message(TypesMessage.CLIC_JOUEUR);
+
+                        notifierObservateur(m);
+                    }
+                }
+                );
+
             } else {
                 lesboutonscartesJ.get(i).setText("");
                 lesboutonscartesJ.get(i).setEnabled(false);
