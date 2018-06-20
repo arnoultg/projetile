@@ -41,7 +41,9 @@ public abstract class Aventurier {
     }
 
     public void setPos(Tuile pos) {
+        this.pos.getAventurierssur().remove(this);
         this.pos = pos;
+        pos.addAventurier(this);
     }
 
     public ArrayList<CarteTresor> getCartes() {

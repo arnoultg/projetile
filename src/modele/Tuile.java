@@ -85,6 +85,7 @@ public class Tuile {
             this.setEtat(Utils.EtatTuile.INONDEE);
         } else if (this.getEtat() == Utils.EtatTuile.INONDEE) {
             this.setEtat(Utils.EtatTuile.COULEE);
+            
         }
     }
     

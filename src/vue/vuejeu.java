@@ -22,9 +22,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import javax.imageio.ImageIO;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -82,44 +85,38 @@ public class vuejeu extends JPanel implements Observe {
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
         JPanel panelgrille = new JPanel(new GridLayout(6, 6));
-        JPanel paneldroite = new JPanel(new BorderLayout());
+        JPanel paneldroite = new JPanel(new GridLayout(3, 0));
 
-        JPanel PHaut = new JPanel(new BorderLayout());
+        JPanel PHaut = new JPanel(new GridLayout(0, 2));
+
         JPanel PMillieu = new JPanel(new BorderLayout());
-        JPanel PBas = new JPanel(new BorderLayout());
+        JPanel PBas = new JPanel(new GridLayout(3, 0));
 
 //panelgrille.set;
         frame.add(mainPanel);
         mainPanel.add(panelgrille);
         mainPanel.add(paneldroite);
-        paneldroite.add(PHaut, BorderLayout.NORTH);
-        paneldroite.add(PMillieu, BorderLayout.CENTER);
-        paneldroite.add(PBas, BorderLayout.SOUTH);
 
-        PHaut.add(nom, BorderLayout.WEST);
-        PHaut.add(Joueur2, BorderLayout.EAST);
+//premiere ligne       
+        paneldroite.add(PHaut);
+        //Phaut gauche
+        JPanel niveau = new JPanel();
+        PHaut.add(niveau);
+        //Phaut droite
+        JPanel Phautdroite = new JPanel(new GridLayout(2,0));
+        PHaut.add(Phautdroite);
+        //1.1 ligne
+        Phautdroite.add(nom);
+        //1.2 ligne       
+        Phautdroite.add(Joueur2);
 
-        JPanel toucheaction = new JPanel(new GridLayout(0, 5));
-        PBas.add(toucheaction);
-        JButton findetour = new JButton("Fin_de_tour");
-        JButton deplacer = new JButton("deplacer");
-        JButton assecher = new JButton("assecher");
-        JButton prendretres = new JButton("Prendre Tresor");
-        JButton donnerCarte = new JButton("Donner Tresor");
-
-        toucheaction.add(findetour);
-        toucheaction.add(deplacer);
-        toucheaction.add(assecher);
-        toucheaction.add(prendretres);
-        toucheaction.add(donnerCarte);
-        lesboutonsactions.add(findetour);
-        lesboutonsactions.add(deplacer);
-        lesboutonsactions.add(assecher);
-        lesboutonsactions.add(prendretres);
-        lesboutonsactions.add(donnerCarte);
-
-        JPanel boutonsCartes = new JPanel(new GridLayout(2, 4));
+//2eme ligne
+        paneldroite.add(PMillieu);
+        JLabel mescartes = new JLabel("mes cartes");
+        JPanel boutonsCartes = new JPanel(new GridLayout(3, 3));
+        PMillieu.add(mescartes, BorderLayout.NORTH);
         PMillieu.add(boutonsCartes, BorderLayout.CENTER);
+
         JButton carte1 = new JButton("");
         carte1.setEnabled(false);
         JButton carte2 = new JButton("");
@@ -136,6 +133,8 @@ public class vuejeu extends JPanel implements Observe {
         carte7.setEnabled(false);
         JButton carte8 = new JButton("");
         carte8.setEnabled(false);
+        JButton carte9 = new JButton("");
+        carte9.setEnabled(false);
         boutonsCartes.add(carte1);
         boutonsCartes.add(carte2);
         boutonsCartes.add(carte3);
@@ -144,6 +143,7 @@ public class vuejeu extends JPanel implements Observe {
         boutonsCartes.add(carte6);
         boutonsCartes.add(carte7);
         boutonsCartes.add(carte8);
+        boutonsCartes.add(carte9);
         lesboutonscartes.add(carte1);
         lesboutonscartes.add(carte2);
         lesboutonscartes.add(carte3);
@@ -151,6 +151,42 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonscartes.add(carte5);
         lesboutonscartes.add(carte6);
         lesboutonscartes.add(carte7);
+
+//3eme ligne
+        paneldroite.add(PBas);
+        //3.1 
+        
+        JLabel Action = new JLabel("Action utilisateur");
+        PBas.add(Action);
+        //3.2
+
+        JPanel toucheaction = new JPanel(new GridLayout(0, 4));
+
+        JButton deplacer = new JButton("deplacer");
+        JButton assecher = new JButton("assecher");
+        JButton prendretres = new JButton("Prendre tresor");
+        JButton donnerCarte = new JButton("Donner carte");
+
+        toucheaction.add(deplacer);
+        toucheaction.add(assecher);
+        toucheaction.add(prendretres);
+        toucheaction.add(donnerCarte);
+
+        lesboutonsactions.add(deplacer);
+        lesboutonsactions.add(assecher);
+        lesboutonsactions.add(prendretres);
+        lesboutonsactions.add(donnerCarte);
+
+        PBas.add(toucheaction);
+        //3.3
+        
+        JButton findetour = new JButton("Fin de tour");
+        JPanel touchefinir = new JPanel(new GridLayout(0,3));
+        touchefinir.add(new JPanel());
+        touchefinir.add(findetour);
+        touchefinir.add(new JPanel());
+        lesboutonsactions.add(findetour);
+        PBas.add(touchefinir);
 
         int compteur = 0;
 
