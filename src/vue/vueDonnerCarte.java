@@ -9,6 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,11 +28,9 @@ public class vueDonnerCarte {
     private JFrame frame;
     private Observateur observateur;
     private ArrayList<JButton> lesboutonscartes;
-    private ArrayList<JButton> lesboutonscartesJ;
 
     public vueDonnerCarte(ArrayList<Aventurier> liste, Aventurier AvCourant) {
         lesboutonscartes = new ArrayList<>();
-        lesboutonscartesJ = new ArrayList<>();
 
         frame = new JFrame("Donner Carte");
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
@@ -125,6 +125,8 @@ public class vueDonnerCarte {
         panelGauche.add(cartesjoueurs);
         JPanel panelGCentre = new JPanel(new GridLayout(liste.size(), 0));
         for (Aventurier av : liste) {
+            ArrayList<JButton> lesboutonscartesJ = new ArrayList<>();
+
             JPanel panelJoueur = new JPanel(new GridLayout(2, 0));
             JPanel panelInfoJoueur = new JPanel(new GridLayout(2, 2));
             JLabel noms = new JLabel("Nom :");
@@ -194,6 +196,7 @@ public class vueDonnerCarte {
             lesboutonscartesJ.add(carte9j);
 
             panelGCentre.add(panelJoueur);
+            afficherCartesJoueurs(av, lesboutonscartesJ);
 
         }
         panelGauche.add(panelGCentre);
@@ -209,6 +212,28 @@ public class vueDonnerCarte {
         panelGBas.add(valider);
         panelGauche.add(panelGBas);
 
+        annuler.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e
+            ) {
+                Message m = new Message(TypesMessage.ANNULER);
+                notifierObservateur(m);
+                frame.setVisible(false);
+            }
+        }
+        );
+        valider.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e
+            ) {
+                Message m = new Message(TypesMessage.VALIDER);
+                notifierObservateur(m);
+                frame.setVisible(false);
+            }
+        }
+        );
     }
 
     public void afficher() {
@@ -226,11 +251,7 @@ public class vueDonnerCarte {
         for (int i = 0; i < 7; i++) {
             if (i < nbCartes) {
                 lesboutonscartes.get(i).setText(av.getCartes().get(i).getNom());
-                if (nbCartes > 5) {
-                    lesboutonscartes.get(i).setEnabled(true);
-                } else {
-                    lesboutonscartes.get(i).setEnabled(false);
-                }
+                lesboutonscartes.get(i).setEnabled(true);
             } else {
                 lesboutonscartes.get(i).setText("");
                 lesboutonscartes.get(i).setEnabled(false);
@@ -238,20 +259,19 @@ public class vueDonnerCarte {
         }
     }
 
-    public void afficherCartes(ArrayList<Aventurier> liste) {
-        for (Aventurier av : liste) {
-            int nbCartes = av.getNbCartes();
-            for (int i = 0; i < 9; i++) {
-                if (i < nbCartes) {
-                    lesboutonscartesJ.get(i).setText(av.getCartes().get(i).getNom());
-                    lesboutonscartesJ.get(i).setEnabled(false);
+    public void afficherCartesJoueurs(Aventurier av, ArrayList<JButton> lesboutonscartesJ) {
+        int nbCartes = av.getNbCartes();
+        for (int i = 0; i < lesboutonscartesJ.size(); i++) {
+            if (i < nbCartes) {
+                lesboutonscartesJ.get(i).setText(av.getCartes().get(i).getNom());
+                lesboutonscartesJ.get(i).setEnabled(false);
 
-                } else if (i == nbCartes) {
-                    lesboutonscartesJ.get(i).setEnabled(true);
-                } else {
-                    lesboutonscartesJ.get(i).setText("");
-                    lesboutonscartesJ.get(i).setEnabled(false);
-                }
+            } else if (i == nbCartes) {
+                lesboutonscartesJ.get(i).setText("");
+                lesboutonscartesJ.get(i).setEnabled(true);
+            } else {
+                lesboutonscartesJ.get(i).setText("");
+                lesboutonscartesJ.get(i).setEnabled(false);
             }
         }
     }

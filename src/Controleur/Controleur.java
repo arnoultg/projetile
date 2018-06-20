@@ -115,7 +115,6 @@ public class Controleur implements Observateur {
                         Controleur C = new Controleur();
                         vueDonnerCarte donnercarte = new vueDonnerCarte(liste, AvCourant);
                         donnercarte.afficherCartes(AvCourant);
-                        donnercarte.afficherCartes(liste);
                         donnercarte.afficher();
                         donnercarte.addObservateur(C);
                     }

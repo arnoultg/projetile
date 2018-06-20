@@ -15,5 +15,7 @@ public enum TypesMessage {
     CLIC_ACTION_SPE,
     CLIC_CARTE,
     DEMARRER,
+    ANNULER,
+    VALIDER,
     CLIC_JOUEUR;
 }
