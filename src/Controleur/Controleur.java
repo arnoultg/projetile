@@ -31,9 +31,11 @@ public class Controleur implements Observateur {
     private static Aventurier AvCourant;
     private int nbActions = 3;
     private static Grille G;
+    private ArrayList<Tresor> tresorRecupere;
 
     public Controleur() {
         joueurs = new ArrayList<>();
+        tresorRecupere = new ArrayList<>();
     }
 
     public Grille getGrille() {
@@ -98,9 +100,10 @@ public class Controleur implements Observateur {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
                 } else if (action == "Prendre Tresor") {
                     Tresor tresor = AvCourant.getPos().getTresor();
-                    if (tresor != null && quatreTresors(tresor)) {
+                    if (tresor != null && quatreTresors(tresor) && !tresorRecupere.contains(tresor)) {
                         defausserQuatreTresor(tresor);
                         jeu.tresorGagne(tresor);
+                        tresorRecupere.add(tresor);
                         jeu.MiseaJourCartes(AvCourant);
                     } else {
                         System.out.println("Pas de trésor à récuperrer");
@@ -184,10 +187,7 @@ public class Controleur implements Observateur {
     private void deplacerJoueur(Tuile tuile) {
         AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
         jeu.afficherPion();
-
-        if (AvCourant.getClass().getName() == "modele.Pilote") {  //active le pouvoir du pilote
-            ((Pilote) AvCourant).setPouvoir(true);
-        }
+        
         if (AvCourant.getClass().getName() == "modele.Ingenieur") {  //désactive le pouvoir de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
@@ -216,6 +216,38 @@ public class Controleur implements Observateur {
             AvCourant.removeCarte(c);
             nbActions += 1;
         }
+    }
+    
+    
+    
+    private void utiliserHelico (){
+        if (conditionVictoire()){
+            
+        }else {
+            ArrayList<Tuile> liste = new ArrayList<>();
+            for (Tuile[] i : G.getGrilleTuile()){
+                for (Tuile j : i){
+                    if (j.getEtat() != Utils.EtatTuile.COULEE){
+                        liste.add(j);
+                    }
+                }
+            }
+            jeu.selecTuile(liste, Color.red);
+        }
+    }
+    
+    
+    
+    private boolean conditionVictoire () {
+        for (Aventurier i : joueurs){
+            if (i.getPos().getNom() != Iles.HELIPORT){
+                return false;
+            }
+        }
+        if (tresorRecupere.size() < 4){
+            return false;
+        }
+        return true;
     }
 
     //----------------------------------------Actions sur les cartes-----------------------------------------------
