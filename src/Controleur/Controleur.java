@@ -183,7 +183,9 @@ public class Controleur implements Observateur {
     private void deplacerJoueur(Tuile tuile) {
         AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
         jeu.afficherPion();
-
+        if (AvCourant.getClass().getName() == "modele.Pilote") {
+            ((Pilote) AvCourant).setPouvoir(true);
+        }
         if (AvCourant.getClass().getName() == "modele.Ingenieur") {  //désactive le pouvoir de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
@@ -413,7 +415,8 @@ public class Controleur implements Observateur {
         jeu = new vuejeu(G);
         creationJoueur(nbJoueur, nomsJoueurs);
         premiereInondations();
-        AvCourant = joueurs.get(0);    
+        AvCourant = joueurs.get(0);
+        jeu.maj();
         jeu.addObservateur(this);
         jeu.creationPion(joueurs);
         jeu.creationTresor();

@@ -33,7 +33,6 @@ public class Pilote extends Aventurier {
         }
         liste.remove(super.getPos());
         if (!this.isPouvoir()) {
-            setPouvoir(true);
             return liste;
         }else {
             return super.tuilesAutour(new ArrayList(), super.getPos().getX(), super.getPos().getY(), g.getGrilleTuile());
