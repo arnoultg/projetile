@@ -45,7 +45,6 @@ public class vueDebut implements Observe {
     private JTextField nomJoueur3 = new JTextField();
     private JTextField nomJoueur4 = new JTextField();
     private ButtonGroup choixJoueur;
-    private int boutonselec;
     private int nbjoueurs;
 
     public vueDebut() {

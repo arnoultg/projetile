@@ -16,6 +16,7 @@ import vue.Message;
 import vue.Observateur;
 import vue.TypesMessage;
 import vue.vueDebut;
+import vue.vueDonnerCarte;
 import vue.vuejeu;
 
 /**
@@ -98,7 +99,7 @@ public class Controleur implements Observateur {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
                 } else if (action == "assecher") {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
-                } else if (action == "Prendre Tresor") {
+                } else if (action == "Prendre tresor") {
                     Tresor tresor = AvCourant.getPos().getTresor();
                     if (tresor != null && quatreTresors(tresor) && !tresorRecupere.contains(tresor)) {
                         defausserQuatreTresor(tresor);
@@ -108,13 +109,17 @@ public class Controleur implements Observateur {
                     } else {
                         System.out.println("Pas de trésor à récuperrer");
                     }
-                } else if (action == "Donner Tresor") {
+                } else if (action == "Donner carte") {
                     ArrayList<Aventurier> liste = AvCourant.getPos().getAventurierssur();
                     liste.remove(AvCourant);
                     if (liste.size() == 0) {
                         System.out.println("pas d'autres aventuriers sur la tuile");
                     } else {
-
+                        Controleur C = new Controleur();
+                        vueDonnerCarte donnercarte = new vueDonnerCarte(liste, AvCourant);
+                        donnercarte.afficherCartes(AvCourant);
+                        donnercarte.afficher();
+                        donnercarte.addObservateur(C);
                     }
                 }
             }
