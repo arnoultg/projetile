@@ -85,8 +85,7 @@ public class Controleur implements Observateur {
 
         if (m.getType() == TypesMessage.CLIC_ACTION) {
             if (action != null) {
-                jeu.selecTuile(AvCourant.dispoAssecher(G), Color.white);
-                jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.white);
+                marquageNonCoulee(Color.white);
             }
 
             if (action == m.getAction()) {
@@ -192,7 +191,7 @@ public class Controleur implements Observateur {
     private void deplacerJoueur(Tuile tuile) {
         AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
         jeu.afficherPion();
-        
+
         if (AvCourant.getClass().getName() == "modele.Ingenieur") {  //désactive le pouvoir de l'ingenieur
             ((Ingenieur) AvCourant).setPouvoirEnCours(false);
         }
@@ -222,34 +221,41 @@ public class Controleur implements Observateur {
             nbActions += 1;
         }
     }
-    
-    
-    
-    private void utiliserHelico (){
-        if (conditionVictoire()){
-            
-        }else {
-            ArrayList<Tuile> liste = new ArrayList<>();
-            for (Tuile[] i : G.getGrilleTuile()){
-                for (Tuile j : i){
-                    if (j.getEtat() != Utils.EtatTuile.COULEE){
-                        liste.add(j);
-                    }
+
+    private void marquageNonCoulee(Color coul) {
+        ArrayList<Tuile> liste = new ArrayList<>();
+        for (Tuile[] i : G.getGrilleTuile()) {
+            for (Tuile j : i) {
+                if (j.getEtat() != Utils.EtatTuile.COULEE) {
+                    liste.add(j);
                 }
             }
-            jeu.selecTuile(liste, Color.red);
         }
+        jeu.selecTuile(liste, coul);
     }
-    
-    
-    
-    private boolean conditionVictoire () {
-        for (Aventurier i : joueurs){
-            if (i.getPos().getNom() != Iles.HELIPORT){
+
+    private void utiliserHelico(Tuile tuile) {
+        //----------
+        if (conditionVictoire()) {
+
+        } else {
+            marquageNonCoulee(Color.red);
+        }
+        //----------
+        if (tuile.getEtat() != Utils.EtatTuile.COULEE) {
+            AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
+            jeu.afficherPion();
+        }
+
+    }
+
+    private boolean conditionVictoire() {
+        for (Aventurier i : joueurs) {
+            if (i.getPos().getNom() != Iles.HELIPORT) {
                 return false;
             }
         }
-        if (tresorRecupere.size() < 4){
+        if (tresorRecupere.size() < 4) {
             return false;
         }
         return true;
