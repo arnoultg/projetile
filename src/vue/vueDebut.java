@@ -14,12 +14,15 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import modele.Grille;
 
@@ -32,101 +35,143 @@ public class vueDebut implements Observe {
 
     private JFrame fenetreInitialisation;
     private Observateur observateur;
-    private JComboBox choixJoueur;
+    private JRadioButton[] boutons;
     private JPanel haut;
-    private JButton boutonOk;
     private JButton demarrer;
     private JPanel grilleCentre;
     private ArrayList<String> nomjoueurs = new ArrayList<>();
-    private JTextArea nomJoueur1 = new JTextArea();
-    private JTextArea nomJoueur2 = new JTextArea();
-    private JTextArea nomJoueur3 = new JTextArea();
-    private JTextArea nomJoueur4 = new JTextArea();
+    private JTextField nomJoueur1 = new JTextField();
+    private JTextField nomJoueur2 = new JTextField();
+    private JTextField nomJoueur3 = new JTextField();
+    private JTextField nomJoueur4 = new JTextField();
+    private ButtonGroup choixJoueur;
+    private int boutonselec;
+    private int nbjoueurs;
 
     public vueDebut() {
 
         fenetreInitialisation = new JFrame("Demarrage");
         fenetreInitialisation.setLayout(new BorderLayout());
-        
+
         haut = new JPanel();
         demarrer = new JButton("demarrer");
-        
+        demarrer.setEnabled(false);
+
         fenetreInitialisation.add(haut, BorderLayout.NORTH);
         fenetreInitialisation.add(demarrer, BorderLayout.SOUTH);
-        
-        demarrer.setEnabled(false);
-        nomJoueur2.setBackground(Color.GRAY);
-        nomJoueur4.setBackground(Color.GRAY);
-        
+
+        JRadioButton bouton;
 
         JPanel grillehaut = new JPanel(new GridLayout(1, 2));
-        JLabel nbJoueur = new JLabel("nombre de joueur");
-        grillehaut.add(nbJoueur);
-        choixJoueur = new JComboBox(new String[]{"0", "2", "3", "4"});
-        grillehaut.add(choixJoueur);
-        haut.add(grillehaut);
+        JLabel nbJoueur = new JLabel("nombre de joueurs");
+        boutons = new JRadioButton[3];
 
-        grilleCentre = new JPanel(new GridLayout(4, 2));
-        fenetreInitialisation.add(grilleCentre, BorderLayout.CENTER);
-        
-        for (int i = 0; i < 8; i++) {
-            if ((i % 2) == 0) {
-                JLabel joueur = new JLabel("nom du joueur n°" + (i / 2 + 1));
-                grilleCentre.add(joueur);
-            } else if (i == 1) {
-                nomJoueur1.setEnabled(false);
-                grilleCentre.add(nomJoueur1);
-            } else if (i == 3) {
-                nomJoueur2.setEnabled(false);
-                grilleCentre.add(nomJoueur2);
-            } else if (i == 5) {
-                nomJoueur3.setEnabled(false);
-                grilleCentre.add(nomJoueur3);
-            } else if (i == 7) {
-                nomJoueur4.setEnabled(false);
-                grilleCentre.add(nomJoueur4);
+        choixJoueur = new ButtonGroup();
+
+        bouton = new JRadioButton("2");
+        boutons[0] = bouton;
+        choixJoueur.add(bouton);
+
+        bouton = new JRadioButton("3");
+        boutons[1] = bouton;
+        choixJoueur.add(bouton);
+
+        bouton = new JRadioButton("4");
+        boutons[2] = bouton;
+        choixJoueur.add(bouton);
+
+        grillehaut.add(nbJoueur);
+        grillehaut.add(boutons[0]);
+        grillehaut.add(boutons[1]);
+        grillehaut.add(boutons[2]);
+
+        haut.add(grillehaut);
+        grilleCentre = new JPanel();
+        boutons[0].addItemListener(
+                new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e
+            ) {
+                fenetreInitialisation.remove(grilleCentre);
+                grilleCentre = new JPanel(new GridLayout(2, 1));
+                demarrer.setEnabled(true);
+                nbjoueurs = 2;
+                for (int i = 0; i < 4; i++) {
+                    if ((i % 2) == 0) {
+                        JLabel joueur = new JLabel("nom du joueur n°" + (i / 2 + 1) + " :");
+                        grilleCentre.add(joueur);
+                    } else if (i == 1) {
+                        grilleCentre.add(nomJoueur1);
+                    } else if (i == 3) {
+                        grilleCentre.add(nomJoueur2);
+                    }
+                }
+                fenetreInitialisation.add(grilleCentre, BorderLayout.CENTER);
+                fenetreInitialisation.setVisible(true);
             }
         }
-
-        choixJoueur.addItemListener(new ItemListener() {
+        );
+        boutons[1].addItemListener(
+                new ItemListener() {
             @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (((String) e.getItem()) == "2") {
-                    nomJoueur1.setEnabled(true);
-                    nomJoueur2.setEnabled(true);
-                    nomJoueur3.setEnabled(false);
-                    nomJoueur4.setEnabled(false);
-                    demarrer.setEnabled(true);
-
-                } else if (((String) e.getItem()) == "3") {
-                    nomJoueur1.setEnabled(true);
-                    nomJoueur2.setEnabled(true);
-                    nomJoueur3.setEnabled(true);
-                    nomJoueur4.setEnabled(false);
-                    demarrer.setEnabled(true);
-
-                } else if (((String) e.getItem()) == "4") {
-                    nomJoueur1.setEnabled(true);
-                    nomJoueur2.setEnabled(true);
-                    nomJoueur3.setEnabled(true);
-                    nomJoueur4.setEnabled(true);
-                    demarrer.setEnabled(true);
-
-                } else {
-                    nomJoueur1.setEnabled(false);
-                    nomJoueur2.setEnabled(false);
-                    nomJoueur3.setEnabled(false);
-                    nomJoueur4.setEnabled(false);
-                    demarrer.setEnabled(false);
+            public void itemStateChanged(ItemEvent e
+            ) {
+                fenetreInitialisation.remove(grilleCentre);
+                grilleCentre = new JPanel(new GridLayout(3, 1));
+                demarrer.setEnabled(true);
+                nbjoueurs = 3;
+                for (int i = 0; i < 6; i++) {
+                    if ((i % 2) == 0) {
+                        JLabel joueur = new JLabel("nom du joueur n°" + (i / 2 + 1));
+                        grilleCentre.add(joueur);
+                    } else if (i == 1) {
+                        grilleCentre.add(nomJoueur1);
+                    } else if (i == 3) {
+                        grilleCentre.add(nomJoueur2);
+                    } else if (i == 5) {
+                        grilleCentre.add(nomJoueur3);
+                    }
                 }
-                //choixJoueur.setEnabled(false);
-                
+                fenetreInitialisation.add(grilleCentre, BorderLayout.CENTER);
+                fenetreInitialisation.setVisible(true);
             }
-        });
 
-        demarrer.addActionListener(new ActionListener() {
+        }
+        );
+        boutons[2].addItemListener(
+                new ItemListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void itemStateChanged(ItemEvent e
+            ) {
+                fenetreInitialisation.remove(grilleCentre);
+                grilleCentre = new JPanel(new GridLayout(2, 2));
+                demarrer.setEnabled(true);
+                nbjoueurs = 4;
+                for (int i = 0; i < 8; i++) {
+                    if ((i % 2) == 0) {
+                        JLabel joueur = new JLabel("nom du joueur n°" + (i / 2 + 1));
+                        grilleCentre.add(joueur);
+                    } else if (i == 1) {
+                        grilleCentre.add(nomJoueur1);
+                    } else if (i == 3) {
+                        grilleCentre.add(nomJoueur2);
+                    } else if (i == 5) {
+                        grilleCentre.add(nomJoueur3);
+                    } else if (i == 7) {
+                        grilleCentre.add(nomJoueur4);
+                    }
+                }
+                fenetreInitialisation.add(grilleCentre, BorderLayout.CENTER);
+                fenetreInitialisation.setVisible(true);
+            }
+        }
+        );
+
+        demarrer.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e
+            ) {
                 fenetreInitialisation.setVisible(false);
                 Message m = new Message(TypesMessage.DEMARRER);
                 nomjoueurs.add(nomJoueur1.getText());
@@ -134,16 +179,17 @@ public class vueDebut implements Observe {
                 nomjoueurs.add(nomJoueur3.getText());
                 nomjoueurs.add(nomJoueur4.getText());
                 m.nomsJoueurs = nomjoueurs;
-                m.nbjoueurs = Integer.parseInt((String) choixJoueur.getSelectedItem());
+                m.nbjoueurs = nbjoueurs;
                 notifierObservateur(m);
             }
-        });
+        }
+        );
 
     }
 
     public void afficher() {
         fenetreInitialisation.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        fenetreInitialisation.setSize(400, 200);
+        fenetreInitialisation.setSize(600, 200);
         fenetreInitialisation.setVisible(true);
 
     }
