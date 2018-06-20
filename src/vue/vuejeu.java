@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -55,6 +56,7 @@ public class vuejeu extends JPanel implements Observe {
     private ArrayList<pionD> pionsjoueur;
     private ArrayList<TresorD> TresorsDessin;
     private ArrayList<JPanel> lescasesblanches;
+    private ArrayList<JPanel> lescasesniveau;
     JLabel nom = new JLabel();
     JLabel Joueur2 = new JLabel();
     private Grille g;
@@ -81,6 +83,7 @@ public class vuejeu extends JPanel implements Observe {
         cartes = new ArrayList<>();
         TresorsDessin = new ArrayList<>();
         lescasesblanches = new ArrayList<>();
+        lescasesniveau = new ArrayList<>();
 
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
@@ -100,10 +103,29 @@ public class vuejeu extends JPanel implements Observe {
 //premiere ligne       
         paneldroite.add(PHaut);
         //Phaut gauche
-        JPanel niveau = new JPanel();
-        PHaut.add(niveau);
+        JPanel Phautgauche = new JPanel(new GridLayout(0, 2));
+        JPanel Pniveau = new JPanel(new GridLayout(20, 2));
+        for (int i = 0; i < 40; i++) {
+            if (i % 2 != 0) {
+                JPanel blanc = new JPanel();
+                Pniveau.add(blanc);
+                lescasesniveau.add(blanc);
+
+            } else {
+                JPanel blanc = new JPanel();
+                Pniveau.add(blanc);
+            }
+
+        }
+        lescasesniveau.get(19 - (g.getNiveauEau() - 1) * 2).setBackground(Color.orange);
+        Phautgauche.add(Pniveau, BorderLayout.WEST);
+
+        ImagePanel niveau = new ImagePanel("/users/info/etu-s2/arnoultg/projet/projetile/Niveau.png", 0, 0, 200, 387);
+        Phautgauche.add(niveau, BorderLayout.CENTER);
+        PHaut.add(Phautgauche);
+
         //Phaut droite
-        JPanel Phautdroite = new JPanel(new GridLayout(2,0));
+        JPanel Phautdroite = new JPanel(new GridLayout(2, 0));
         PHaut.add(Phautdroite);
         //1.1 ligne
         Phautdroite.add(nom);
@@ -155,7 +177,7 @@ public class vuejeu extends JPanel implements Observe {
 //3eme ligne
         paneldroite.add(PBas);
         //3.1 
-        
+
         JLabel Action = new JLabel("Action utilisateur");
         PBas.add(Action);
         //3.2
@@ -179,9 +201,9 @@ public class vuejeu extends JPanel implements Observe {
 
         PBas.add(toucheaction);
         //3.3
-        
+
         JButton findetour = new JButton("Fin de tour");
-        JPanel touchefinir = new JPanel(new GridLayout(0,3));
+        JPanel touchefinir = new JPanel(new GridLayout(0, 3));
         touchefinir.add(new JPanel());
         touchefinir.add(findetour);
         touchefinir.add(new JPanel());
@@ -435,5 +457,10 @@ public class vuejeu extends JPanel implements Observe {
                 b.setBackground(g.getGrilleTuile()[lesboutonstuiles.indexOf(b) / 6][lesboutonstuiles.indexOf(b) % 6].getCouleur());
             }
         }
+    }
+
+    public void miseajourniveau() {
+        lescasesniveau.get(19 - (g.getNiveauEau() - 2) * 2).setBackground(null);
+        lescasesniveau.get(19 - (g.getNiveauEau() - 1) * 2).setBackground(Color.orange);
     }
 }

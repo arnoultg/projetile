@@ -233,6 +233,7 @@ public class Controleur implements Observateur {
                 System.out.println("carte monté des eaux tiré");
                 G.addDefausseCTresor(c);
                 ((MonteDesEaux) c).MonteEau(G);
+                jeu.miseajourniveau();
             } else {
                 AvCourant.addCarte(c);
             }
@@ -374,10 +375,10 @@ public class Controleur implements Observateur {
 
         G = new Grille(1);
         initialiserGrille();
+        jeu = new vuejeu(G);
         creationJoueur(nbJoueur, nomsJoueurs);
         premiereInondations();
-        AvCourant = joueurs.get(0);
-        jeu = new vuejeu(G);
+        AvCourant = joueurs.get(0);    
         jeu.addObservateur(this);
         jeu.creationPion(joueurs);
         jeu.creationTresor();
