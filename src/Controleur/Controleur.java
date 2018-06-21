@@ -234,6 +234,7 @@ public class Controleur implements Observateur {
         jeu.MiseaJourCartes(AvCourant);
         if (findujeu == true) {
             System.out.println("fin");
+            jeu.maj();
         }
     }
 
