@@ -109,11 +109,10 @@ public class Controleur implements Observateur {
                     if (liste.size() == 0) {
                         System.out.println("pas d'autres aventuriers sur la tuile");
                     } else {
-                        Controleur C = new Controleur();
                         vueDonnerCarte donnercarte = new vueDonnerCarte(liste, AvCourant);
                         donnercarte.afficherCartes(AvCourant);
                         donnercarte.afficher();
-                        donnercarte.addObservateur(C);
+                        donnercarte.addObservateur(this);
                     }
                 }
             }
@@ -147,11 +146,11 @@ public class Controleur implements Observateur {
             }
         } else if (m.getType() == TypesMessage.DEMARRER) {
             initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
-            
-        }else if (m.getType() == TypesMessage.VALIDER){
+
+        } else if (m.getType() == TypesMessage.VALIDER) {
             donnerCTresor(m.getDestinataire(), m.getCarteTr());
         }
-        
+
     }
 
 //----------------------------------------Actions d'un tour de jeux-----------------------------------------------    
@@ -281,12 +280,31 @@ public class Controleur implements Observateur {
         for (int i = 0; i < G.getNiveauEau(); i++) {
             if (G.getPaquetCInnond().size() > 0) {
                 G.getPaquetCInnond().get(0).innondeTuile(G);
+                if (G.getTuile(G.getPaquetCInnond().get(0).getNomIle()).getEtat() == Utils.EtatTuile.COULEE) {
+                    if (G.getTuile(G.getPaquetCInnond().get(0).getNomIle()).getAventurierssur() != null) {
+                        this.sauvetageAventurier(G.getTuile(G.getPaquetCInnond().get(0).getNomIle()).getAventurierssur());
+
+                    }
+
+                }
                 G.tirerCInnonde(G.getPaquetCInnond().get(0));
 
             } else {
                 G.reinitPaquetInnond();
             }
         }
+    }
+
+    public void sauvetageAventurier(ArrayList<Aventurier> aventuriers) {
+        for (Aventurier av : aventuriers) {
+            ArrayList<Tuile> tuiles = av.tuilesDispoAv(G);
+            Collections.shuffle(tuiles);
+            av.setPos(tuiles.get(0));
+            jeu.maj();
+            jeu.afficherPion();
+        }
+        
+
     }
 
     public void defausserCarte(CarteTresor c) {
