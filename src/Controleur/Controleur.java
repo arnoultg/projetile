@@ -32,6 +32,7 @@ public class Controleur implements Observateur {
     private int nbActions = 3;
     private static Grille G;
     private ArrayList<Tresor> tresorRecupere;
+    private boolean findujeu = false;
 
     public Controleur() {
         joueurs = new ArrayList<>();
@@ -174,12 +175,15 @@ public class Controleur implements Observateur {
         jeu.choisirCarteDefausse(AvCourant);
 
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
-        System.out.println(AvCourant);
-        System.out.println(joueurs);
+        //System.out.println(AvCourant);
+        //-System.out.println(joueurs);
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         nbActions += (AvCourant.getClass().getName() == "modele.Navigateur" ? 1 : 0);
         jeu.MiseaJourCartes(AvCourant);
+        if (findujeu == true) {
+            System.out.println("fin");
+        }
     }
 
     private void deplacerJoueur(Tuile tuile) {
@@ -281,12 +285,11 @@ public class Controleur implements Observateur {
         for (int i = 0; i < G.getNiveauEau(); i++) {
             if (G.getPaquetCInnond().size() > 0) {
                 G.getPaquetCInnond().get(0).innondeTuile(G);
+                findujeu = conditionsdefaite();
                 if (G.getTuile(G.getPaquetCInnond().get(0).getNomIle()).getEtat() == Utils.EtatTuile.COULEE) {
                     if (G.getTuile(G.getPaquetCInnond().get(0).getNomIle()).getAventurierssur() != null) {
                         this.sauvetageAventurier(G.getTuile(G.getPaquetCInnond().get(0).getNomIle()).getAventurierssur());
-
                     }
-
                 }
                 G.tirerCInnonde(G.getPaquetCInnond().get(0));
 
@@ -305,7 +308,8 @@ public class Controleur implements Observateur {
                 jeu.maj();
                 jeu.afficherPion();
             } else {
-                System.out.println("fin du jeu");
+                findujeu = true;
+                //System.out.println("fin du jeu");
             }
 
         }
@@ -336,32 +340,32 @@ public class Controleur implements Observateur {
             if (lescouleurs.get(x) == Utils.Pion.JAUNE) {
                 t = G.getTuile(Iles.LA_PORTE_D_OR);
                 Joueur = new Navigateur(Utils.Pion.JAUNE, nomsJoueurs.get(x), t);
-                System.out.println("Vous etes le navigateur \n");
+                //System.out.println("Vous etes le navigateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VIOLET) {
                 t = G.getTuile(Iles.LA_PORTE_DE_FER);
                 Joueur = new Plongeur(Utils.Pion.VIOLET, nomsJoueurs.get(x), t);
-                System.out.println("Vous etes le plongeur \n");
+                //System.out.println("Vous etes le plongeur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.BLEU) {
                 t = G.getTuile(Iles.HELIPORT);
                 Joueur = new Pilote(Utils.Pion.BLEU, nomsJoueurs.get(x), t);
-                System.out.println("Vous etes le pilote \n");
+                // System.out.println("Vous etes le pilote \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ROUGE) {
                 t = G.getTuile(Iles.LA_PORTE_DE_BRONZE);
                 Joueur = new Ingenieur(Utils.Pion.ROUGE, nomsJoueurs.get(x), t);
-                System.out.println("Vous etes l'ingenieur \n");
+                //System.out.println("Vous etes l'ingenieur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VERT) {
                 t = G.getTuile(Iles.LA_PORTE_DE_CUIVRE);
                 Joueur = new Explorateur(Utils.Pion.VERT, nomsJoueurs.get(x), t);
-                System.out.println("Vous etes l'explorateur \n");
+                // System.out.println("Vous etes l'explorateur \n");
 
             } else /* if (lescouleurs.get(x) == Utils.Pion.ORANGE)*/ {
                 t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
                 Joueur = new Messager(Utils.Pion.ORANGE, nomsJoueurs.get(x), t);
-                System.out.println("Vous etes le messager \n");
+                // System.out.println("Vous etes le messager \n");
 
             }
             addAventurier(Joueur);
@@ -425,6 +429,43 @@ public class Controleur implements Observateur {
 
         G.getTuile(Iles.LE_PALAIS_DES_MAREES).setTresor(Tresor.CALYCE);
         G.getTuile(Iles.LE_PALAIS_DE_CORAIL).setTresor(Tresor.CALYCE);
+
+    }
+
+    public boolean conditionsdefaite() {
+        if (G.getTuile(Iles.HELIPORT)
+                .getEtat() == Utils.EtatTuile.COULEE) {
+            System.out.println("heliport");
+            return true;
+
+        } else if (G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE)
+                .getEtat() == Utils.EtatTuile.COULEE
+                && G.getTuile(Iles.LE_TEMPLE_DU_SOLEIL).getEtat() == Utils.EtatTuile.COULEE
+                && tresorRecupere.contains(Tresor.PIERRE) == false) {
+            System.out.println("pierre");
+            return true;
+
+        } else if (G.getTuile(Iles.LE_JARDIN_DES_MURMURES)
+                .getEtat() == Utils.EtatTuile.COULEE
+                && G.getTuile(Iles.LE_JARDIN_DES_HURLEMENTS).getEtat() == Utils.EtatTuile.COULEE
+                && tresorRecupere.contains(Tresor.STATUE) == false) {
+            System.out.println("statue");
+            return true;
+        } else if (G.getTuile(Iles.LA_CAVERNE_DU_BRASIER)
+                .getEtat() == Utils.EtatTuile.COULEE
+                && G.getTuile(Iles.LA_CAVERNE_DES_OMBRES).getEtat() == Utils.EtatTuile.COULEE
+                && tresorRecupere.contains(Tresor.CRYSTAL) == false) {
+            System.out.println("crystal");
+            return true;
+        } else if (G.getTuile(Iles.LE_PALAIS_DES_MAREES)
+                .getEtat() == Utils.EtatTuile.COULEE
+                && G.getTuile(Iles.LE_PALAIS_DE_CORAIL).getEtat() == Utils.EtatTuile.COULEE
+                && tresorRecupere.contains(Tresor.CALYCE) == false) {
+            System.out.println("calyce");
+            return true;
+        } else {
+            return false;
+        }
 
     }
 

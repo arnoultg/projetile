@@ -466,4 +466,5 @@ public class vuejeu extends JPanel implements Observe {
         lescasesniveau.get(19 - (g.getNiveauEau() - 2) * 2).setBackground(null);
         lescasesniveau.get(19 - (g.getNiveauEau() - 1) * 2).setBackground(Color.orange);
     }
+   
 }
