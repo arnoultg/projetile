@@ -454,6 +454,16 @@ public class vuejeu extends JPanel implements Observe {
 
     }
 
+    public void miseAJourCartesSpeciales(Aventurier av, boolean etat) {
+        for (int i = 0; i < av.getNbCartes(); i++) {
+            if (lesboutonscartes.get(i).getText() == "Helicoptere" || lesboutonscartes.get(i).getText() == "Sac de sable") {
+                    lesboutonscartes.get(i).setEnabled(etat);
+            }
+        }
+    }
+
+    
+
     public void maj() { //permet de remettre toute les cases de leurs couleurs
         for (JButton b : lesboutonstuiles) {
             if (b != null) {
@@ -466,4 +476,5 @@ public class vuejeu extends JPanel implements Observe {
         lescasesniveau.get(19 - (g.getNiveauEau() - 2) * 2).setBackground(null);
         lescasesniveau.get(19 - (g.getNiveauEau() - 1) * 2).setBackground(Color.orange);
     }
+
 }
