@@ -118,13 +118,10 @@ public class Grille {
             paquetCInnond.add(carteinnond);
         }
         Collections.shuffle(paquetCInnond);
-        System.out.println(paquetCInnond.size());
         return paquetCInnond;
     }
 
     public void reinitPaquetInnond() {
-        System.out.println(defausseInnond.size());
-        System.out.println(paquetCInnond.size());
         if (defausseInnond.size() != 0) {
             Collections.shuffle(defausseInnond);
             for (Carte_Innondation c : defausseInnond) {
@@ -132,8 +129,6 @@ public class Grille {
             }
             defausseInnond.clear();
         }
-        System.out.println(defausseInnond.size());
-        System.out.println(paquetCInnond.size());
     }
 
     public void reinitPaquetTresor() {

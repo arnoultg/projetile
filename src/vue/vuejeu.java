@@ -188,19 +188,19 @@ public class vuejeu extends JPanel implements Observe {
         JButton assecher = new JButton("assecher");
         JButton prendretres = new JButton("Prendre tresor");
         JButton donnerCarte = new JButton("Donner carte"); 
-        JButton actionSpecial = new JButton("Action Special");
+        JButton actionSpeciale = new JButton("Action Speciale");
 
         toucheaction.add(deplacer);
         toucheaction.add(assecher);
         toucheaction.add(prendretres);
         toucheaction.add(donnerCarte);
-        toucheaction.add(actionSpecial);
+        toucheaction.add(actionSpeciale);
 
         lesboutonsactions.add(deplacer);
         lesboutonsactions.add(assecher);
         lesboutonsactions.add(prendretres);
         lesboutonsactions.add(donnerCarte);
-        lesboutonsactions.add(actionSpecial);
+        lesboutonsactions.add(actionSpeciale);
 
         PBas.add(toucheaction);
         //3.3

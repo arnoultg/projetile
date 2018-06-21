@@ -32,6 +32,7 @@ public class Controleur implements Observateur {
     private int nbActions = 3;
     private static Grille G;
     private ArrayList<Tresor> tresorRecupere;
+    private CarteTresor carteSpeciale;
 
     public Controleur() {
         joueurs = new ArrayList<>();
@@ -84,9 +85,13 @@ public class Controleur implements Observateur {
 
         if (m.getType() == TypesMessage.CLIC_ACTION) {
             if (action != null) {
-                marquageNonCoulee(Color.white);
+                jeu.selecTuile(tuilesNonCoulee(), Color.white);
             }
-            action = (((action == m.getAction()) || (nbActions == 0)) ? null : m.getAction());
+            if (action == "Action Speciale") {
+                carteSpeciale = null;
+                jeu.miseAJourCartesSpeciales(AvCourant, false);
+            }
+            action = (action == m.getAction() ? null : m.getAction());
 
             if (nbActions > 0) {
                 if (action == "deplacer") {
@@ -115,9 +120,17 @@ public class Controleur implements Observateur {
                         donnercarte.addObservateur(this);
                     }
                 }
+            } else {
+                if (action != "Action Speciale") {
+                    action = null;
+                }
             }
             if ((m.getAction() == "Fin de tour") && (AvCourant.getNbCartes() <= 5)) {
                 this.finTour();
+            }
+            if (m.getAction() == "Action Speciale") {
+                action = ((action == m.getAction()) ? null : m.getAction());
+                System.out.println(action);
             }
 
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
@@ -137,9 +150,7 @@ public class Controleur implements Observateur {
                 }
             }
 
-        } else if (m.getType() == TypesMessage.CLIC_ACTION_SPE) {
-            //action = 
-        } else if (m.getType() == TypesMessage.CLIC_CARTE){ // && (action != "Donner Tresor")) {
+        } else if (m.getType() == TypesMessage.CLIC_CARTE) { // && (action != "Donner Tresor")) {
             if (AvCourant.getNbCartes() > 5) {
                 defausserCarte(AvCourant.getCartes().get(m.getCarte()));
                 jeu.MiseaJourCartes(AvCourant);
@@ -150,6 +161,46 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.VALIDER) {
             donnerCTresor(m.getDestinataire(), m.getCarteTr());
             nbActions -= 1;
+            action = null;
+        } else if (action == "Action Speciale") {
+            jeu.miseAJourCartesSpeciales(AvCourant, true);
+            if (m.getType() == TypesMessage.CLIC_CARTE) {
+                carteSpeciale = AvCourant.getCartes().get(m.getCarte());
+            }
+            if (carteSpeciale.getClass().getName() == "modele.Helicoptere") {
+                if (conditionVictoire()) {
+
+                } else {
+                    jeu.selecTuile(tuilesNonCoulee(), Color.red);
+                }
+                if (m.getType() == TypesMessage.CLIC_TUILE) {
+                    AvCourant.setPos(m.getTuile());        //déplace le joueur sur la tuile séléctionnée
+                    jeu.afficherPion();
+                    jeu.miseAJourCartesSpeciales(AvCourant, false);
+                    AvCourant.removeCarte(carteSpeciale);
+                    jeu.MiseaJourCartes(AvCourant);
+                    
+                }
+            } else if (carteSpeciale.getClass().getName() == "modele.SacDeSable") {
+                ArrayList<Tuile> liste = new ArrayList<>();
+                for (Tuile[] i : G.getGrilleTuile()) {
+                    for (Tuile j : i) {
+                        if (j.getEtat() == Utils.EtatTuile.INONDEE) {
+                            liste.add(j);
+                        }
+                    }
+                }
+                jeu.selecTuile(liste, Color.red);
+                if (m.getType() == TypesMessage.CLIC_TUILE) {
+                    if (m.getTuile().getEtat() == Utils.EtatTuile.INONDEE)
+                    m.getTuile().asseche();    //asseche la tuile séléctionnée
+                    jeu.MiseaJourTuile(m.getTuile());
+                    jeu.miseAJourCartesSpeciales(AvCourant, false);
+                    AvCourant.removeCarte(carteSpeciale);
+                    jeu.MiseaJourCartes(AvCourant);
+                }
+            }
+
         }
 
     }
@@ -210,11 +261,11 @@ public class Controleur implements Observateur {
     }
 
     private void donnerCTresor(Aventurier av, CarteTresor c) {
-            av.addCarte(c);
-            AvCourant.removeCarte(c);
+        av.addCarte(c);
+        AvCourant.removeCarte(c);
     }
 
-    private void marquageNonCoulee(Color coul) {
+    private ArrayList<Tuile> tuilesNonCoulee() {
         ArrayList<Tuile> liste = new ArrayList<>();
         for (Tuile[] i : G.getGrilleTuile()) {
             for (Tuile j : i) {
@@ -223,25 +274,21 @@ public class Controleur implements Observateur {
                 }
             }
         }
-        jeu.selecTuile(liste, coul);
+        return liste;
     }
 
     private void Helicoptere(Tuile tuile) {
         //----------
-        if (conditionVictoire()) {
 
-        } else {
-            marquageNonCoulee(Color.red);
-        }
         //----------
         if (tuile.getEtat() != Utils.EtatTuile.COULEE) {
             AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
             jeu.afficherPion();
         }
     }
-    
-    private void sacDeSable(Tuile tuile){
-        
+
+    private void sacDeSable(Tuile tuile) {
+
     }
 
     private boolean conditionVictoire() {
@@ -304,7 +351,6 @@ public class Controleur implements Observateur {
             jeu.maj();
             jeu.afficherPion();
         }
-        
 
     }
 
@@ -367,23 +413,6 @@ public class Controleur implements Observateur {
     }
 
     private void premiereInondations() {    //innondation de début de partie
-
-        /*
-        G.getTuile(Iles.LA_PORTE_DE_BRONZE).innonde();
-        G.getTuile(Iles.OBSERVATOIRE).innonde();
-        G.getTuile(Iles.LA_CAVERNE_DU_BRASIER).innonde();
-        G.getTuile(Iles.LE_LAGON_PERDU).innonde();
-        G.getTuile(Iles.LE_JARDIN_DES_MURMURES).innonde();
-        G.getTuile(Iles.LES_DUNES_DE_L_ILLUSION).innonde();
-        G.getTuile(Iles.LES_DUNES_DE_L_ILLUSION).innonde();
-        G.getTuile(Iles.LE_MARAIS_BRUMEUX).innonde();
-        G.getTuile(Iles.LE_MARAIS_BRUMEUX).innonde();
-        G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).innonde();
-        G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).innonde();
-        G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
-        G.getTuile(Iles.LE_ROCHER_FANTOME).innonde();
-        //innondation aléatoire
-         */
         for (int i = 1; i <= 6; i++) {
             G.getPaquetCInnond().get(0).innondeTuile(G);
             G.tirerCInnonde(G.getPaquetCInnond().get(0));
