@@ -150,6 +150,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.VALIDER) {
             donnerCTresor(m.getDestinataire(), m.getCarteTr());
+            jeu.MiseaJourCartes(AvCourant);
             nbActions -= 1;
         }
 
