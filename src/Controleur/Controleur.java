@@ -104,7 +104,7 @@ public class Controleur implements Observateur {
                         System.out.println("Pas de trésor à récuperrer");
                     }
                 } else if (action == "Donner carte") {
-                    ArrayList<Aventurier> liste = AvCourant.getPos().getAventurierssur();
+                    ArrayList<Aventurier> liste = (AvCourant.getClass().getName() == "modele.Messager" ? joueurs : AvCourant.getPos().getAventurierssur());
                     liste.remove(AvCourant);
                     if (liste.size() == 0) {
                         System.out.println("pas d'autres aventuriers sur la tuile");
@@ -139,7 +139,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.CLIC_ACTION_SPE) {
             //action = 
-        } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action != "Donner Tresor")) {
+        } else if (m.getType() == TypesMessage.CLIC_CARTE){ // && (action != "Donner Tresor")) {
             if (AvCourant.getNbCartes() > 5) {
                 defausserCarte(AvCourant.getCartes().get(m.getCarte()));
                 jeu.MiseaJourCartes(AvCourant);
@@ -149,6 +149,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.VALIDER) {
             donnerCTresor(m.getDestinataire(), m.getCarteTr());
+            nbActions -= 1;
         }
 
     }
@@ -173,6 +174,8 @@ public class Controleur implements Observateur {
         jeu.choisirCarteDefausse(AvCourant);
 
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
+        System.out.println(AvCourant);
+        System.out.println(joueurs);
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         nbActions += (AvCourant.getClass().getName() == "modele.Navigateur" ? 1 : 0);
@@ -207,12 +210,8 @@ public class Controleur implements Observateur {
     }
 
     private void donnerCTresor(Aventurier av, CarteTresor c) {
-        boolean conditions = (AvCourant.getClass().getName() == "modele.Messager" ? true : (AvCourant.getPos().equals(av.getPos()) && (c.getClass().getName() == "modele.C_tresor")));
-        if (conditions) {
             av.addCarte(c);
             AvCourant.removeCarte(c);
-            nbActions += 1;
-        }
     }
 
     private void marquageNonCoulee(Color coul) {
@@ -227,7 +226,7 @@ public class Controleur implements Observateur {
         jeu.selecTuile(liste, coul);
     }
 
-    private void utiliserHelico(Tuile tuile) {
+    private void Helicoptere(Tuile tuile) {
         //----------
         if (conditionVictoire()) {
 
@@ -239,7 +238,10 @@ public class Controleur implements Observateur {
             AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
             jeu.afficherPion();
         }
-
+    }
+    
+    private void sacDeSable(Tuile tuile){
+        
     }
 
     private boolean conditionVictoire() {
@@ -260,7 +262,6 @@ public class Controleur implements Observateur {
         for (int i = 0; i < 2; i++) {
             int nbCartesPaquet = G.getPaquetCTresor().size();
             if (nbCartesPaquet == 0) {
-                System.out.println("reinit tresor");
                 G.reinitPaquetTresor();
             }
             CarteTresor c = G.getPaquetCTresor().get(0);
@@ -359,11 +360,8 @@ public class Controleur implements Observateur {
                 System.out.println("Vous etes le messager \n");
 
             }
-            t.addAventurier(Joueur);
             addAventurier(Joueur);
             AvCourant = Joueur;
-            System.out.println(AvCourant.getClass().getName());
-            System.out.println(AvCourant.getClass().getName() == "modele.Explorateur");
             tirerCartesTresors();
         }
     }
