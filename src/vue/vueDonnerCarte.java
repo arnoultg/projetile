@@ -45,15 +45,15 @@ public class vueDonnerCarte {
         frame = new JFrame("Donner Carte");
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
         frame.add(mainPanel);
-        JPanel panelDroite = new JPanel(new GridLayout(3, 0));
-        JPanel panelGauche = new JPanel(new GridLayout(3, 0));
+        JPanel panelDroite = new JPanel(new GridLayout(2, 0));
+        JPanel panelGauche = new JPanel(new GridLayout(2, 0));
         mainPanel.add(panelGauche);
         mainPanel.add(panelDroite);
 
-        JPanel panelDHaut = new JPanel(new GridLayout(3, 2));
-        panelDroite.add(panelDHaut);
-        JPanel panelDCentre = new JPanel(new GridLayout(2, 0));
-        panelDroite.add(panelDCentre);
+        JPanel panelDTop = new JPanel(new GridLayout(3, 0));
+        JPanel panelDHaut = new JPanel(new GridLayout(0, 3));
+        panelDTop.add(panelDHaut);
+        panelDroite.add(panelDTop);
 
         JPanel panelDBas = new JPanel(new GridLayout(2, 0));
         JLabel labelChoixC = new JLabel("Choisir une carte à donner");
@@ -67,34 +67,11 @@ public class vueDonnerCarte {
         panelDroite.add(panelDBas);
 
         JLabel voscartes = new JLabel("Vos cartes");
+        panelDHaut.add(new JPanel());
         panelDHaut.add(voscartes);
         panelDHaut.add(new JPanel());
-        JLabel nom = new JLabel("Nom :");
-        panelDHaut.add(nom);
-        JLabel nomJoueur = new JLabel(AvCourant.getNomjoueur());
-        panelDHaut.add(nomJoueur);
-        JLabel role = new JLabel("Rôle :");
-        panelDHaut.add(role);
-        JLabel roleJoueur;
-        if (AvCourant.getNomRole() == Utils.Pion.JAUNE) {
-            roleJoueur = new JLabel("navigateur");
-        } else if (AvCourant.getNomRole() == Utils.Pion.ROUGE) {
-            roleJoueur = new JLabel("ingenieur");
-        } else if (AvCourant.getNomRole() == Utils.Pion.VERT) {
-            roleJoueur = new JLabel("explorateur");
-        } else if (AvCourant.getNomRole() == Utils.Pion.VIOLET) {
-            roleJoueur = new JLabel("plongeur");
-        } else if (AvCourant.getNomRole() == Utils.Pion.ORANGE) {
-            roleJoueur = new JLabel("messager");
-        } else {
-            roleJoueur = new JLabel("pilote");
-        }
-        panelDHaut.add(roleJoueur);
-
-        JLabel mescartes = new JLabel("mes cartes");
         JPanel boutonsCartes = new JPanel(new GridLayout(3, 3));
-        panelDCentre.add(mescartes);
-        panelDCentre.add(boutonsCartes);
+        panelDTop.add(boutonsCartes);
 
         JButton carte1 = new JButton("");
         carte1.setEnabled(false);
@@ -132,8 +109,11 @@ public class vueDonnerCarte {
         lesboutonscartes.add(carte7);
 
         JLabel cartesjoueurs = new JLabel("Les cartes des autres joueurs");
-        panelGauche.add(cartesjoueurs);
-        JPanel panelGCentre = new JPanel(new GridLayout(liste.size(), 0));
+        JPanel panelGHaut = new JPanel(new GridLayout(4, 0));
+        JPanel panelGTop = new JPanel(new GridLayout(0, 3));
+        panelGTop.add(new JPanel());
+        panelGTop.add(cartesjoueurs);
+        panelGHaut.add(panelGTop);
         for (Aventurier av : liste) {
             ArrayList<JButton> lesboutonscartesJ = new ArrayList<>();
 
@@ -231,14 +211,14 @@ public class vueDonnerCarte {
             lesboutonscartesJ.add(carte9j);
             lesboutonscartesJ.add(carte10j);
 
-            panelGCentre.add(panelJoueur);
+            panelGHaut.add(panelJoueur);
             afficherCartesJoueurs(av, lesboutonscartesJ);
 
         }
-        panelGauche.add(panelGCentre);
+        panelGauche.add(panelGHaut);
 
         JPanel panelGBas = new JPanel(new GridLayout(2, 0));
-        JLabel labelChoixJ = new JLabel("Choisir un joueur à qui donner une carte");
+        JLabel labelChoixJ = new JLabel("Choisir un joueur");
         JPanel panelGChoix = new JPanel(new GridLayout(0, 3));
         panelGChoix.add(new JPanel());
         panelGChoix.add(labelChoixJ);
@@ -279,7 +259,7 @@ public class vueDonnerCarte {
         GraphicsEnvironment environnement = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle fenetre = environnement.getMaximumWindowBounds();
         int xfenetre = (int) fenetre.getWidth();
-        int yfenetre = (int) fenetre.getHeight();
+        int yfenetre = (int) fenetre.getHeight() /2;
         frame.setSize(xfenetre, yfenetre);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
