@@ -24,7 +24,7 @@ public abstract class Aventurier {
     public Aventurier(Utils.Pion nomRole, String nomjoueur, Tuile pos) {
         this.nomRole = nomRole;
         this.nomjoueur = nomjoueur;
-        this.pos = pos;
+        this.setPos(pos);
         cartes = new ArrayList<>();
     }
 
@@ -41,9 +41,12 @@ public abstract class Aventurier {
     }
 
     public void setPos(Tuile pos) {
-        this.pos.getAventurierssur().remove(this);
+        //if (this.pos.getAventurierssur().contains(this)) {
+            pos.getAventurierssur().remove(this);
+        //}
         this.pos = pos;
         pos.addAventurier(this);
+        System.out.println(pos.getAventurierssur());
     }
 
     public ArrayList<CarteTresor> getCartes() {
