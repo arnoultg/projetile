@@ -187,7 +187,7 @@ public class vuejeu extends JPanel implements Observe {
         JButton deplacer = new JButton("deplacer");
         JButton assecher = new JButton("assecher");
         JButton prendretres = new JButton("Prendre tresor");
-        JButton donnerCarte = new JButton("Donner carte"); 
+        JButton donnerCarte = new JButton("Donner carte");
         JButton actionSpeciale = new JButton("Action Speciale");
 
         toucheaction.add(deplacer);
@@ -313,8 +313,11 @@ public class vuejeu extends JPanel implements Observe {
     }
 
     public void afficher() {  // affiche la fenetre
-        frame.setVisible(
-                true);
+        frame.setVisible(true);
+    }
+
+    public void pasAfficher() {
+        frame.setVisible(false);
     }
 
     public void addObservateur(Observateur o) {
@@ -461,12 +464,10 @@ public class vuejeu extends JPanel implements Observe {
     public void miseAJourCartesSpeciales(Aventurier av, boolean etat) {
         for (int i = 0; i < av.getNbCartes(); i++) {
             if (lesboutonscartes.get(i).getText() == "Helicoptere" || lesboutonscartes.get(i).getText() == "Sac de sable") {
-                    lesboutonscartes.get(i).setEnabled(etat);
+                lesboutonscartes.get(i).setEnabled(etat);
             }
         }
     }
-
-    
 
     public void maj() { //permet de remettre toute les cases de leurs couleurs
         for (JButton b : lesboutonstuiles) {
@@ -480,8 +481,8 @@ public class vuejeu extends JPanel implements Observe {
         lescasesniveau.get(19 - (g.getNiveauEau() - 2) * 2).setBackground(null);
         lescasesniveau.get(19 - (g.getNiveauEau() - 1) * 2).setBackground(Color.orange);
     }
-   
-    public void findujeu(){
+
+    public void findujeu() {
         frame.removeAll();
         JLabel fin = new JLabel("bravo");
         frame.add(fin);
