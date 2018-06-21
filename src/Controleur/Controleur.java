@@ -106,6 +106,7 @@ public class Controleur implements Observateur {
                         jeu.tresorGagne(tresor);
                         tresorRecupere.add(tresor);
                         jeu.MiseaJourCartes(AvCourant);
+                        nbActions -= 1;
                     } else {
                         System.out.println("Pas de trésor à récuperrer");
                     }
@@ -116,6 +117,7 @@ public class Controleur implements Observateur {
                         System.out.println("pas d'autres aventuriers sur la tuile");
                     } else {
                         vueDonnerCarte donnercarte = new vueDonnerCarte(liste, AvCourant);
+                        jeu.pasAfficher();
                         donnercarte.afficherCartes(AvCourant);
                         donnercarte.afficher();
                         donnercarte.addObservateur(this);
@@ -129,8 +131,7 @@ public class Controleur implements Observateur {
             if ((m.getAction() == "Fin de tour") && (AvCourant.getNbCartes() <= 5)) {
                 this.finTour();
             }
-            
-           
+
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
             if (action == "deplacer") {
                 if (AvCourant.tuilesDispoAv(G).contains(m.getTuile())) {
@@ -161,6 +162,10 @@ public class Controleur implements Observateur {
             jeu.MiseaJourCartes(AvCourant);
             nbActions -= 1;
             action = null;
+            jeu.afficher();
+        } else if (m.getType() == TypesMessage.ANNULER) {
+            action = null;
+            jeu.afficher();
         } else if (action == "Action Speciale") {
             System.out.println("passer par la");
             jeu.miseAJourCartesSpeciales(AvCourant, true);
@@ -179,7 +184,7 @@ public class Controleur implements Observateur {
                     jeu.miseAJourCartesSpeciales(AvCourant, false);
                     defausserCarte(carteSpeciale);
                     jeu.MiseaJourCartes(AvCourant);
-                    
+
                 }
             } else if (carteSpeciale.getClass().getName() == "modele.SacDeSable") {
                 ArrayList<Tuile> liste = new ArrayList<>();
@@ -192,8 +197,9 @@ public class Controleur implements Observateur {
                 }
                 jeu.selecTuile(liste, Color.red);
                 if (m.getType() == TypesMessage.CLIC_TUILE) {
-                    if (m.getTuile().getEtat() == Utils.EtatTuile.INONDEE)
-                    m.getTuile().asseche();    //asseche la tuile séléctionnée
+                    if (m.getTuile().getEtat() == Utils.EtatTuile.INONDEE) {
+                        m.getTuile().asseche();    //asseche la tuile séléctionnée
+                    }
                     jeu.MiseaJourTuile(m.getTuile());
                     jeu.miseAJourCartesSpeciales(AvCourant, false);
                     defausserCarte(carteSpeciale);
@@ -283,7 +289,7 @@ public class Controleur implements Observateur {
     }
 
     private void Helicoptere(Tuile tuile) {
-        
+
     }
 
     private void sacDeSable(Tuile tuile) {
