@@ -45,8 +45,8 @@ public class vueDonnerCarte {
         frame = new JFrame("Donner Carte");
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
         frame.add(mainPanel);
-        JPanel panelDroite = new JPanel(new GridLayout(2, 0));
-        JPanel panelGauche = new JPanel(new GridLayout(2, 0));
+        JPanel panelDroite = new JPanel();
+        JPanel panelGauche = new JPanel();
         mainPanel.add(panelGauche);
         mainPanel.add(panelDroite);
 
