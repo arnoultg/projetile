@@ -235,6 +235,7 @@ public class Controleur implements Observateur {
         if (findujeu == true) {
             System.out.println("fin");
             jeu.maj();
+            //jeu.findujeu();
         }
     }
 
@@ -292,7 +293,7 @@ public class Controleur implements Observateur {
 
     private boolean conditionVictoire() {
         for (Aventurier i : joueurs) {
-            if (i.getPos().getNom() != Iles.HELIPORT) {
+            if (i.getPos().getNom() != Iles.Heliport) {
                 return false;
             }
         }
@@ -390,7 +391,7 @@ public class Controleur implements Observateur {
                 //System.out.println("Vous etes le plongeur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.BLEU) {
-                t = G.getTuile(Iles.HELIPORT);
+                t = G.getTuile(Iles.Heliport);
                 Joueur = new Pilote(Utils.Pion.BLEU, nomsJoueurs.get(x), t);
                 // System.out.println("Vous etes le pilote \n");
 
@@ -458,7 +459,7 @@ public class Controleur implements Observateur {
     }
 
     public boolean conditionsdefaite() {
-        if (G.getTuile(Iles.HELIPORT)
+        if (G.getTuile(Iles.Heliport)
                 .getEtat() == Utils.EtatTuile.COULEE) {
             System.out.println("heliport");
             return true;
