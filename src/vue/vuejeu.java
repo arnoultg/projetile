@@ -187,7 +187,7 @@ public class vuejeu extends JPanel implements Observe {
         JButton deplacer = new JButton("deplacer");
         JButton assecher = new JButton("assecher");
         JButton prendretres = new JButton("Prendre tresor");
-        JButton donnerCarte = new JButton("Donner carte"); 
+        JButton donnerCarte = new JButton("Donner carte");
         JButton actionSpecial = new JButton("Action Special");
 
         toucheaction.add(deplacer);
@@ -453,6 +453,16 @@ public class vuejeu extends JPanel implements Observe {
         }
 
     }
+
+    public void miseAJourCartesSepciales(Aventurier av, boolean etat) {
+        for (int i = 0; i < av.getNbCartes(); i++) {
+            if (lesboutonscartes.get(i).getName() == "modele.Helicoptere" || lesboutonscartes.get(i).getName() == "modele.SacDeSable") {
+                    lesboutonscartes.get(i).setEnabled(etat);
+            }
+        }
+    }
+
+    
 
     public void maj() { //permet de remettre toute les cases de leurs couleurs
         for (JButton b : lesboutonstuiles) {
