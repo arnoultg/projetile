@@ -139,7 +139,7 @@ public class Controleur implements Observateur {
 
         } else if (m.getType() == TypesMessage.CLIC_ACTION_SPE) {
             //action = 
-        } else if (m.getType() == TypesMessage.CLIC_CARTE){ // && (action != "Donner Tresor")) {
+        } else if (m.getType() == TypesMessage.CLIC_CARTE) { // && (action != "Donner Tresor")) {
             if (AvCourant.getNbCartes() > 5) {
                 defausserCarte(AvCourant.getCartes().get(m.getCarte()));
                 jeu.MiseaJourCartes(AvCourant);
@@ -210,8 +210,8 @@ public class Controleur implements Observateur {
     }
 
     private void donnerCTresor(Aventurier av, CarteTresor c) {
-            av.addCarte(c);
-            AvCourant.removeCarte(c);
+        av.addCarte(c);
+        AvCourant.removeCarte(c);
     }
 
     private void marquageNonCoulee(Color coul) {
@@ -239,9 +239,9 @@ public class Controleur implements Observateur {
             jeu.afficherPion();
         }
     }
-    
-    private void sacDeSable(Tuile tuile){
-        
+
+    private void sacDeSable(Tuile tuile) {
+
     }
 
     private boolean conditionVictoire() {
@@ -300,11 +300,15 @@ public class Controleur implements Observateur {
         for (Aventurier av : aventuriers) {
             ArrayList<Tuile> tuiles = av.tuilesDispoAv(G);
             Collections.shuffle(tuiles);
-            av.setPos(tuiles.get(0));
-            jeu.maj();
-            jeu.afficherPion();
+            if (tuiles.size() > 0) {
+                av.setPos(tuiles.get(0));
+                jeu.maj();
+                jeu.afficherPion();
+            } else {
+                System.out.println("fin du jeu");
+            }
+
         }
-        
 
     }
 
