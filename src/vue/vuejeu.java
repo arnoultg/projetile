@@ -241,8 +241,6 @@ public class vuejeu extends JPanel implements Observe {
         Tuile t = g.getTuile(Iles.values()[compteur]);
         JButton bouton = new JButton(t.getNom().toString()); // créé un bouton pour la tuille
         String nomsanstiret = bouton.getText().replaceAll("_", "");
-        Dimension dim = bouton.getSize();
-        System.out.println(dim.height);
         ImagePanel image = new ImagePanel("src/images/tuiles/" + nomsanstiret + ".png", 0, 0);
         bouton.add(image);
         bouton.setBackground(t.getCouleur());
@@ -474,7 +472,17 @@ public class vuejeu extends JPanel implements Observe {
     public void maj() { //permet de remettre toute les cases de leurs couleurs
         for (JButton b : lesboutonstuiles) {
             if (b != null) {
-                b.setBackground(g.getGrilleTuile()[lesboutonstuiles.indexOf(b) / 6][lesboutonstuiles.indexOf(b) % 6].getCouleur());
+                Tuile t = g.getGrilleTuile()[lesboutonstuiles.indexOf(b) / 6][lesboutonstuiles.indexOf(b) % 6];
+                if (t.getEtat() == Utils.EtatTuile.INONDEE) {
+                    b.removeAll();
+                    String nomsanstiret = t.getNom().toString().replace("_", "");
+                    ImagePanel image2 = new ImagePanel("src/images/tuiles/" + nomsanstiret + "_Inonde.png", 0, 0);
+                    b.add(image2);
+                }else if (t.getEtat() == Utils.EtatTuile.COULEE){
+                    b.removeAll();
+                    
+                }
+                b.setBackground(t.getCouleur());
             }
         }
     }
@@ -489,8 +497,8 @@ public class vuejeu extends JPanel implements Observe {
         vueFin Vfin = new vueFin(fin);
         Vfin.afficher();
     }
-    
-    public void miseajourAction(String str){
+
+    public void miseajourAction(String str) {
         Action.setText(str);
     }
 }

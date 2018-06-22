@@ -521,6 +521,7 @@ public class Controleur implements Observateur {
         jeu.afficherNomJoueur(AvCourant);
         jeu.MiseaJourCartes(AvCourant);
         jeu.afficher();
+        jeu.maj();
 
     }
 
