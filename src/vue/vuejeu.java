@@ -33,6 +33,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.Popup;
 import javax.swing.border.Border;
 import modele.Aventurier;
 import modele.CarteTresor;
@@ -57,6 +58,8 @@ public class vuejeu extends JPanel implements Observe {
     private ArrayList<TresorD> TresorsDessin;
     private ArrayList<JPanel> lescasesblanches;
     private ArrayList<JPanel> lescasesniveau;
+    private ArrayList<ImagePanel> imagesseches;
+    private ArrayList<ImagePanel> imagesinonde;
     private JLabel nom = new JLabel();
     private JLabel Joueur2 = new JLabel();
     private JLabel Action;
@@ -85,6 +88,8 @@ public class vuejeu extends JPanel implements Observe {
         TresorsDessin = new ArrayList<>();
         lescasesblanches = new ArrayList<>();
         lescasesniveau = new ArrayList<>();
+        imagesseches = new ArrayList<>();
+        imagesinonde = new ArrayList<>();
 
 //initialistation panel 
         JPanel mainPanel = new JPanel(new GridLayout(0, 2));
@@ -224,6 +229,8 @@ public class vuejeu extends JPanel implements Observe {
                 panelgrille.add(blanc);
                 lescasesblanches.add(blanc);
                 lesboutonstuiles.add(null);
+                imagesseches.add(null);
+                imagesinonde.add(null);
 
             } else {
 
@@ -242,6 +249,9 @@ public class vuejeu extends JPanel implements Observe {
         JButton bouton = new JButton(t.getNom().toString()); // créé un bouton pour la tuille
         String nomsanstiret = bouton.getText().replaceAll("_", "");
         ImagePanel image = new ImagePanel("src/images/tuiles/" + nomsanstiret + ".png", 0, 0);
+        ImagePanel image2 = new ImagePanel("src/images/tuiles/" + nomsanstiret + "_Inonde.png", 0, 0);
+        imagesseches.add(image);
+        imagesinonde.add(image2);
         bouton.add(image);
         bouton.setBackground(t.getCouleur());
 
@@ -251,7 +261,7 @@ public class vuejeu extends JPanel implements Observe {
 
     public void creationPion(ArrayList<Aventurier> aventuriers) {
         for (Aventurier av : aventuriers) {
-            pionD pion = new pionD(20, 20, 10, av.getNomRole().getCouleur(), av); // crée un pionD pour chaque aventurer du jeu
+            pionD pion = new pionD(10, 10, 10, av.getNomRole().getCouleur(), av); // crée un pionD pour chaque aventurer du jeu
             pionsjoueur.add(pion);
 
         }
@@ -260,7 +270,14 @@ public class vuejeu extends JPanel implements Observe {
 
     public void afficherPion() {
         for (pionD pion : pionsjoueur) {
-            lesboutonstuiles.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion); //recupere le bouton sur le quel le pion doit etre afficher
+            if (pion.getAventurier().getPos().getEtat() == Utils.EtatTuile.ASSECHEE) {
+                imagesseches.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion); //recupere le bouton sur le quel le pion doit etre afficher
+                this.maj();
+            } else if (pion.getAventurier().getPos().getEtat() == Utils.EtatTuile.INONDEE) {
+
+                imagesinonde.get(pion.getAventurier().getPos().getX() * 6 + pion.getAventurier().getPos().getY()).add(pion); //recupere le bouton sur le quel le pion doit etre afficher
+                this.maj();
+            }
             pion.repaint(); //appelle PaintComponent
 
         }
@@ -441,6 +458,8 @@ public class vuejeu extends JPanel implements Observe {
     public void MiseaJourTuile(Tuile t) { //permet de remettre la case en marron apres l'action assecher
         int placetuilleihm = t.getX() * 6 + t.getY();
         lesboutonstuiles.get(placetuilleihm).setBackground(t.getCouleur());
+        lesboutonstuiles.get(placetuilleihm).removeAll();
+        lesboutonstuiles.get(placetuilleihm).add(imagesseches.get(placetuilleihm));
     }
 
     public void MiseaJourCartes(Aventurier av) {
@@ -475,12 +494,12 @@ public class vuejeu extends JPanel implements Observe {
                 Tuile t = g.getGrilleTuile()[lesboutonstuiles.indexOf(b) / 6][lesboutonstuiles.indexOf(b) % 6];
                 if (t.getEtat() == Utils.EtatTuile.INONDEE) {
                     b.removeAll();
-                    String nomsanstiret = t.getNom().toString().replace("_", "");
-                    ImagePanel image2 = new ImagePanel("src/images/tuiles/" + nomsanstiret + "_Inonde.png", 0, 0);
-                    b.add(image2);
-                }else if (t.getEtat() == Utils.EtatTuile.COULEE){
+                    //String nomsanstiret = t.getNom().toString().replace("_", "");
+                    //ImagePanel image2 = new ImagePanel("src/images/tuiles/" + nomsanstiret + "_Inonde.png", 0, 0);
+                    b.add(imagesinonde.get(t.getX() * 6 + t.getY()));
+
+                } else if (t.getEtat() == Utils.EtatTuile.COULEE) {
                     b.removeAll();
-                    
                 }
                 b.setBackground(t.getCouleur());
             }
