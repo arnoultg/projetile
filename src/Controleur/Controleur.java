@@ -392,12 +392,12 @@ public class Controleur implements Observateur {
             Tuile t;
             Aventurier Joueur;
             if (lescouleurs.get(x) == Utils.Pion.JAUNE) {
-                t = G.getTuile(Iles.LA_PORTE_D_OR);
+                t = G.getTuile(Iles.La_Porte_d_Or);
                 Joueur = new Navigateur(Utils.Pion.JAUNE, nomsJoueurs.get(x), t);
                 //System.out.println("Vous etes le navigateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VIOLET) {
-                t = G.getTuile(Iles.LA_PORTE_DE_FER);
+                t = G.getTuile(Iles.La_Porte_De_Fer);
                 Joueur = new Plongeur(Utils.Pion.VIOLET, nomsJoueurs.get(x), t);
                 //System.out.println("Vous etes le plongeur \n");
 
@@ -407,17 +407,17 @@ public class Controleur implements Observateur {
                 // System.out.println("Vous etes le pilote \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ROUGE) {
-                t = G.getTuile(Iles.LA_PORTE_DE_BRONZE);
+                t = G.getTuile(Iles.La_Porte_De_Bronze);
                 Joueur = new Ingenieur(Utils.Pion.ROUGE, nomsJoueurs.get(x), t);
                 //System.out.println("Vous etes l'ingenieur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VERT) {
-                t = G.getTuile(Iles.LA_PORTE_DE_CUIVRE);
+                t = G.getTuile(Iles.La_Porte_De_Cuivre);
                 Joueur = new Explorateur(Utils.Pion.VERT, nomsJoueurs.get(x), t);
                 // System.out.println("Vous etes l'explorateur \n");
 
             } else /* if (lescouleurs.get(x) == Utils.Pion.ORANGE)*/ {
-                t = G.getTuile(Iles.LA_PORTE_D_ARGENT);
+                t = G.getTuile(Iles.La_Porte_d_Argent);
                 Joueur = new Messager(Utils.Pion.ORANGE, nomsJoueurs.get(x), t);
                 // System.out.println("Vous etes le messager \n");
 
@@ -455,17 +455,17 @@ public class Controleur implements Observateur {
     }
 
     private void initialiserTresor() {
-        G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE).setTresor(Tresor.PIERRE);
-        G.getTuile(Iles.LE_TEMPLE_DU_SOLEIL).setTresor(Tresor.PIERRE);
+        G.getTuile(Iles.Le_Temple_De_La_Lune).setTresor(Tresor.PIERRE);
+        G.getTuile(Iles.Le_Temple_Du_Soleil).setTresor(Tresor.PIERRE);
 
-        G.getTuile(Iles.LE_JARDIN_DES_MURMURES).setTresor(Tresor.STATUE);
-        G.getTuile(Iles.LE_JARDIN_DES_HURLEMENTS).setTresor(Tresor.STATUE);
+        G.getTuile(Iles.Le_Jardin_Des_Murmures).setTresor(Tresor.STATUE);
+        G.getTuile(Iles.Le_Jardin_Des_Hurlements).setTresor(Tresor.STATUE);
 
-        G.getTuile(Iles.LA_CAVERNE_DU_BRASIER).setTresor(Tresor.CRYSTAL);
-        G.getTuile(Iles.LA_CAVERNE_DES_OMBRES).setTresor(Tresor.CRYSTAL);
+        G.getTuile(Iles.La_Caverne_Du_Brasier).setTresor(Tresor.CRYSTAL);
+        G.getTuile(Iles.La_Caverne_Des_Ombres).setTresor(Tresor.CRYSTAL);
 
-        G.getTuile(Iles.LE_PALAIS_DES_MAREES).setTresor(Tresor.CALYCE);
-        G.getTuile(Iles.LE_PALAIS_DE_CORAIL).setTresor(Tresor.CALYCE);
+        G.getTuile(Iles.Le_Palais_Des_Marees).setTresor(Tresor.CALYCE);
+        G.getTuile(Iles.Le_Palais_De_Corail).setTresor(Tresor.CALYCE);
 
     }
 
@@ -475,28 +475,28 @@ public class Controleur implements Observateur {
             System.out.println("heliport");
             return true;
 
-        } else if (G.getTuile(Iles.LE_TEMPLE_DE_LA_LUNE)
+        } else if (G.getTuile(Iles.Le_Temple_De_La_Lune)
                 .getEtat() == Utils.EtatTuile.COULEE
-                && G.getTuile(Iles.LE_TEMPLE_DU_SOLEIL).getEtat() == Utils.EtatTuile.COULEE
+                && G.getTuile(Iles.Le_Temple_Du_Soleil).getEtat() == Utils.EtatTuile.COULEE
                 && tresorRecupere.contains(Tresor.PIERRE) == false) {
             System.out.println("pierre");
             return true;
 
-        } else if (G.getTuile(Iles.LE_JARDIN_DES_MURMURES)
+        } else if (G.getTuile(Iles.Le_Jardin_Des_Murmures)
                 .getEtat() == Utils.EtatTuile.COULEE
-                && G.getTuile(Iles.LE_JARDIN_DES_HURLEMENTS).getEtat() == Utils.EtatTuile.COULEE
+                && G.getTuile(Iles.Le_Jardin_Des_Hurlements).getEtat() == Utils.EtatTuile.COULEE
                 && tresorRecupere.contains(Tresor.STATUE) == false) {
             System.out.println("statue");
             return true;
-        } else if (G.getTuile(Iles.LA_CAVERNE_DU_BRASIER)
+        } else if (G.getTuile(Iles.La_Caverne_Du_Brasier)
                 .getEtat() == Utils.EtatTuile.COULEE
-                && G.getTuile(Iles.LA_CAVERNE_DES_OMBRES).getEtat() == Utils.EtatTuile.COULEE
+                && G.getTuile(Iles.La_Caverne_Des_Ombres).getEtat() == Utils.EtatTuile.COULEE
                 && tresorRecupere.contains(Tresor.CRYSTAL) == false) {
             System.out.println("crystal");
             return true;
-        } else if (G.getTuile(Iles.LE_PALAIS_DES_MAREES)
+        } else if (G.getTuile(Iles.Le_Palais_Des_Marees)
                 .getEtat() == Utils.EtatTuile.COULEE
-                && G.getTuile(Iles.LE_PALAIS_DE_CORAIL).getEtat() == Utils.EtatTuile.COULEE
+                && G.getTuile(Iles.Le_Palais_De_Corail).getEtat() == Utils.EtatTuile.COULEE
                 && tresorRecupere.contains(Tresor.CALYCE) == false) {
             System.out.println("calyce");
             return true;

@@ -240,11 +240,11 @@ public class vuejeu extends JPanel implements Observe {
 
         Tuile t = g.getTuile(Iles.values()[compteur]);
         JButton bouton = new JButton(t.getNom().toString()); // créé un bouton pour la tuille
-        //String nomsanstiret = bouton.getText().replaceAll("_", "");
-        //Dimension dim = bouton.getSize();
-        //System.out.println(dim.height);
-        //ImagePanel image = new ImagePanel("src/images/tuiles/" + nomsanstiret + ".png", 0, 0, 100, 200);
-        //bouton.add(image);
+        String nomsanstiret = bouton.getText().replaceAll("_", "");
+        Dimension dim = bouton.getSize();
+        System.out.println(dim.height);
+        ImagePanel image = new ImagePanel("src/images/tuiles/" + nomsanstiret + ".png", 0, 0);
+        bouton.add(image);
         bouton.setBackground(t.getCouleur());
 
         lesboutonstuiles.add(bouton);

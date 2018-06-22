@@ -34,7 +34,7 @@ public class ImagePanel extends JPanel {
             System.out.println("error");
         }
         constru = 0;
-        this.setPreferredSize(new Dimension(image.getHeight(this), image.getHeight(this))); 
+        this.setPreferredSize(new Dimension(this.getWidth(),this.getHeight())); 
     }
 
     public ImagePanel(String cheminImage, int x, int y,int largeur, int longueur) {
@@ -58,7 +58,7 @@ public class ImagePanel extends JPanel {
         super.paintComponent(g);
         switch (constru) {
             case 0: {
-                g.drawImage(image, x, y, this); // see javadoc for more info on the parameters
+                g.drawImage(image, x, y,this.getWidth(),this.getHeight(), this); // see javadoc for more info on the parameters
             }
             case 1: {
                 g.drawImage(image, x, y, larg, longu, this);
