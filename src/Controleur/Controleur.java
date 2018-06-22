@@ -134,6 +134,9 @@ public class Controleur implements Observateur {
             if ((m.getAction() == "Fin de tour") && (AvCourant.getNbCartes() <= 5)) {
                 this.finTour();
             }
+            if (action == "Action Speciale") {
+                jeu.miseAJourCartesSpeciales(AvCourant, true);
+            }
 
         } else if (m.getType() == TypesMessage.CLIC_TUILE) {
             if (action == "deplacer") {
@@ -154,7 +157,7 @@ public class Controleur implements Observateur {
                 }
             }
 
-        } else if (m.getType() == TypesMessage.CLIC_CARTE) { // && (action != "Donner Tresor")) {
+        } else if ((m.getType() == TypesMessage.CLIC_CARTE) && (action != "Action Speciale")) {
             if (AvCourant.getNbCartes() > 5) {
                 defausserCarte(AvCourant.getCartes().get(m.getCarte()));
                 jeu.MiseaJourCartes(AvCourant);
@@ -171,51 +174,10 @@ public class Controleur implements Observateur {
         } else if (m.getType() == TypesMessage.ANNULER) {
             action = null;
             jeu.afficher();
-        } else if (action == "Action Speciale") {
-            System.out.println("passer par la");
-            jeu.miseAJourCartesSpeciales(AvCourant, true);
-            if (m.getType() == TypesMessage.CLIC_CARTE) {
-                carteSpeciale = AvCourant.getCartes().get(m.getCarte());
-            }
-            if (carteSpeciale.getClass().getName() == "modele.Helicoptere") {
-                if (conditionVictoire()) {
-
-                } else {
-                    jeu.selecTuile(tuilesNonCoulee(), Color.red);
-                }
-                if (m.getType() == TypesMessage.CLIC_TUILE) {
-                    AvCourant.setPos(m.getTuile());        //déplace le joueur sur la tuile séléctionnée
-                    jeu.afficherPion();
-                    jeu.miseAJourCartesSpeciales(AvCourant, false);
-                    defausserCarte(carteSpeciale);
-                    jeu.MiseaJourCartes(AvCourant);
-
-                }
-            } else if (carteSpeciale.getClass().getName() == "modele.SacDeSable") {
-                ArrayList<Tuile> liste = new ArrayList<>();
-                for (Tuile[] i : G.getGrilleTuile()) {
-                    for (Tuile j : i) {
-                        if (j.getEtat() == Utils.EtatTuile.INONDEE) {
-                            liste.add(j);
-                        }
-                    }
-                }
-                jeu.selecTuile(liste, Color.red);
-                if (m.getType() == TypesMessage.CLIC_TUILE) {
-                    if (m.getTuile().getEtat() == Utils.EtatTuile.INONDEE) {
-                        m.getTuile().asseche();    //asseche la tuile séléctionnée
-                    }
-                    jeu.MiseaJourTuile(m.getTuile());
-                    jeu.miseAJourCartesSpeciales(AvCourant, false);
-                    defausserCarte(carteSpeciale);
-                    jeu.MiseaJourCartes(AvCourant);
-                }
-            }
-
         }
-        
-        //System.out.println(action);
-
+        if (action == "Action Speciale") {
+            actionSpeciale(m);
+        }
     }
 
 //----------------------------------------Actions d'un tour de jeux-----------------------------------------------    
@@ -294,12 +256,62 @@ public class Controleur implements Observateur {
         return liste;
     }
 
-    private void Helicoptere(Tuile tuile) {
-
+    private void actionSpeciale(Message m) {
+        if (m.getType() == TypesMessage.CLIC_CARTE) {
+            carteSpeciale = AvCourant.getCartes().get(m.getCarte());
+        }
+        if ((carteSpeciale != null) && (carteSpeciale.getClass().getName() == "modele.Helicoptere")) {
+            helicoptere(m);
+        } else if ((carteSpeciale != null) && (carteSpeciale.getClass().getName() == "modele.SacDeSable")) {
+            sacDeSable(m);
+        }
     }
 
-    private void sacDeSable(Tuile tuile) {
+    public void helicoptere(Message m) {
+        if (conditionVictoire()) {
 
+        } else {
+            ArrayList<Tuile> liste = new ArrayList<>();
+            liste = tuilesNonCoulee();
+            liste.remove(AvCourant.getPos());
+            jeu.selecTuile(liste, Color.red);
+        }
+        if (m.getType() == TypesMessage.CLIC_TUILE) {
+            if ((m.getTuile().getEtat() != Utils.EtatTuile.COULEE) && (m.getTuile() != AvCourant.getPos())) {
+                AvCourant.setPos(m.getTuile());        //déplace le joueur sur la tuile séléctionnée
+                jeu.afficherPion();
+                jeu.miseAJourCartesSpeciales(AvCourant, false);
+                defausserCarte(carteSpeciale);
+                jeu.MiseaJourCartes(AvCourant);
+                action = null;
+                carteSpeciale = null;
+                jeu.selecTuile(tuilesNonCoulee(), Color.white);
+            }
+        }
+    }
+
+    private void sacDeSable(Message m) {
+        ArrayList<Tuile> liste = new ArrayList<>();
+        for (Tuile[] i : G.getGrilleTuile()) {
+            for (Tuile j : i) {
+                if (j.getEtat() == Utils.EtatTuile.INONDEE) {
+                    liste.add(j);
+                }
+            }
+        }
+        jeu.selecTuile(liste, Color.red);
+        if (m.getType() == TypesMessage.CLIC_TUILE) {
+            if (m.getTuile().getEtat() == Utils.EtatTuile.INONDEE) {
+                m.getTuile().asseche();    //asseche la tuile séléctionnée
+                jeu.MiseaJourTuile(m.getTuile());
+                jeu.miseAJourCartesSpeciales(AvCourant, false);
+                defausserCarte(carteSpeciale);
+                jeu.MiseaJourCartes(AvCourant);
+                action = null;
+                carteSpeciale = null;
+                jeu.selecTuile(tuilesNonCoulee(), Color.white);
+            }
+        }
     }
 
     private boolean conditionVictoire() {

@@ -358,6 +358,7 @@ public class vuejeu extends JPanel implements Observe {
             i.addActionListener(new ActionListener() { //les boutons des cartes
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    System.out.println("AC performed des cartes");
                     Message m = new Message(TypesMessage.CLIC_CARTE);
                     m.setCarte(lesboutonscartes.indexOf(i));
                     notifierObservateur(m);
@@ -383,20 +384,6 @@ public class vuejeu extends JPanel implements Observe {
             for (int j = 0; j < a.getNbCartes(); j++) {
                 lesboutonscartes.get(j).setEnabled(true);
             }
-            //System.out.println("Carte a défausser (1/2/3/4/5/6) : ");
-            //} else {
-            //System.out.println("Carte a défausser (1/2/3/4/5/6/7) : ");
-            //}
-            /*Scanner entree = new Scanner(System.in);
-            carteSelectionnee = entree.nextInt();
-            if (carteSelectionnee >= 1 && ((a.getNbCartes() == 6 && carteSelectionnee <= 6) || (a.getNbCartes() == 7 && carteSelectionnee <= 7))) {
-                a.defausserCarte(carteSelectionnee - 1);
-            } else {
-                System.out.println("Selection érronée, réessayer");
-                i++;
-            }*/
-            //afficherCartes(a); //réactualise la main 
-            //MiseaJourCartes(a);
         }
     }
 
