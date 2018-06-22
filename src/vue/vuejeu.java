@@ -57,8 +57,9 @@ public class vuejeu extends JPanel implements Observe {
     private ArrayList<TresorD> TresorsDessin;
     private ArrayList<JPanel> lescasesblanches;
     private ArrayList<JPanel> lescasesniveau;
-    JLabel nom = new JLabel();
-    JLabel Joueur2 = new JLabel();
+    private JLabel nom = new JLabel();
+    private JLabel Joueur2 = new JLabel();
+    private JLabel Action;
     private Grille g;
 
     public vuejeu(Grille g) {
@@ -178,7 +179,7 @@ public class vuejeu extends JPanel implements Observe {
         paneldroite.add(PBas);
         //3.1 
 
-        JLabel Action = new JLabel("Action utilisateur");
+        Action = new JLabel("Action utilisateur");
         PBas.add(Action);
         //3.2
 
@@ -239,11 +240,12 @@ public class vuejeu extends JPanel implements Observe {
 
         Tuile t = g.getTuile(Iles.values()[compteur]);
         JButton bouton = new JButton(t.getNom().toString()); // créé un bouton pour la tuille
-        String nomsanstiret = bouton.getText().replaceAll("_", "");
-        ImagePanel image = new ImagePanel("src/images.tuiles/"+nomsanstiret+".png", 0, 0,200,200);
-        bouton.add(image);
-       // bouton.setBackground(t.getCouleur());
-        
+        //String nomsanstiret = bouton.getText().replaceAll("_", "");
+        //Dimension dim = bouton.getSize();
+        //System.out.println(dim.height);
+        //ImagePanel image = new ImagePanel("src/images/tuiles/" + nomsanstiret + ".png", 0, 0, 100, 200);
+        //bouton.add(image);
+        bouton.setBackground(t.getCouleur());
 
         lesboutonstuiles.add(bouton);
         return bouton;
@@ -482,9 +484,13 @@ public class vuejeu extends JPanel implements Observe {
         lescasesniveau.get(19 - (g.getNiveauEau() - 1) * 2).setBackground(Color.orange);
     }
 
-    public void findujeu() {
-        frame.removeAll();
-        JLabel fin = new JLabel("bravo");
-        frame.add(fin);
+    public void findujeu(boolean fin) {
+        frame.dispose();
+        vueFin Vfin = new vueFin(fin);
+        Vfin.afficher();
+    }
+    
+    public void miseajourAction(String str){
+        Action.setText(str);
     }
 }

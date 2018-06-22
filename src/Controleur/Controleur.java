@@ -97,24 +97,27 @@ public class Controleur implements Observateur {
             if (nbActions > 0) {
                 if (action == "deplacer") {
                     jeu.selecTuile(AvCourant.tuilesDispoAv(G), Color.red);
+                    jeu.miseajourAction("choisir une case pour se deplacer");
                 } else if (action == "assecher") {
                     jeu.selecTuile(AvCourant.dispoAssecher(G), Color.red);
+                    jeu.miseajourAction("choisir une case a assecher ");
                 } else if (action == "Prendre tresor") {
                     Tresor tresor = AvCourant.getPos().getTresor();
                     if (tresor != null && quatreTresors(tresor) && !tresorRecupere.contains(tresor)) {
                         defausserQuatreTresor(tresor);
                         jeu.tresorGagne(tresor);
+                        jeu.miseajourAction("bravo vous avez recuperer le tresor " + tresor);
                         tresorRecupere.add(tresor);
                         jeu.MiseaJourCartes(AvCourant);
                         nbActions -= 1;
                     } else {
-                        System.out.println("Pas de trésor à récuperrer");
+                        jeu.miseajourAction("Pas de trésor à récuperrer");
                     }
                 } else if (action == "Donner carte") {
                     ArrayList<Aventurier> liste = (AvCourant.getClass().getName() == "modele.Messager" ? joueurs : AvCourant.getPos().getAventurierssur());
                     liste.remove(AvCourant);
                     if (liste.size() == 0) {
-                        System.out.println("pas d'autres aventuriers sur la tuile");
+                        jeu.miseajourAction("pas d'autres aventuriers sur la tuile");
                     } else {
                         vueDonnerCarte donnercarte = new vueDonnerCarte(liste, AvCourant);
                         jeu.pasAfficher();
@@ -139,6 +142,7 @@ public class Controleur implements Observateur {
                     this.deplacerJoueur(m.getTuile());
                     action = null;
                     nbActions -= 1;
+                    jeu.miseajourAction("nombre d'action restante : " + nbActions);
                 }
             } else if (action == "assecher") {
                 if (AvCourant.dispoAssecher(G).contains(m.getTuile())) {
@@ -146,6 +150,7 @@ public class Controleur implements Observateur {
                     action = null;
                     this.assechercase(m.getTuile());
                     nbActions -= 1;
+                    jeu.miseajourAction("nombre d'action restante : " + nbActions);
                 }
             }
 
@@ -208,7 +213,8 @@ public class Controleur implements Observateur {
             }
 
         }
-        System.out.println(action);
+        
+        //System.out.println(action);
 
     }
 
@@ -238,10 +244,9 @@ public class Controleur implements Observateur {
         jeu.afficherNomJoueur(AvCourant);
         nbActions += (AvCourant.getClass().getName() == "modele.Navigateur" ? 1 : 0);
         jeu.MiseaJourCartes(AvCourant);
+        jeu.miseajourAction("nombre d'action restante : " + nbActions);
         if (findujeu == true) {
-            System.out.println("fin");
-            jeu.maj();
-            //jeu.findujeu();
+            jeu.findujeu(false);
         }
     }
 
