@@ -5,6 +5,7 @@
  */
 package vue;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -35,6 +36,7 @@ public class ImagePanel extends JPanel {
         }
         constru = 0;
         this.setPreferredSize(new Dimension(this.getWidth(),this.getHeight())); 
+        this.setLayout(new BorderLayout());
     }
 
     public ImagePanel(String cheminImage, int x, int y,int largeur, int longueur) {
