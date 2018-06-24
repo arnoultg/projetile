@@ -5,7 +5,10 @@
  */
 package Controleur;
 
+import Enums.Iles;
+import Enums.Tresor;
 import java.util.ArrayList;
+import modele.Carte_Innondation;
 import modele.Grille;
 import vue.vuejeu;
 
@@ -21,7 +24,12 @@ public class Demo_Defaite extends Controleur{
     
     @Override
     protected void premiereInondations(){
-        super.getClass().
+        super.getGrille().getTuile(Iles.Le_Temple_De_La_Lune).innonde();
+        super.getGrille().getTuile(Iles.Le_Temple_De_La_Lune).innonde();
+        super.getGrille().getTuile(Iles.Le_Temple_Du_Soleil).innonde();
+        super.getGrille().getTuile(Iles.Le_Jardin_Des_Hurlements).innonde();
+        super.getGrille().getTuile(Iles.Le_Jardin_Des_Hurlements).innonde();
+        super.getGrille().getTuile(Iles.Le_Jardin_Des_Murmures).innonde();
     }
     
     public static void main(String[] args) {
@@ -32,14 +40,14 @@ public class Demo_Defaite extends Controleur{
         ArrayList<String> noms = new ArrayList<>();
         noms.add("joueur_1");
         noms.add("joueur_2");
-        C.initialiserjeu(2, noms,3);
+        C.initialiserjeu(2, noms,2);
+        C.getTresorRecupere().add(Tresor.STATUE);
         
-        
-        /*G = new Grille(1);
-        initialiserGrille();
-        jeu = new vuejeu(G);
-        creationJoueur(nbJoueur, nomsJoueurs);
-        premiereInondations();*/
+        C.getGrille().getPaquetCInnond().clear();
+        C.getGrille().getPaquetCInnond().add(0, new Carte_Innondation(Iles.Le_Jardin_Des_Murmures));
+        C.getGrille().getPaquetCInnond().add(1, new Carte_Innondation(Iles.La_Porte_De_Fer));
+        C.getGrille().getPaquetCInnond().add(2, new Carte_Innondation(Iles.Le_Temple_Du_Soleil));
+        C.getGrille().getPaquetCInnond().add(3, new Carte_Innondation(Iles.La_Caverne_Des_Ombres));
         
     }
     

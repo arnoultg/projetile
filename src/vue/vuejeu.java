@@ -375,7 +375,6 @@ public class vuejeu extends JPanel implements Observe {
             i.addActionListener(new ActionListener() { //les boutons des cartes
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("AC performed des cartes");
                     Message m = new Message(TypesMessage.CLIC_CARTE);
                     m.setCarte(lesboutonscartes.indexOf(i));
                     notifierObservateur(m);

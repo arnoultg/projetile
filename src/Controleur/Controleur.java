@@ -39,8 +39,16 @@ public class Controleur implements Observateur {
         tresorRecupere = new ArrayList<>();
     }
 
-    protected Grille getGrille() {
+    public Grille getGrille() {
         return G;
+    }
+
+    public ArrayList<Tresor> getTresorRecupere() {
+        return tresorRecupere;
+    }
+
+    public static vuejeu getJeu() {
+        return jeu;
     }
 
     public int getNbJoueur() {
@@ -51,11 +59,11 @@ public class Controleur implements Observateur {
         joueurs.add(av);
     }
 
-    protected ArrayList<Aventurier> getJoueurs() {
+    public ArrayList<Aventurier> getJoueurs() {
         return joueurs;
     }
 
-    protected void setAvCourant(Aventurier AvCourant) {
+    public void setAvCourant(Aventurier AvCourant) {
         this.AvCourant = AvCourant;
     }
 
@@ -195,12 +203,9 @@ public class Controleur implements Observateur {
         tirerCarteInnondation();
         jeu.maj();
 
-        //jeu.afficherCartes(AvCourant);  //affiche les cartes du joueur et lui propose de défausser si il a trop de cartes
         jeu.choisirCarteDefausse(AvCourant);
 
         int ind = joueurs.indexOf(AvCourant);   //passe au joueur suivant
-        //System.out.println(AvCourant);
-        //-System.out.println(joueurs);
         AvCourant = (ind == joueurs.size() - 1 ? joueurs.get(0) : joueurs.get(ind + 1));
         jeu.afficherNomJoueur(AvCourant);
         nbActions += (AvCourant.getClass().getName() == "modele.Navigateur" ? 1 : 0);
@@ -314,18 +319,6 @@ public class Controleur implements Observateur {
         }
     }
 
-    protected boolean conditionVictoire() {
-        for (Aventurier i : joueurs) {
-            if (i.getPos().getNom() != Iles.Heliport) {
-                return false;
-            }
-        }
-        if (tresorRecupere.size() < 4) {
-            return false;
-        }
-        return true;
-    }
-
     //----------------------------------------Actions sur les cartes-----------------------------------------------
     protected void tirerCartesTresors() {  //donne deux cartes du paquet de cartes trésor au joueur, et les retire du paquet
 
@@ -375,7 +368,6 @@ public class Controleur implements Observateur {
                 jeu.afficherPion();
             } else {
                 findujeu = true;
-                //System.out.println("fin du jeu");
             }
 
         }
@@ -398,40 +390,31 @@ public class Controleur implements Observateur {
         Collections.shuffle(lescouleurs);
 
         for (int x = 0; x < nbJoueur; x++) {    //demande le nom de chaques joueurs
-            //System.out.println("joueur n°" + (x + 1));
-            //System.out.println("quel est votre nom ?");
-            //String nomjoueur = entree.next();
             Tuile t;
             Aventurier Joueur;
             if (lescouleurs.get(x) == Utils.Pion.JAUNE) {
                 t = G.getTuile(Iles.La_Porte_d_Or);
                 Joueur = new Navigateur(Utils.Pion.JAUNE, nomsJoueurs.get(x), t);
-                //System.out.println("Vous etes le navigateur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VIOLET) {
                 t = G.getTuile(Iles.La_Porte_De_Fer);
                 Joueur = new Plongeur(Utils.Pion.VIOLET, nomsJoueurs.get(x), t);
-                //System.out.println("Vous etes le plongeur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.BLEU) {
                 t = G.getTuile(Iles.Heliport);
                 Joueur = new Pilote(Utils.Pion.BLEU, nomsJoueurs.get(x), t);
-                // System.out.println("Vous etes le pilote \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.ROUGE) {
                 t = G.getTuile(Iles.La_Porte_De_Bronze);
                 Joueur = new Ingenieur(Utils.Pion.ROUGE, nomsJoueurs.get(x), t);
-                //System.out.println("Vous etes l'ingenieur \n");
 
             } else if (lescouleurs.get(x) == Utils.Pion.VERT) {
                 t = G.getTuile(Iles.La_Porte_De_Cuivre);
                 Joueur = new Explorateur(Utils.Pion.VERT, nomsJoueurs.get(x), t);
-                // System.out.println("Vous etes l'explorateur \n");
 
             } else /* if (lescouleurs.get(x) == Utils.Pion.ORANGE)*/ {
                 t = G.getTuile(Iles.La_Porte_d_Argent);
                 Joueur = new Messager(Utils.Pion.ORANGE, nomsJoueurs.get(x), t);
-                // System.out.println("Vous etes le messager \n");
 
             }
             addAventurier(Joueur);
@@ -515,7 +498,18 @@ public class Controleur implements Observateur {
         } else {
             return false;
         }
-
+    }
+    
+    protected boolean conditionVictoire() {
+        for (Aventurier i : joueurs) {
+            if (i.getPos().getNom() != Iles.Heliport) {
+                return false;
+            }
+        }
+        if (tresorRecupere.size() < 4) {
+            return false;
+        }
+        return true;
     }
 
     protected void initialiserjeu(int nbJoueur, ArrayList<String> nomsJoueurs, int niveauEau) {

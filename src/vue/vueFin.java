@@ -25,20 +25,24 @@ public class vueFin {
         this.gagner = gagner;
         fenetreFin = new JFrame("Fin du jeu");
         fenetreFin.setLayout(new BorderLayout());
+        
+        JPanel bas = new JPanel(new GridLayout(1,3));
+        
+        JButton rejouer = new JButton("Rejouer");
+        bas.add(new JPanel());
+        bas.add(new JPanel());
+        bas.add(rejouer);
+        
         if (gagner) {
             JLabel lab = new JLabel("bravo vous avez gagner");
-            fenetreFin.add(lab,BorderLayout.CENTER);
+            fenetreFin.add(lab);
         } else {
             JLabel lab = new JLabel("dommage vous avez perdu");
-            fenetreFin.add(lab,BorderLayout.CENTER);
+            fenetreFin.add(lab);
         }
-        JPanel bas = new JPanel(new GridLayout(0,3));
-        JButton rejouer = new JButton();
-        bas.add(rejouer);
-        bas.add(new JPanel());
-        bas.add(new JButton());
         
-        fenetreFin.add(bas,BorderLayout.NORTH);
+        fenetreFin.add(bas,BorderLayout.SOUTH);
+        
     }
 
     public void afficher() {
