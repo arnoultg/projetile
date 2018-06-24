@@ -20,6 +20,7 @@ public class Message {
     String action;
     int carte;
     int nbjoueurs;
+    int niveauEau;
     ArrayList<String> nomsJoueurs;
     CarteTresor carteTr;
     Aventurier destinataire;
@@ -28,6 +29,11 @@ public class Message {
     public CarteTresor getCarteTr() {
         return carteTr;
     }
+
+    public int getNiveauEau() {
+        return niveauEau;
+    }
+    
 
     public Aventurier getDestinataire() {
         return destinataire;

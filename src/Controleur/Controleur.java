@@ -9,7 +9,6 @@ import Enums.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 import modele.*;
 import util.Utils;
 import vue.Message;
@@ -40,7 +39,7 @@ public class Controleur implements Observateur {
         tresorRecupere = new ArrayList<>();
     }
 
-    public Grille getGrille() {
+    protected Grille getGrille() {
         return G;
     }
 
@@ -48,19 +47,19 @@ public class Controleur implements Observateur {
         return joueurs.size();
     }
 
-    private void addAventurier(Aventurier av) {
+    protected void addAventurier(Aventurier av) {
         joueurs.add(av);
     }
 
-    public ArrayList<Aventurier> getJoueurs() {
+    protected ArrayList<Aventurier> getJoueurs() {
         return joueurs;
     }
 
-    public void setAvCourant(Aventurier AvCourant) {
+    protected void setAvCourant(Aventurier AvCourant) {
         this.AvCourant = AvCourant;
     }
 
-    public boolean quatreTresors(Tresor tresor) {
+    protected boolean quatreTresors(Tresor tresor) {
         int nbTres = 0;
         for (int i = 0; i < AvCourant.getNbCartes(); i++) {
             if (AvCourant.getCartes().get(i).getNom() == tresor.toString()) {
@@ -70,7 +69,7 @@ public class Controleur implements Observateur {
         return nbTres >= 4;
     }
 
-    public void defausserQuatreTresor(Tresor tresor) {
+    protected void defausserQuatreTresor(Tresor tresor) {
         int nbTresDefause = 0;
         int nbCartes = AvCourant.getNbCartes();
         for (int i = nbCartes - 1; i >= 0; i--) {
@@ -163,7 +162,7 @@ public class Controleur implements Observateur {
                 jeu.MiseaJourCartes(AvCourant);
             }
         } else if (m.getType() == TypesMessage.DEMARRER) {
-            initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs());
+            initialiserjeu(m.getNbjoueurs(), m.getNomsJoueurs(), m.getNiveauEau());
 
         } else if (m.getType() == TypesMessage.VALIDER) {
             donnerCTresor(m.getDestinataire(), m.getCarteTr());
@@ -181,7 +180,7 @@ public class Controleur implements Observateur {
     }
 
 //----------------------------------------Actions d'un tour de jeux-----------------------------------------------    
-    public void finTour() {
+    protected void finTour() {
         action = null;
         nbActions = 3;
 
@@ -212,7 +211,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    private void deplacerJoueur(Tuile tuile) {
+    protected void deplacerJoueur(Tuile tuile) {
         AvCourant.setPos(tuile);        //déplace le joueur sur la tuile séléctionnée
         jeu.afficherPion();
         if (AvCourant.getClass().getName() == "modele.Pilote") {
@@ -223,7 +222,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    private void assechercase(Tuile tuile) {
+    protected void assechercase(Tuile tuile) {
         tuile.asseche();    //asseche la tuile séléctionnée
         jeu.MiseaJourTuile(tuile);
 
@@ -239,12 +238,12 @@ public class Controleur implements Observateur {
         }
     }
 
-    private void donnerCTresor(Aventurier av, CarteTresor c) {
+    protected void donnerCTresor(Aventurier av, CarteTresor c) {
         av.addCarte(c);
         AvCourant.removeCarte(c);
     }
 
-    private ArrayList<Tuile> tuilesNonCoulee() {
+    protected ArrayList<Tuile> tuilesNonCoulee() {
         ArrayList<Tuile> liste = new ArrayList<>();
         for (Tuile[] i : G.getGrilleTuile()) {
             for (Tuile j : i) {
@@ -256,7 +255,7 @@ public class Controleur implements Observateur {
         return liste;
     }
 
-    private void actionSpeciale(Message m) {
+    protected void actionSpeciale(Message m) {
         if (m.getType() == TypesMessage.CLIC_CARTE) {
             carteSpeciale = AvCourant.getCartes().get(m.getCarte());
         }
@@ -267,7 +266,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void helicoptere(Message m) {
+    protected void helicoptere(Message m) {
         if (conditionVictoire()) {
 
         } else {
@@ -290,7 +289,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    private void sacDeSable(Message m) {
+    protected void sacDeSable(Message m) {
         ArrayList<Tuile> liste = new ArrayList<>();
         for (Tuile[] i : G.getGrilleTuile()) {
             for (Tuile j : i) {
@@ -314,7 +313,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    private boolean conditionVictoire() {
+    protected boolean conditionVictoire() {
         for (Aventurier i : joueurs) {
             if (i.getPos().getNom() != Iles.Heliport) {
                 return false;
@@ -327,7 +326,7 @@ public class Controleur implements Observateur {
     }
 
     //----------------------------------------Actions sur les cartes-----------------------------------------------
-    public void tirerCartesTresors() {  //donne deux cartes du paquet de cartes trésor au joueur, et les retire du paquet
+    protected void tirerCartesTresors() {  //donne deux cartes du paquet de cartes trésor au joueur, et les retire du paquet
 
         for (int i = 0; i < 2; i++) {
             int nbCartesPaquet = G.getPaquetCTresor().size();
@@ -347,7 +346,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void tirerCarteInnondation() {   //pioche des cartes du paquet de cartes innondation, et les retire du paquet
+    protected void tirerCarteInnondation() {   //pioche des cartes du paquet de cartes innondation, et les retire du paquet
         for (int i = 0; i < G.getNiveauEau(); i++) {
             if (G.getPaquetCInnond().size() > 0) {
                 G.getPaquetCInnond().get(0).innondeTuile(G);
@@ -365,7 +364,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    public void sauvetageAventurier(ArrayList<Aventurier> aventuriers) {
+    protected void sauvetageAventurier(ArrayList<Aventurier> aventuriers) {
         for (Aventurier av : aventuriers) {
             ArrayList<Tuile> tuiles = av.tuilesDispoAv(G);
             Collections.shuffle(tuiles);
@@ -382,13 +381,13 @@ public class Controleur implements Observateur {
 
     }
 
-    public void defausserCarte(CarteTresor c) {
+    protected void defausserCarte(CarteTresor c) {
         AvCourant.removeCarte(c);
         G.addDefausseCTresor(c);
     }
 
 //----------------------------------------Initialisation du jeu-----------------------------------------------
-    private void creationJoueur(int nbJoueur, ArrayList<String> nomsJoueurs) {
+    protected void creationJoueur(int nbJoueur, ArrayList<String> nomsJoueurs) {
 
         ArrayList<Utils.Pion> lescouleurs = new ArrayList<>();
 
@@ -440,7 +439,7 @@ public class Controleur implements Observateur {
         }
     }
 
-    private void premiereInondations() {    //innondation de début de partie
+    protected void premiereInondations() {    //innondation de début de partie
         for (int i = 1; i <= 6; i++) {
             G.getPaquetCInnond().get(0).innondeTuile(G);
             G.tirerCInnonde(G.getPaquetCInnond().get(0));
@@ -448,7 +447,7 @@ public class Controleur implements Observateur {
 
     }
 
-    private void initialiserGrille() {  //place les tuiles sur la grille
+    protected void initialiserGrille() {  //place les tuiles sur la grille
 
         int ind = 0;
         Iles[] liste = Iles.values();
@@ -466,7 +465,7 @@ public class Controleur implements Observateur {
         initialiserTresor();
     }
 
-    private void initialiserTresor() {
+    protected void initialiserTresor() {
         G.getTuile(Iles.Le_Temple_De_La_Lune).setTresor(Tresor.PIERRE);
         G.getTuile(Iles.Le_Temple_Du_Soleil).setTresor(Tresor.PIERRE);
 
@@ -481,7 +480,7 @@ public class Controleur implements Observateur {
 
     }
 
-    public boolean conditionsdefaite() {
+    protected boolean conditionsdefaite() {
         if (G.getTuile(Iles.Heliport)
                 .getEtat() == Utils.EtatTuile.COULEE) {
             System.out.println("heliport");
@@ -518,9 +517,9 @@ public class Controleur implements Observateur {
 
     }
 
-    private void initialiserjeu(int nbJoueur, ArrayList<String> nomsJoueurs) {
+    protected void initialiserjeu(int nbJoueur, ArrayList<String> nomsJoueurs, int niveauEau) {
 
-        G = new Grille(1);
+        G = new Grille(niveauEau);
         initialiserGrille();
         jeu = new vuejeu(G);
         creationJoueur(nbJoueur, nomsJoueurs);
