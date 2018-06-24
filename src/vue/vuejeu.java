@@ -126,7 +126,7 @@ public class vuejeu extends JPanel implements Observe {
         lescasesniveau.get(19 - (g.getNiveauEau() - 1) * 2).setBackground(Color.orange);
         Phautgauche.add(Pniveau, BorderLayout.WEST);
 
-        ImagePanel niveau = new ImagePanel("src/images/Niveau.png", 0, 0, 200, 387);
+        ImagePanel niveau = new ImagePanel("src/images/Niveau.png", 0, 0);
         Phautgauche.add(niveau, BorderLayout.CENTER);
         PHaut.add(Phautgauche);
 

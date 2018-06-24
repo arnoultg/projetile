@@ -19,22 +19,20 @@ public class Demo_Defaite extends Controleur{
      * @param args the command line arguments
      */
     
-    
-    public static init(int nbj, ArrayList<String> noms){
-        initialiserjeu(2, noms);
+    @Override
+    protected void premiereInondations(){
+        super.getClass().
     }
     
     public static void main(String[] args) {
         // TODO code application logic here
         
         Demo_Defaite C = new Demo_Defaite();
+        
         ArrayList<String> noms = new ArrayList<>();
         noms.add("joueur_1");
         noms.add("joueur_2");
-        int nbj;
-        nbj = 2;
-        initialiserjeu(nbj, noms);
-        init(2, noms);
+        C.initialiserjeu(2, noms,3);
         
         
         /*G = new Grille(1);
