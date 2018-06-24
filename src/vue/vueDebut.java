@@ -95,7 +95,7 @@ public class vueDebut implements Observe {
         hautgauche.add(boutons[0]);
         hautgauche.add(boutons[1]);
         hautgauche.add(boutons[2]);
-        hautdroit.add(new JLabel("Espèce :"));
+        hautdroit.add(new JLabel("Difficulté :"));
         hautdroit.add(listeDeroulante);
 
         haut.add(grillehaut);
