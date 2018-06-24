@@ -446,6 +446,7 @@ public class vuejeu extends JPanel implements Observe {
         lesboutonstuiles.get(placetuilleihm).setBackground(t.getCouleur());
         lesboutonstuiles.get(placetuilleihm).removeAll();
         lesboutonstuiles.get(placetuilleihm).add(imagesseches.get(placetuilleihm));
+        afficherPion();
     }
 
     public void MiseaJourCartes(Aventurier av) {
@@ -483,6 +484,7 @@ public class vuejeu extends JPanel implements Observe {
                     //String nomsanstiret = t.getNom().toString().replace("_", "");
                     //ImagePanel image2 = new ImagePanel("src/images/tuiles/" + nomsanstiret + "_Inonde.png", 0, 0);
                     b.add(imagesinonde.get(t.getX() * 6 + t.getY()));
+                    afficherPion();
 
                 } else if (t.getEtat() == Utils.EtatTuile.COULEE) {
                     b.removeAll();

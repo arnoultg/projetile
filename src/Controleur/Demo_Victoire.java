@@ -17,46 +17,53 @@ import modele.Tuile;
  *
  * @author geitnert
  */
-public class Demo_Victoire extends Controleur{
+public class Demo_Victoire extends Controleur {
 
     /**
      * @param args the command line arguments
      */
-    
-    
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        Demo_Defaite C = new Demo_Defaite();
-        
+
+        Demo_Victoire C = new Demo_Victoire();
+
         ArrayList<String> noms = new ArrayList<>();
         noms.add("joueur_1");
         noms.add("joueur_2");
-        C.initialiserjeu(2, noms,2);
-        C.getTresorRecupere().add(Tresor.STATUE);
-        C.getTresorRecupere().add(Tresor.CRYSTAL);
-        C.getTresorRecupere().add(Tresor.PIERRE);
-        
-        C.getJoueurs().get(0).setPos(C.getGrille().getTuile(Iles.Le_Palais_De_Corail));
-        C.getJoueurs().get(1).setPos(C.getGrille().getTuile(Iles.Heliport));
-        C.getJeu().afficherPion();
-        
-        C.getJoueurs().get(0).addCarte(new C_tresor(Tresor.CALYCE));
-        C.getJoueurs().get(0).addCarte(new C_tresor(Tresor.CALYCE));
-        C.getJoueurs().get(0).addCarte(new C_tresor(Tresor.CALYCE));
-        C.getJoueurs().get(0).addCarte(new C_tresor(Tresor.CALYCE));
-        C.getJoueurs().get(1).addCarte(new Helicoptere());
-        
-        C.getJeu().MiseaJourCartes(C.getJoueurs().get(0));
-        C.getJeu().MiseaJourCartes(C.getJoueurs().get(1));
-        
-        for (Tuile[] i : C.getGrille().getGrilleTuile()){
-            for (Tuile t : i){
-                C.getJeu().MiseaJourTuile(t);
-            }
-        }
-        
-        
+        noms.add("joueur_3");
+        noms.add("joueur_4");
+        C.initialiserjeu(4, noms, 1);
+        C_tresor calyce = new C_tresor(Tresor.CALYCE);
+        C_tresor pierre = new C_tresor(Tresor.PIERRE);
+        C_tresor crystal = new C_tresor(Tresor.CRYSTAL);
+        C_tresor statue = new C_tresor(Tresor.STATUE);
+
+        C.getJoueurs().get(0).getCartes().clear();
+        C.getJoueurs().get(0).addCarte(calyce);
+        C.getJoueurs().get(0).addCarte(calyce);
+        C.getJoueurs().get(0).addCarte(calyce);
+        C.getJoueurs().get(0).addCarte(calyce);
+
+        C.getJoueurs().get(1).getCartes().clear();
+        C.getJoueurs().get(1).addCarte(pierre);
+        C.getJoueurs().get(1).addCarte(pierre);
+        C.getJoueurs().get(1).addCarte(pierre);
+        C.getJoueurs().get(1).addCarte(pierre);
+
+        C.getJoueurs().get(2).getCartes().clear();
+        C.getJoueurs().get(2).addCarte(crystal);
+        C.getJoueurs().get(2).addCarte(crystal);
+        C.getJoueurs().get(2).addCarte(crystal);
+        C.getJoueurs().get(2).addCarte(crystal);
+
+        C.getJoueurs().get(3).getCartes().clear();
+        C.getJoueurs().get(3).addCarte(statue);
+        C.getJoueurs().get(3).addCarte(statue);
+        C.getJoueurs().get(3).addCarte(statue);
+        C.getJoueurs().get(3).addCarte(statue);
+
+        C.finTour();
+
     }
-    
+
 }
