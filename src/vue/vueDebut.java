@@ -46,6 +46,9 @@ public class vueDebut implements Observe {
     private JTextField nomJoueur4 = new JTextField();
     private ButtonGroup choixJoueur;
     private int nbjoueurs;
+    
+    private JComboBox listeDeroulante;
+    private final String [] difficulté = { "Novice", "Normal","Elite","Légendaire"};
 
     public vueDebut() {
 
@@ -58,11 +61,20 @@ public class vueDebut implements Observe {
 
         fenetreInitialisation.add(haut, BorderLayout.NORTH);
         fenetreInitialisation.add(demarrer, BorderLayout.SOUTH);
+        
+        listeDeroulante = new JComboBox(difficulté);
 
         JRadioButton bouton;
 
         JPanel grillehaut = new JPanel(new GridLayout(1, 2));
-        JLabel nbJoueur = new JLabel("nombre de joueurs");
+        JPanel hautgauche = new JPanel();
+        JPanel hautdroit = new JPanel();
+        
+        grillehaut.add(hautgauche);
+        grillehaut.add(hautdroit);
+        
+        
+        JLabel nbJoueur = new JLabel("nombre de joueurs : ");
         boutons = new JRadioButton[3];
 
         choixJoueur = new ButtonGroup();
@@ -79,10 +91,12 @@ public class vueDebut implements Observe {
         boutons[2] = bouton;
         choixJoueur.add(bouton);
 
-        grillehaut.add(nbJoueur);
-        grillehaut.add(boutons[0]);
-        grillehaut.add(boutons[1]);
-        grillehaut.add(boutons[2]);
+        hautgauche.add(nbJoueur);
+        hautgauche.add(boutons[0]);
+        hautgauche.add(boutons[1]);
+        hautgauche.add(boutons[2]);
+        hautdroit.add(new JLabel("Difficulté :"));
+        hautdroit.add(listeDeroulante);
 
         haut.add(grillehaut);
         grilleCentre = new JPanel();
@@ -179,6 +193,7 @@ public class vueDebut implements Observe {
                 nomjoueurs.add(nomJoueur4.getText());
                 m.nomsJoueurs = nomjoueurs;
                 m.nbjoueurs = nbjoueurs;
+                m.niveauEau = listeDeroulante.getSelectedIndex()+1;
                 notifierObservateur(m);
             }
         }
@@ -188,7 +203,7 @@ public class vueDebut implements Observe {
 
     public void afficher() {
         fenetreInitialisation.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        fenetreInitialisation.setSize(600, 200);
+        fenetreInitialisation.setSize(650, 200);
         fenetreInitialisation.setVisible(true);
 
     }
