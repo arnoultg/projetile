@@ -268,6 +268,7 @@ public class Controleur implements Observateur {
 
     protected void helicoptere(Message m) {
         if (conditionVictoire()) {
+            jeu.findujeu(true);
 
         } else {
             ArrayList<Tuile> liste = new ArrayList<>();
